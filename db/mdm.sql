@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.6
 -- Dumped by pg_dump version 9.6.6
 
--- Started on 2018-01-11 00:02:00 EET
+-- Started on 2018-01-11 02:13:08 EET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,7 +17,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 12 (class 2615 OID 55131)
+-- TOC entry 23 (class 2615 OID 55256)
 -- Name: common; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -27,7 +27,76 @@ CREATE SCHEMA common;
 ALTER SCHEMA common OWNER TO postgres;
 
 --
--- TOC entry 14 (class 2615 OID 55238)
+-- TOC entry 11 (class 2615 OID 55374)
+-- Name: customer; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA customer;
+
+
+ALTER SCHEMA customer OWNER TO postgres;
+
+--
+-- TOC entry 22 (class 2615 OID 55370)
+-- Name: equipment; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA equipment;
+
+
+ALTER SCHEMA equipment OWNER TO postgres;
+
+--
+-- TOC entry 17 (class 2615 OID 55368)
+-- Name: facility; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA facility;
+
+
+ALTER SCHEMA facility OWNER TO postgres;
+
+--
+-- TOC entry 12 (class 2615 OID 55369)
+-- Name: inventory; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA inventory;
+
+
+ALTER SCHEMA inventory OWNER TO postgres;
+
+--
+-- TOC entry 13 (class 2615 OID 55376)
+-- Name: mdm; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA mdm;
+
+
+ALTER SCHEMA mdm OWNER TO postgres;
+
+--
+-- TOC entry 3279 (class 0 OID 0)
+-- Dependencies: 13
+-- Name: SCHEMA mdm; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA mdm IS 'master data management';
+
+
+--
+-- TOC entry 8 (class 2615 OID 55372)
+-- Name: personnel; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA personnel;
+
+
+ALTER SCHEMA personnel OWNER TO postgres;
+
+--
+-- TOC entry 19 (class 2615 OID 55257)
 -- Name: pgunit; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -37,7 +106,27 @@ CREATE SCHEMA pgunit;
 ALTER SCHEMA pgunit OWNER TO postgres;
 
 --
--- TOC entry 8 (class 2615 OID 55184)
+-- TOC entry 21 (class 2615 OID 55359)
+-- Name: schedule; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA schedule;
+
+
+ALTER SCHEMA schedule OWNER TO postgres;
+
+--
+-- TOC entry 14 (class 2615 OID 55375)
+-- Name: supplier; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA supplier;
+
+
+ALTER SCHEMA supplier OWNER TO postgres;
+
+--
+-- TOC entry 20 (class 2615 OID 55258)
 -- Name: tests; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -45,6 +134,26 @@ CREATE SCHEMA tests;
 
 
 ALTER SCHEMA tests OWNER TO postgres;
+
+--
+-- TOC entry 15 (class 2615 OID 55371)
+-- Name: tooling; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA tooling;
+
+
+ALTER SCHEMA tooling OWNER TO postgres;
+
+--
+-- TOC entry 9 (class 2615 OID 55373)
+-- Name: uom; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA uom;
+
+
+ALTER SCHEMA uom OWNER TO postgres;
 
 --
 -- TOC entry 2 (class 3079 OID 13343)
@@ -55,7 +164,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 3171 (class 0 OID 0)
+-- TOC entry 3281 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -64,7 +173,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- TOC entry 1 (class 3079 OID 54936)
+-- TOC entry 1 (class 3079 OID 55259)
 -- Name: adminpack; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -72,7 +181,7 @@ CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 3172 (class 0 OID 0)
+-- TOC entry 3282 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
 --
@@ -81,7 +190,7 @@ COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
 
 
 --
--- TOC entry 5 (class 3079 OID 54945)
+-- TOC entry 5 (class 3079 OID 55268)
 -- Name: pldbgapi; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -89,7 +198,7 @@ CREATE EXTENSION IF NOT EXISTS pldbgapi WITH SCHEMA public;
 
 
 --
--- TOC entry 3173 (class 0 OID 0)
+-- TOC entry 3283 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: EXTENSION pldbgapi; Type: COMMENT; Schema: -; Owner: 
 --
@@ -98,7 +207,7 @@ COMMENT ON EXTENSION pldbgapi IS 'server-side support for debugging PL/pgSQL fun
 
 
 --
--- TOC entry 4 (class 3079 OID 54982)
+-- TOC entry 4 (class 3079 OID 55305)
 -- Name: plpgsql_check; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -106,7 +215,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql_check WITH SCHEMA public;
 
 
 --
--- TOC entry 3174 (class 0 OID 0)
+-- TOC entry 3284 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: EXTENSION plpgsql_check; Type: COMMENT; Schema: -; Owner: 
 --
@@ -115,7 +224,7 @@ COMMENT ON EXTENSION plpgsql_check IS 'extended check for plpgsql functions';
 
 
 --
--- TOC entry 3 (class 3079 OID 54987)
+-- TOC entry 3 (class 3079 OID 55310)
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -123,7 +232,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- TOC entry 3175 (class 0 OID 0)
+-- TOC entry 3285 (class 0 OID 0)
 -- Dependencies: 3
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
 --
@@ -134,7 +243,7 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 SET search_path = common, pg_catalog;
 
 --
--- TOC entry 640 (class 1247 OID 55134)
+-- TOC entry 674 (class 1247 OID 55321)
 -- Name: quantity; Type: DOMAIN; Schema: common; Owner: postgres
 --
 
@@ -145,8 +254,8 @@ CREATE DOMAIN quantity AS numeric(20,4) DEFAULT 0
 ALTER DOMAIN quantity OWNER TO postgres;
 
 --
--- TOC entry 3176 (class 0 OID 0)
--- Dependencies: 640
+-- TOC entry 3286 (class 0 OID 0)
+-- Dependencies: 674
 -- Name: DOMAIN quantity; Type: COMMENT; Schema: common; Owner: postgres
 --
 
@@ -154,7 +263,7 @@ COMMENT ON DOMAIN quantity IS 'quantity domain';
 
 
 --
--- TOC entry 642 (class 1247 OID 55136)
+-- TOC entry 676 (class 1247 OID 55323)
 -- Name: quantity_signed; Type: DOMAIN; Schema: common; Owner: postgres
 --
 
@@ -164,18 +273,571 @@ CREATE DOMAIN quantity_signed AS numeric(20,4) DEFAULT 0;
 ALTER DOMAIN quantity_signed OWNER TO postgres;
 
 --
--- TOC entry 3177 (class 0 OID 0)
--- Dependencies: 642
+-- TOC entry 3287 (class 0 OID 0)
+-- Dependencies: 676
 -- Name: DOMAIN quantity_signed; Type: COMMENT; Schema: common; Owner: postgres
 --
 
 COMMENT ON DOMAIN quantity_signed IS 'quantity signed domain';
 
 
+SET search_path = mdm, pg_catalog;
+
+--
+-- TOC entry 689 (class 1247 OID 55379)
+-- Name: unit_conversion_type; Type: TYPE; Schema: mdm; Owner: postgres
+--
+
+CREATE TYPE unit_conversion_type AS (
+	uom_code_from character varying,
+	uom_code_to character varying,
+	factor double precision
+);
+
+
+ALTER TYPE unit_conversion_type OWNER TO postgres;
+
+--
+-- TOC entry 293 (class 1255 OID 55380)
+-- Name: factor_create(character varying, character varying, double precision, timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION factor_create(_good_code character varying, _uom_code character varying, _factor double precision DEFAULT (1.0)::double precision, _end_date timestamp with time zone DEFAULT NULL::timestamp with time zone, _start_date timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  __prev_end_date timestamp with time zone;
+BEGIN
+
+  -- start_date IS NULL for conversion factors created on MDM node. This should not be NULL on holons
+  IF (_start_date IS NULL) THEN
+    _start_date := now() + param_get_measurement_apply_latency();
+  END IF;
+
+  -- define previous end date of measure conversion factor validity
+  __prev_end_date := prev_end_date
+    FROM
+      mdm.measurement
+    WHERE
+      good_code = _good_code AND
+      uom_code = _uom_code AND
+      end_date IS NULL;
+  
+  -- if previous start date not exists, this is first time insertion
+  IF NOT FOUND THEN
+    --__prev_end_date := '1970-01-01'::timestamp with time zone;
+    __prev_end_date := _start_date;
+  END IF;
+
+  INSERT INTO measurement
+  (
+    good_code,
+    uom_code,
+    uom_base_code,
+    factor,
+    prev_end_date,
+    start_date,
+    end_date
+  )
+  VALUES
+  (
+    _good_code,
+    _uom_code,
+    good_get_uom_base_code(_good_code),
+    _factor,
+    __prev_end_date,
+    _start_date,
+    _end_date
+  );
+
+END;
+$$;
+
+
+ALTER FUNCTION mdm.factor_create(_good_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone) OWNER TO postgres;
+
+--
+-- TOC entry 3288 (class 0 OID 0)
+-- Dependencies: 293
+-- Name: FUNCTION factor_create(_good_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone); Type: COMMENT; Schema: mdm; Owner: postgres
+--
+
+COMMENT ON FUNCTION factor_create(_good_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone) IS 'Helper for create new factor';
+
+
+--
+-- TOC entry 294 (class 1255 OID 55381)
+-- Name: factor_expire(character varying, character varying, timestamp with time zone); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION factor_expire(_good_code character varying, _uom_code character varying, _end_date timestamp with time zone) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+
+  UPDATE
+    measurement
+  SET 
+    end_date = _end_date
+  WHERE 
+    good_code = _good_code AND
+    uom_code = _uom_code AND
+    end_date IS NULL;
+  
+END;
+$$;
+
+
+ALTER FUNCTION mdm.factor_expire(_good_code character varying, _uom_code character varying, _end_date timestamp with time zone) OWNER TO postgres;
+
+--
+-- TOC entry 3289 (class 0 OID 0)
+-- Dependencies: 294
+-- Name: FUNCTION factor_expire(_good_code character varying, _uom_code character varying, _end_date timestamp with time zone); Type: COMMENT; Schema: mdm; Owner: postgres
+--
+
+COMMENT ON FUNCTION factor_expire(_good_code character varying, _uom_code character varying, _end_date timestamp with time zone) IS 'Helper for expire factor';
+
+
+--
+-- TOC entry 295 (class 1255 OID 55382)
+-- Name: factor_get_unit_conversion_array(character varying, character varying, character varying, timestamp with time zone); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION factor_get_unit_conversion_array(_good_code character varying, _uom_domain_from character varying, _uom_domain_to character varying, _valid_from_date timestamp with time zone DEFAULT now()) RETURNS unit_conversion_type[]
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  __conversion_array mdm.unit_conversion_type[];
+  __cursor_record RECORD;
+  __idx integer DEFAULT 1;
+  
+BEGIN
+
+  FOR __cursor_record IN
+    SELECT
+      measurement.uom_base_code AS uom_code_from, 
+      measurement.uom_code AS uom_code_to,
+      measurement.factor AS factor
+    FROM 
+      mdm.measurement, 
+      mdm.uom uom_from, 
+      mdm.uom uom_to
+    WHERE 
+      uom_from.uom_code = measurement.uom_base_code AND
+      uom_to.uom_code = measurement.uom_code AND
+      measurement.good_code = _good_code AND
+      uom_from.uom_domain = _uom_domain_from AND 
+      uom_to.uom_domain = _uom_domain_to AND
+      _valid_from_date BETWEEN measurement.start_date AND COALESCE (measurement.end_date, now())
+  LOOP
+    --PERFORM array_append(__conversion_array, __cursor_record::mdm.unit_conversion_type);
+    __conversion_array[__idx] := __cursor_record;
+    __idx := __idx + 1;
+  END LOOP;
+
+  RETURN __conversion_array;
+
+END
+$$;
+
+
+ALTER FUNCTION mdm.factor_get_unit_conversion_array(_good_code character varying, _uom_domain_from character varying, _uom_domain_to character varying, _valid_from_date timestamp with time zone) OWNER TO postgres;
+
+--
+-- TOC entry 296 (class 1255 OID 55383)
+-- Name: factor_in_domain(character varying, character varying); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION factor_in_domain(_uom_code_src character varying, _uom_code_dst character varying) RETURNS double precision
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  __factor_1 double precision;
+  __factor_2 double precision;
+  __uom_domain_from character varying;
+  __uom_domain_to character varying;
+
+BEGIN
+
+  /*
+  SELECT 
+    uom.uom_code, 
+    uom.uom_domain, 
+    uom.base_uom_code, 
+    uom.factor
+  FROM 
+    mdm.uom;
+
+  "kg";   "MASS";     "kg";   1
+  "m";    "LENGHT";   "m";    1
+  "pcs";  "QUANTITY"; "pcs";  1
+  "g";    "MASS";     "kg";   0.001
+  "t";    "MASS";     "kg";   1000
+  "mm";   "LENGHT";   "m";    0.001
+  */
+
+  -- визначити домен одиниці виміру, з якої приводимо
+  __uom_domain_from := uom_domain FROM uom WHERE uom_code = _uom_code_src;
+
+  -- визначити домен одиниці виміру, до якої приводимо
+  __uom_domain_to := uom_domain FROM uom WHERE uom_code = _uom_code_dst;
+
+  IF (__uom_domain_from = __uom_domain_to) THEN
+    -- привести з вказаної одиниці до базової Сі = *
+    __factor_1 := factor
+      FROM 
+        uom
+      WHERE 
+        uom_code = _uom_code_src;
+
+    -- привести з базової Сі до вказаної = /
+    __factor_2 := factor
+      FROM 
+        uom
+      WHERE 
+        uom_code = _uom_code_dst;
+
+    RETURN __factor_1 / __factor_2;
+
+  ELSE
+    RAISE EXCEPTION 'mdm.factor_in_domain(): unit of measure not in the same domain: "%"', _uom_code_dst;
+    RETURN NULL;
+  END IF;
+
+END;
+$$;
+
+
+ALTER FUNCTION mdm.factor_in_domain(_uom_code_src character varying, _uom_code_dst character varying) OWNER TO postgres;
+
+--
+-- TOC entry 297 (class 1255 OID 55384)
+-- Name: factor_replace(character varying, character varying, double precision, timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION factor_replace(_good_code character varying, _uom_code character varying, _factor double precision DEFAULT (1.0)::double precision, _end_date timestamp with time zone DEFAULT NULL::timestamp with time zone, _start_date timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  __prev_end_date timestamp with time zone;
+BEGIN
+
+  -- start_date IS NULL for conversion factors created on MDM node. This should not be NULL on holons
+  IF (_start_date IS NULL) THEN
+    _start_date := now() + param_get_measurement_apply_latency();
+  END IF;
+
+  -- define previous end date of measure conversion factor validity
+  __prev_end_date := prev_end_date
+    FROM
+      mdm.measurement
+    WHERE
+      good_code = _good_code AND
+      uom_code = _uom_code AND
+      end_date IS NULL;
+  
+  -- if previous start date not exists, this is first time insertion
+  IF NOT FOUND THEN
+    --__prev_end_date := '1970-01-01'::timestamp with time zone;
+    __prev_end_date := _start_date;
+  END IF;
+
+  PERFORM factor_expire(
+    _good_code := _good_code,
+    _uom_code := _uom_code,
+    _end_date := _start_date);
+
+  PERFORM factor_create(
+    _good_code := _good_code,
+    _uom_code := _uom_code,
+    _factor := _factor,
+    _end_date := _end_date,
+    _start_date := _start_date);
+  
+
+END;
+$$;
+
+
+ALTER FUNCTION mdm.factor_replace(_good_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone) OWNER TO postgres;
+
+--
+-- TOC entry 3290 (class 0 OID 0)
+-- Dependencies: 297
+-- Name: FUNCTION factor_replace(_good_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone); Type: COMMENT; Schema: mdm; Owner: postgres
+--
+
+COMMENT ON FUNCTION factor_replace(_good_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone) IS 'Helper for substitute old factor with new value';
+
+
+--
+-- TOC entry 298 (class 1255 OID 55385)
+-- Name: foo(); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION foo() RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+
+DECLARE
+  __array integer[];
+
+BEGIN
+  __array[1] := 10;
+  __array[2] := 20;
+  __array[3] := 30;
+
+  case
+  when __array @> ARRAY[30] then
+    raise notice 'msg %', 0;
+  when __array @> ARRAY[20] then
+    raise notice 'msg %', 1;
+  when __array @> ARRAY[10] then
+    raise notice 'msg %', 0;
+  end case;
+
+  return __array[2];
+
+END;
+
+$$;
+
+
+ALTER FUNCTION mdm.foo() OWNER TO postgres;
+
+--
+-- TOC entry 291 (class 1255 OID 55386)
+-- Name: good_get_uom_base_code(character varying, timestamp with time zone); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION good_get_uom_base_code(_good_code character varying, _valid_from_date timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+
+  IF (_valid_from_date IS NOT NULL) THEN
+    RETURN uom_base_code
+      FROM
+        measurement
+      WHERE
+        good_code = _good_code AND
+        factor = 1 AND
+        _valid_from_date BETWEEN start_date AND COALESCE (end_date, now());
+
+  ELSE
+    RETURN uom_base_code
+      FROM
+        good
+      WHERE
+        good_code = _good_code;
+        
+  END IF;
+END;
+$$;
+
+
+ALTER FUNCTION mdm.good_get_uom_base_code(_good_code character varying, _valid_from_date timestamp with time zone) OWNER TO postgres;
+
+--
+-- TOC entry 292 (class 1255 OID 55387)
+-- Name: param_get_measurement_apply_latency(); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION param_get_measurement_apply_latency() RETURNS interval
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  RETURN parameter_value::interval
+    FROM
+      settings
+    WHERE
+      parameter_name = 'measurement_apply_latency';
+END;
+$$;
+
+
+ALTER FUNCTION mdm.param_get_measurement_apply_latency() OWNER TO postgres;
+
+--
+-- TOC entry 299 (class 1255 OID 55388)
+-- Name: quantity_convert(character varying, double precision, character varying, character varying, timestamp with time zone); Type: FUNCTION; Schema: mdm; Owner: postgres
+--
+
+CREATE FUNCTION quantity_convert(_good_code character varying, _quantity double precision, _uom_code_from character varying, _uom_code_to character varying, _valid_from_date timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS double precision
+    LANGUAGE plpgsql
+    AS $$
+
+DECLARE
+  __uom_domain_to character varying;
+  __uom_domain_from character varying;
+  __unit_conversion_array mdm.unit_conversion_type[];
+  __m mdm.unit_conversion_type;
+  __exponentiation integer DEFAULT 1;
+
+BEGIN
+
+  /*
+  case
+    when __array @> ARRAY[30] then
+      raise notice 'msg %', 0;
+    when __array @> ARRAY[20] then
+      raise notice 'msg %', 1;
+    when __array @> ARRAY[10] then
+      raise notice 'msg %', 0;
+  end case;
+
+  raise NOTICE 'array dump %', __unit_conversion_array;
+  raise NOTICE 'array unnest %', unnest(array[__unit_conversion_array[1]]);
+
+
+  case when __unit_conversion_array @> ARRAY[(_uom_code_from,_uom_code_to,null)::mdm.unit_conversion_type] THEN
+  RAISE NOTICE 'ok %', __unit_conversion_array;
+  else RAISE NOTICE 'not ok %', __unit_conversion_array;
+  end case
+  
+  */
+
+  -- визначити домен одиниці виміру, до якої приводимо
+  __uom_domain_to := uom_domain FROM uom WHERE uom_code = _uom_code_to;
+  -- визначити домен одиниці виміру, з якої приводимо
+  __uom_domain_from := uom_domain FROM uom WHERE uom_code = _uom_code_from;
+
+  --RAISE NOTICE 'conversion from % to %', __uom_domain_to, __uom_domain_from;
+
+  IF (_valid_from_date IS NULL) THEN
+    _valid_from_date := now();
+  END IF;
+
+  -- якщо той самий домен, то використовуємо коефіцієнт Сі
+  IF (__uom_domain_from = __uom_domain_to) THEN
+    --RAISE NOTICE 'formula = % * %', _quantity, mdm.factor_in_domain(_uom_code_from, _uom_code_to);
+    RETURN _quantity * mdm.factor_in_domain(_uom_code_from, _uom_code_to);
+  END IF;
+
+    __unit_conversion_array := mdm.factor_get_unit_conversion_array(
+      _good_code := _good_code,
+      _uom_domain_from := __uom_domain_from,
+      _uom_domain_to := __uom_domain_to,
+      _valid_from_date := _valid_from_date);
+
+    -- логіка перетворення з основного домену в додатковий
+    IF (array_ndims(__unit_conversion_array) >= 1) THEN
+
+      FOREACH __m IN
+        ARRAY __unit_conversion_array
+      LOOP 
+        IF (__m.uom_code_from = _uom_code_from AND __m.uom_code_to = _uom_code_to) THEN
+          RAISE NOTICE 'full forward match % to % = %',_uom_code_from, _uom_code_to, __m.factor;
+          RETURN _quantity * (__m.factor ^ __exponentiation);
+        END IF;
+      END LOOP;
+
+      FOREACH __m IN
+        ARRAY __unit_conversion_array
+      LOOP 
+        IF ( __m.uom_code_from = _uom_code_from) THEN
+          RAISE NOTICE 'partial forward _from_ match % to % = %',_uom_code_from, __m.uom_code_to, __m.factor;
+          RETURN _quantity *  
+            (__m.factor ^ __exponentiation) *
+            mdm.factor_in_domain(_uom_code_to, __m.uom_code_to);
+        END IF;
+      END LOOP;
+
+      FOREACH __m IN
+        ARRAY __unit_conversion_array
+      LOOP 
+        IF ( __m.uom_code_to = _uom_code_to) THEN
+          RAISE NOTICE 'partial forward _to_ match % to % = %',__m.uom_code_from, _uom_code_to, __m.factor;
+          RETURN _quantity * 
+            (__m.factor ^ __exponentiation) * 
+            mdm.factor_in_domain(_uom_code_from, __m.uom_code_from);
+        END IF;
+      END LOOP;
+
+      RAISE NOTICE 'finally forward match % to % = %', 
+        __unit_conversion_array[1].uom_code_from, 
+        __unit_conversion_array[1].uom_code_to, 
+        __unit_conversion_array[1].factor;
+      RETURN _quantity * 
+        mdm.factor_in_domain(_uom_code_from, __unit_conversion_array[1].uom_code_from) * 
+        (__unit_conversion_array[1].factor ^ __exponentiation) *
+        mdm.factor_in_domain(__unit_conversion_array[1].uom_code_to, _uom_code_to);
+
+    -- логіка перетворення з додаткового в основний домен
+    ELSE
+      __unit_conversion_array := mdm.factor_get_unit_conversion_array(
+        _good_code := _good_code,
+        _uom_domain_from := __uom_domain_to,
+        _uom_domain_to := __uom_domain_from,
+        _valid_from_date := _valid_from_date);
+
+      IF (array_ndims(__unit_conversion_array) >= 1) THEN
+        __exponentiation := -1;
+
+        FOREACH __m IN
+          ARRAY __unit_conversion_array
+        LOOP 
+          IF (__m.uom_code_from = _uom_code_to AND __m.uom_code_to = _uom_code_from) THEN
+            RAISE NOTICE 'full reverse match % to % = %',_uom_code_from, _uom_code_to, __m.factor;
+            RETURN _quantity * (__m.factor ^ __exponentiation);
+          END IF;
+        END LOOP;
+
+        FOREACH __m IN
+          ARRAY __unit_conversion_array
+        LOOP 
+          IF ( __m.uom_code_from = _uom_code_to) THEN
+            RAISE NOTICE 'partial reverse _from_ match % to % = %',_uom_code_from, __m.uom_code_to, __m.factor;
+            RETURN _quantity *  
+              (__m.factor ^ __exponentiation) *
+              mdm.factor_in_domain(_uom_code_from ,  __m.uom_code_to);
+          END IF;
+        END LOOP;
+
+        FOREACH __m IN
+          ARRAY __unit_conversion_array
+        LOOP 
+          IF ( __m.uom_code_to = _uom_code_from) THEN
+            RAISE NOTICE 'partial reverse _to_ match % to % = %',__m.uom_code_to, _uom_code_from, __m.factor;
+            RETURN _quantity * 
+              (__m.factor ^ __exponentiation) * 
+              mdm.factor_in_domain(_uom_code_to, __m.uom_code_from);
+          END IF;
+        END LOOP;
+
+        RAISE NOTICE 'finally reverse match % to % = %',
+          __unit_conversion_array[1].uom_code_from,
+          __unit_conversion_array[1].uom_code_to,
+          __unit_conversion_array[1].factor;
+        RETURN _quantity * 
+          mdm.factor_in_domain(_uom_code_from ,  __unit_conversion_array[1].uom_code_to) *
+          (__unit_conversion_array[1].factor ^ __exponentiation) *
+          mdm.factor_in_domain(__unit_conversion_array[1].uom_code_from, _uom_code_to);
+
+      ELSE
+        --RETURN 987654321;
+        RAISE EXCEPTION 'no conversion factor found for measure domains % and % for % entity at %',
+          __uom_domain_from,
+          __uom_domain_to, 
+          _good_code,
+          _valid_from_date;
+          
+      END IF;
+
+    END IF;
+
+END;
+
+$$;
+
+
+ALTER FUNCTION mdm.quantity_convert(_good_code character varying, _quantity double precision, _uom_code_from character varying, _uom_code_to character varying, _valid_from_date timestamp with time zone) OWNER TO postgres;
+
 SET search_path = pgunit, pg_catalog;
 
 --
--- TOC entry 250 (class 1255 OID 55239)
+-- TOC entry 269 (class 1255 OID 55324)
 -- Name: assert_array_equals(anyelement, anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -199,7 +861,7 @@ $$;
 ALTER FUNCTION pgunit.assert_array_equals(_expected anyelement, _actual anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 251 (class 1255 OID 55240)
+-- TOC entry 270 (class 1255 OID 55325)
 -- Name: assert_equals(anyelement, anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -220,7 +882,7 @@ $$;
 ALTER FUNCTION pgunit.assert_equals(_expected anyelement, _actual anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 252 (class 1255 OID 55241)
+-- TOC entry 271 (class 1255 OID 55326)
 -- Name: assert_false(boolean, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -238,7 +900,7 @@ $$;
 ALTER FUNCTION pgunit.assert_false(_value boolean, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 253 (class 1255 OID 55242)
+-- TOC entry 272 (class 1255 OID 55327)
 -- Name: assert_not_equals(anyelement, anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -259,7 +921,7 @@ $$;
 ALTER FUNCTION pgunit.assert_not_equals(_expected anyelement, _actual anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 254 (class 1255 OID 55243)
+-- TOC entry 273 (class 1255 OID 55328)
 -- Name: assert_not_null(anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -277,7 +939,7 @@ $$;
 ALTER FUNCTION pgunit.assert_not_null(_value anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 255 (class 1255 OID 55244)
+-- TOC entry 274 (class 1255 OID 55329)
 -- Name: assert_null(anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -295,7 +957,7 @@ $$;
 ALTER FUNCTION pgunit.assert_null(_value anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 256 (class 1255 OID 55245)
+-- TOC entry 275 (class 1255 OID 55330)
 -- Name: assert_true(boolean, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -313,7 +975,7 @@ $$;
 ALTER FUNCTION pgunit.assert_true(_value boolean, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 257 (class 1255 OID 55246)
+-- TOC entry 276 (class 1255 OID 55331)
 -- Name: fail(character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -329,7 +991,7 @@ $$;
 ALTER FUNCTION pgunit.fail(_message character varying) OWNER TO postgres;
 
 --
--- TOC entry 258 (class 1255 OID 55247)
+-- TOC entry 277 (class 1255 OID 55332)
 -- Name: run_test(character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -349,7 +1011,7 @@ $$;
 ALTER FUNCTION pgunit.run_test(_sp character varying) OWNER TO postgres;
 
 --
--- TOC entry 259 (class 1255 OID 55248)
+-- TOC entry 278 (class 1255 OID 55333)
 -- Name: test_assert_array_equals(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -473,7 +1135,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_array_equals() OWNER TO postgres;
 
 --
--- TOC entry 260 (class 1255 OID 55249)
+-- TOC entry 279 (class 1255 OID 55334)
 -- Name: test_assert_equals(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -572,7 +1234,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_equals() OWNER TO postgres;
 
 --
--- TOC entry 261 (class 1255 OID 55250)
+-- TOC entry 280 (class 1255 OID 55335)
 -- Name: test_assert_false(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -614,7 +1276,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_false() OWNER TO postgres;
 
 --
--- TOC entry 262 (class 1255 OID 55251)
+-- TOC entry 281 (class 1255 OID 55336)
 -- Name: test_assert_not_null(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -703,7 +1365,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_not_null() OWNER TO postgres;
 
 --
--- TOC entry 263 (class 1255 OID 55252)
+-- TOC entry 282 (class 1255 OID 55337)
 -- Name: test_assert_null(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -793,7 +1455,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_null() OWNER TO postgres;
 
 --
--- TOC entry 264 (class 1255 OID 55253)
+-- TOC entry 283 (class 1255 OID 55338)
 -- Name: test_assert_true(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -833,7 +1495,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_true() OWNER TO postgres;
 
 --
--- TOC entry 265 (class 1255 OID 55254)
+-- TOC entry 284 (class 1255 OID 55339)
 -- Name: test_fail(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -859,10 +1521,114 @@ $$;
 
 ALTER FUNCTION pgunit.test_fail() OWNER TO postgres;
 
+SET search_path = schedule, pg_catalog;
+
+--
+-- TOC entry 288 (class 1255 OID 55365)
+-- Name: get_date_of_julianized_day(integer); Type: FUNCTION; Schema: schedule; Owner: postgres
+--
+
+CREATE FUNCTION get_date_of_julianized_day(__jylianized_day integer) RETURNS date
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  _julianized_day_date date;
+BEGIN
+
+  SELECT 
+    calendar.calendar_date
+  FROM 
+    schedule.calendar
+  WHERE 
+    calendar.julianized_day = __jylianized_day
+  ORDER BY
+    calendar.calendar_date ASC
+  LIMIT 1
+  INTO
+    _julianized_day_date;
+
+  IF (NOT FOUND) THEN
+    RAISE EXCEPTION 'No schedule found for day number: %', __jylianized_day;
+  END IF;
+
+  RETURN _julianized_day_date;
+
+END;
+$$;
+
+
+ALTER FUNCTION schedule.get_date_of_julianized_day(__jylianized_day integer) OWNER TO postgres;
+
+--
+-- TOC entry 289 (class 1255 OID 55366)
+-- Name: get_julianized_day(date); Type: FUNCTION; Schema: schedule; Owner: postgres
+--
+
+CREATE FUNCTION get_julianized_day(__date date) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  _julianized_day integer;
+BEGIN
+
+  SELECT
+    calendar.julianized_day
+  FROM 
+    schedule.calendar
+  WHERE 
+    calendar.calendar_date = __date
+  INTO
+    _julianized_day;
+
+  IF (NOT FOUND) THEN
+    RAISE EXCEPTION 'No schedule found for date: %', __date;
+  END IF;
+
+  RETURN _julianized_day;
+
+END;
+$$;
+
+
+ALTER FUNCTION schedule.get_julianized_day(__date date) OWNER TO postgres;
+
+--
+-- TOC entry 290 (class 1255 OID 55367)
+-- Name: get_julianized_week(date); Type: FUNCTION; Schema: schedule; Owner: postgres
+--
+
+CREATE FUNCTION get_julianized_week(__date date) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  _julianized_week integer;
+BEGIN
+
+  SELECT
+    calendar.julianized_week
+  FROM 
+    schedule.calendar
+  WHERE 
+    calendar.calendar_date = __date
+  INTO
+    _julianized_week;
+
+  IF (NOT FOUND) THEN
+    RAISE EXCEPTION 'No schedule found for date: %', __date;
+  END IF;
+
+  RETURN _julianized_week;
+
+END;
+$$;
+
+
+ALTER FUNCTION schedule.get_julianized_week(__date date) OWNER TO postgres;
+
 SET search_path = tests, pg_catalog;
 
 --
--- TOC entry 249 (class 1255 OID 55187)
+-- TOC entry 285 (class 1255 OID 55340)
 -- Name: _load_data(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -1024,7 +1790,7 @@ $$;
 ALTER FUNCTION tests._load_data() OWNER TO postgres;
 
 --
--- TOC entry 248 (class 1255 OID 55186)
+-- TOC entry 286 (class 1255 OID 55342)
 -- Name: _reset_data(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -1118,7 +1884,7 @@ $$;
 ALTER FUNCTION tests._reset_data() OWNER TO postgres;
 
 --
--- TOC entry 247 (class 1255 OID 55185)
+-- TOC entry 287 (class 1255 OID 55343)
 -- Name: _run_all(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -1164,8 +1930,207 @@ $$;
 
 ALTER FUNCTION tests._run_all() OWNER TO postgres;
 
+SET search_path = mdm, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
 --
--- TOC entry 197 (class 1259 OID 55189)
+-- TOC entry 212 (class 1259 OID 55389)
+-- Name: customer; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE customer (
+    customer_id bigint NOT NULL,
+    customer_code character varying(100),
+    customer_name character varying(300)
+);
+
+
+ALTER TABLE customer OWNER TO postgres;
+
+--
+-- TOC entry 213 (class 1259 OID 55392)
+-- Name: customer_customer_id_seq; Type: SEQUENCE; Schema: mdm; Owner: postgres
+--
+
+CREATE SEQUENCE customer_customer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE customer_customer_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3291 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: customer_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: mdm; Owner: postgres
+--
+
+ALTER SEQUENCE customer_customer_id_seq OWNED BY customer.customer_id;
+
+
+--
+-- TOC entry 214 (class 1259 OID 55394)
+-- Name: good; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE good (
+    good_code character varying NOT NULL,
+    uom_base_code character varying
+);
+
+
+ALTER TABLE good OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 55400)
+-- Name: measurement; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE measurement (
+    good_code character varying NOT NULL,
+    uom_code character varying NOT NULL,
+    factor double precision,
+    prev_end_date timestamp with time zone,
+    start_date timestamp with time zone NOT NULL,
+    end_date timestamp with time zone,
+    uom_base_code character varying
+);
+
+
+ALTER TABLE measurement OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 55406)
+-- Name: settings; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE settings (
+    parameter_name character varying NOT NULL,
+    parameter_value character varying
+);
+
+
+ALTER TABLE settings OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 55412)
+-- Name: supplier; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE supplier (
+    supplier_id bigint NOT NULL,
+    supplier_code character varying(100),
+    supplier_name character varying(300)
+);
+
+
+ALTER TABLE supplier OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 55415)
+-- Name: supplier_supplier_id_seq; Type: SEQUENCE; Schema: mdm; Owner: postgres
+--
+
+CREATE SEQUENCE supplier_supplier_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE supplier_supplier_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3292 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: supplier_supplier_id_seq; Type: SEQUENCE OWNED BY; Schema: mdm; Owner: postgres
+--
+
+ALTER SEQUENCE supplier_supplier_id_seq OWNED BY supplier.supplier_id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 55417)
+-- Name: uom; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE uom (
+    uom_code character varying(4) NOT NULL,
+    uom_domain character varying(10),
+    base_uom_code character varying,
+    factor double precision
+);
+
+
+ALTER TABLE uom OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 55423)
+-- Name: uom_role; Type: TABLE; Schema: mdm; Owner: postgres
+--
+
+CREATE TABLE uom_role (
+    uom_role_id bigint NOT NULL,
+    uom_role_code character varying(100),
+    uom_role_name character varying(300)
+);
+
+
+ALTER TABLE uom_role OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 55426)
+-- Name: uom_role_uom_role_id_seq; Type: SEQUENCE; Schema: mdm; Owner: postgres
+--
+
+CREATE SEQUENCE uom_role_uom_role_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE uom_role_uom_role_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3293 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: uom_role_uom_role_id_seq; Type: SEQUENCE OWNED BY; Schema: mdm; Owner: postgres
+--
+
+ALTER SEQUENCE uom_role_uom_role_id_seq OWNED BY uom_role.uom_role_id;
+
+
+SET search_path = schedule, pg_catalog;
+
+--
+-- TOC entry 210 (class 1259 OID 55360)
+-- Name: calendar; Type: TABLE; Schema: schedule; Owner: postgres
+--
+
+CREATE TABLE calendar (
+    calendar_date date NOT NULL,
+    day_number integer,
+    week_number integer,
+    julianized_day integer,
+    julianized_week integer
+);
+
+
+ALTER TABLE calendar OWNER TO postgres;
+
+SET search_path = tests, pg_catalog;
+
+--
+-- TOC entry 207 (class 1259 OID 55344)
 -- Name: pgunit_covarage; Type: VIEW; Schema: tests; Owner: postgres
 --
 
@@ -1183,7 +2148,7 @@ EXCEPT
 ALTER TABLE pgunit_covarage OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 55194)
+-- TOC entry 208 (class 1259 OID 55349)
 -- Name: plpgsql_check_all; Type: VIEW; Schema: tests; Owner: postgres
 --
 
@@ -1216,7 +2181,7 @@ CREATE VIEW plpgsql_check_all AS
 ALTER TABLE plpgsql_check_all OWNER TO postgres;
 
 --
--- TOC entry 199 (class 1259 OID 55199)
+-- TOC entry 209 (class 1259 OID 55354)
 -- Name: plpgsql_check_nontriggered; Type: VIEW; Schema: tests; Owner: postgres
 --
 
@@ -1232,7 +2197,299 @@ CREATE VIEW plpgsql_check_nontriggered AS
 
 ALTER TABLE plpgsql_check_nontriggered OWNER TO postgres;
 
--- Completed on 2018-01-11 00:02:00 EET
+SET search_path = mdm, pg_catalog;
+
+--
+-- TOC entry 3113 (class 2604 OID 55428)
+-- Name: customer customer_id; Type: DEFAULT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY customer ALTER COLUMN customer_id SET DEFAULT nextval('customer_customer_id_seq'::regclass);
+
+
+--
+-- TOC entry 3114 (class 2604 OID 55429)
+-- Name: supplier supplier_id; Type: DEFAULT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY supplier ALTER COLUMN supplier_id SET DEFAULT nextval('supplier_supplier_id_seq'::regclass);
+
+
+--
+-- TOC entry 3115 (class 2604 OID 55430)
+-- Name: uom_role uom_role_id; Type: DEFAULT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY uom_role ALTER COLUMN uom_role_id SET DEFAULT nextval('uom_role_uom_role_id_seq'::regclass);
+
+
+--
+-- TOC entry 3264 (class 0 OID 55389)
+-- Dependencies: 212
+-- Data for Name: customer; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3294 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: customer_customer_id_seq; Type: SEQUENCE SET; Schema: mdm; Owner: postgres
+--
+
+SELECT pg_catalog.setval('customer_customer_id_seq', 1, false);
+
+
+--
+-- TOC entry 3266 (class 0 OID 55394)
+-- Dependencies: 214
+-- Data for Name: good; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+INSERT INTO good VALUES ('21.16.100-001', 'pcs');
+INSERT INTO good VALUES ('10.01.057-003', 'm');
+INSERT INTO good VALUES ('10.01.076-003', 'm');
+INSERT INTO good VALUES ('10.01.089-003', 'm');
+INSERT INTO good VALUES ('20.10.125-001', 'pcs');
+
+
+--
+-- TOC entry 3267 (class 0 OID 55400)
+-- Dependencies: 215
+-- Data for Name: measurement; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+INSERT INTO measurement VALUES ('10.01.076-003', 'm', 1, '2016-11-07 12:32:17.398418+02', '2016-11-07 12:32:17.398418+02', '2016-11-07 12:40:30.717177+02', 'm');
+INSERT INTO measurement VALUES ('10.01.076-003', 'm', 1, '2016-11-07 12:40:30.717177+02', '2016-11-07 12:40:30.717177+02', '2016-11-07 12:55:18.340065+02', 'm');
+INSERT INTO measurement VALUES ('10.01.076-003', 'm', 1, '2016-11-07 12:55:18.340065+02', '2016-11-07 12:55:18.340065+02', NULL, 'm');
+INSERT INTO measurement VALUES ('10.01.076-003', 'm', 1, '2016-11-01 12:31:52.661312+02', '2016-11-01 12:31:52.661312+02', '2016-11-07 12:32:15.337573+02', 'm');
+INSERT INTO measurement VALUES ('10.01.076-003', 't', 0.00250000000000000005, '2016-11-07 12:55:18.340065+02', '2016-11-07 12:55:18.340065+02', NULL, 'm');
+INSERT INTO measurement VALUES ('10.01.076-003', 'kg', 2.5, '2016-11-07 12:55:18.340065+02', '2016-11-07 12:55:18.340065+02', NULL, 'm');
+INSERT INTO measurement VALUES ('10.01.076-003', 'l', 0.330000000000000016, '2016-11-05 00:00:00+02', '2016-11-05 00:00:00+02', NULL, 'm');
+
+
+--
+-- TOC entry 3268 (class 0 OID 55406)
+-- Dependencies: 216
+-- Data for Name: settings; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+INSERT INTO settings VALUES ('measurement_apply_latency', '2');
+
+
+--
+-- TOC entry 3269 (class 0 OID 55412)
+-- Dependencies: 217
+-- Data for Name: supplier; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3295 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: supplier_supplier_id_seq; Type: SEQUENCE SET; Schema: mdm; Owner: postgres
+--
+
+SELECT pg_catalog.setval('supplier_supplier_id_seq', 1, false);
+
+
+--
+-- TOC entry 3271 (class 0 OID 55417)
+-- Dependencies: 219
+-- Data for Name: uom; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+INSERT INTO uom VALUES ('kg', 'MASS', 'kg', 1);
+INSERT INTO uom VALUES ('m', 'LENGHT', 'm', 1);
+INSERT INTO uom VALUES ('pcs', 'QUANTITY', 'pcs', 1);
+INSERT INTO uom VALUES ('g', 'MASS', 'kg', 0.00100000000000000002);
+INSERT INTO uom VALUES ('t', 'MASS', 'kg', 1000);
+INSERT INTO uom VALUES ('mm', 'LENGHT', 'm', 0.00100000000000000002);
+INSERT INTO uom VALUES ('km', 'LENGHT', 'm', 1000);
+INSERT INTO uom VALUES ('cm', 'LENGHT', 'm', 0.0100000000000000002);
+INSERT INTO uom VALUES ('l', 'VOLUME', 'l', 1);
+INSERT INTO uom VALUES ('ml', 'VOLUME', 'l', 0.00100000000000000002);
+
+
+--
+-- TOC entry 3272 (class 0 OID 55423)
+-- Dependencies: 220
+-- Data for Name: uom_role; Type: TABLE DATA; Schema: mdm; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3296 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: uom_role_uom_role_id_seq; Type: SEQUENCE SET; Schema: mdm; Owner: postgres
+--
+
+SELECT pg_catalog.setval('uom_role_uom_role_id_seq', 1, false);
+
+
+SET search_path = schedule, pg_catalog;
+
+--
+-- TOC entry 3263 (class 0 OID 55360)
+-- Dependencies: 210
+-- Data for Name: calendar; Type: TABLE DATA; Schema: schedule; Owner: postgres
+--
+
+
+
+SET search_path = mdm, pg_catalog;
+
+--
+-- TOC entry 3119 (class 2606 OID 55432)
+-- Name: customer customer_customer_code_key; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY customer
+    ADD CONSTRAINT customer_customer_code_key UNIQUE (customer_code);
+
+
+--
+-- TOC entry 3121 (class 2606 OID 55434)
+-- Name: customer customer_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (customer_id);
+
+
+--
+-- TOC entry 3123 (class 2606 OID 55436)
+-- Name: good good_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY good
+    ADD CONSTRAINT good_pkey PRIMARY KEY (good_code);
+
+
+--
+-- TOC entry 3125 (class 2606 OID 55438)
+-- Name: measurement measurement_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY measurement
+    ADD CONSTRAINT measurement_pkey PRIMARY KEY (good_code, uom_code, start_date);
+
+
+--
+-- TOC entry 3129 (class 2606 OID 55440)
+-- Name: supplier supplier_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY supplier
+    ADD CONSTRAINT supplier_pkey PRIMARY KEY (supplier_id);
+
+
+--
+-- TOC entry 3131 (class 2606 OID 55442)
+-- Name: supplier supplier_supplier_code_key; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY supplier
+    ADD CONSTRAINT supplier_supplier_code_key UNIQUE (supplier_code);
+
+
+--
+-- TOC entry 3133 (class 2606 OID 55444)
+-- Name: uom uom_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_pkey PRIMARY KEY (uom_code);
+
+
+--
+-- TOC entry 3135 (class 2606 OID 55446)
+-- Name: uom_role uom_role_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY uom_role
+    ADD CONSTRAINT uom_role_pkey PRIMARY KEY (uom_role_id);
+
+
+--
+-- TOC entry 3137 (class 2606 OID 55448)
+-- Name: uom_role uom_role_uom_role_code_key; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY uom_role
+    ADD CONSTRAINT uom_role_uom_role_code_key UNIQUE (uom_role_code);
+
+
+--
+-- TOC entry 3127 (class 2606 OID 55450)
+-- Name: settings wms_settings_pkey; Type: CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY settings
+    ADD CONSTRAINT wms_settings_pkey PRIMARY KEY (parameter_name);
+
+
+SET search_path = schedule, pg_catalog;
+
+--
+-- TOC entry 3117 (class 2606 OID 55364)
+-- Name: calendar calendar_pkey; Type: CONSTRAINT; Schema: schedule; Owner: postgres
+--
+
+ALTER TABLE ONLY calendar
+    ADD CONSTRAINT calendar_pkey PRIMARY KEY (calendar_date);
+
+
+SET search_path = mdm, pg_catalog;
+
+--
+-- TOC entry 3138 (class 2606 OID 55451)
+-- Name: good good_uom_base_code_fkey; Type: FK CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY good
+    ADD CONSTRAINT good_uom_base_code_fkey FOREIGN KEY (uom_base_code) REFERENCES uom(uom_code);
+
+
+--
+-- TOC entry 3139 (class 2606 OID 55456)
+-- Name: measurement measurement_good_code_fkey; Type: FK CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY measurement
+    ADD CONSTRAINT measurement_good_code_fkey FOREIGN KEY (good_code) REFERENCES good(good_code);
+
+
+--
+-- TOC entry 3140 (class 2606 OID 55461)
+-- Name: measurement measurement_uom_base_code_fkey; Type: FK CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY measurement
+    ADD CONSTRAINT measurement_uom_base_code_fkey FOREIGN KEY (uom_base_code) REFERENCES uom(uom_code);
+
+
+--
+-- TOC entry 3141 (class 2606 OID 55466)
+-- Name: measurement measurement_uom_code_fkey; Type: FK CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY measurement
+    ADD CONSTRAINT measurement_uom_code_fkey FOREIGN KEY (uom_code) REFERENCES uom(uom_code);
+
+
+--
+-- TOC entry 3142 (class 2606 OID 55471)
+-- Name: uom uom_base_uom_code_fkey; Type: FK CONSTRAINT; Schema: mdm; Owner: postgres
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_base_uom_code_fkey FOREIGN KEY (base_uom_code) REFERENCES uom(uom_code);
+
+
+-- Completed on 2018-01-11 02:13:08 EET
 
 --
 -- PostgreSQL database dump complete
