@@ -1,0 +1,60 @@
+ vendor
+    dealerstar
+    hawkerstar
+
+    merchantstar
+    peddlerstar
+
+    businesspersonstar
+    huckster
+
+
+customer
+    clientstar
+    consumerstar
+
+    patronstar
+    purchaserstar
+
+    clientelestar
+    prospect
+
+supplier
+    briefstar
+    interimstar
+    limitedstar
+    makeshiftstar
+    momentarystar
+    provisionalstar
+    short-livedstar
+    transitorystar
+    actingstar
+
+    alternatestar
+    ephemeralstar
+    fugitivestar
+    impermanentstar
+    make-dostar
+    mortalstar
+    passingstar
+    perishablestar
+    shifting
+
+
+buyer
+    clientstar
+    consumerstar
+    customerstar
+
+    patronstar
+    purchaserstar
+    shopperstar
+
+    userstar
+    emptorstar
+    prospectstar
+
+    representativestar
+    suckerstar
+    vendee
+

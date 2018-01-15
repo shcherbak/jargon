@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.6
 -- Dumped by pg_dump version 9.6.6
 
--- Started on 2018-01-15 03:16:41 EET
+-- Started on 2018-01-15 04:56:53 EET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,7 +17,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 14 (class 2615 OID 55859)
+-- TOC entry 22 (class 2615 OID 56246)
 -- Name: common; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -27,17 +27,7 @@ CREATE SCHEMA common;
 ALTER SCHEMA common OWNER TO postgres;
 
 --
--- TOC entry 17 (class 2615 OID 55860)
--- Name: customer; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA customer;
-
-
-ALTER SCHEMA customer OWNER TO postgres;
-
---
--- TOC entry 23 (class 2615 OID 55861)
+-- TOC entry 18 (class 2615 OID 56247)
 -- Name: equipment; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -47,7 +37,7 @@ CREATE SCHEMA equipment;
 ALTER SCHEMA equipment OWNER TO postgres;
 
 --
--- TOC entry 10 (class 2615 OID 55862)
+-- TOC entry 9 (class 2615 OID 56248)
 -- Name: facility; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -57,7 +47,7 @@ CREATE SCHEMA facility;
 ALTER SCHEMA facility OWNER TO postgres;
 
 --
--- TOC entry 11 (class 2615 OID 55863)
+-- TOC entry 14 (class 2615 OID 56249)
 -- Name: inventory; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -67,7 +57,7 @@ CREATE SCHEMA inventory;
 ALTER SCHEMA inventory OWNER TO postgres;
 
 --
--- TOC entry 18 (class 2615 OID 55864)
+-- TOC entry 23 (class 2615 OID 56250)
 -- Name: measurement; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -77,7 +67,7 @@ CREATE SCHEMA measurement;
 ALTER SCHEMA measurement OWNER TO postgres;
 
 --
--- TOC entry 21 (class 2615 OID 55865)
+-- TOC entry 20 (class 2615 OID 56251)
 -- Name: personnel; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -87,7 +77,7 @@ CREATE SCHEMA personnel;
 ALTER SCHEMA personnel OWNER TO postgres;
 
 --
--- TOC entry 19 (class 2615 OID 55866)
+-- TOC entry 11 (class 2615 OID 56252)
 -- Name: pgunit; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -97,7 +87,7 @@ CREATE SCHEMA pgunit;
 ALTER SCHEMA pgunit OWNER TO postgres;
 
 --
--- TOC entry 13 (class 2615 OID 55867)
+-- TOC entry 16 (class 2615 OID 56253)
 -- Name: schedule; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -107,17 +97,7 @@ CREATE SCHEMA schedule;
 ALTER SCHEMA schedule OWNER TO postgres;
 
 --
--- TOC entry 9 (class 2615 OID 55868)
--- Name: supplier; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA supplier;
-
-
-ALTER SCHEMA supplier OWNER TO postgres;
-
---
--- TOC entry 24 (class 2615 OID 55869)
+-- TOC entry 12 (class 2615 OID 56254)
 -- Name: tests; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -127,7 +107,7 @@ CREATE SCHEMA tests;
 ALTER SCHEMA tests OWNER TO postgres;
 
 --
--- TOC entry 22 (class 2615 OID 55870)
+-- TOC entry 8 (class 2615 OID 56255)
 -- Name: tooling; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -137,7 +117,17 @@ CREATE SCHEMA tooling;
 ALTER SCHEMA tooling OWNER TO postgres;
 
 --
--- TOC entry 8 (class 2615 OID 55871)
+-- TOC entry 21 (class 2615 OID 56256)
+-- Name: transactor; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA transactor;
+
+
+ALTER SCHEMA transactor OWNER TO postgres;
+
+--
+-- TOC entry 13 (class 2615 OID 56257)
 -- Name: uom; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -155,7 +145,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 3369 (class 0 OID 0)
+-- TOC entry 3387 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -164,7 +154,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- TOC entry 1 (class 3079 OID 55872)
+-- TOC entry 1 (class 3079 OID 56258)
 -- Name: adminpack; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -172,7 +162,7 @@ CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 3370 (class 0 OID 0)
+-- TOC entry 3388 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
 --
@@ -181,7 +171,7 @@ COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
 
 
 --
--- TOC entry 5 (class 3079 OID 55881)
+-- TOC entry 5 (class 3079 OID 56267)
 -- Name: pldbgapi; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -189,7 +179,7 @@ CREATE EXTENSION IF NOT EXISTS pldbgapi WITH SCHEMA public;
 
 
 --
--- TOC entry 3371 (class 0 OID 0)
+-- TOC entry 3389 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: EXTENSION pldbgapi; Type: COMMENT; Schema: -; Owner: 
 --
@@ -198,7 +188,7 @@ COMMENT ON EXTENSION pldbgapi IS 'server-side support for debugging PL/pgSQL fun
 
 
 --
--- TOC entry 4 (class 3079 OID 55918)
+-- TOC entry 4 (class 3079 OID 56304)
 -- Name: plpgsql_check; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -206,7 +196,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql_check WITH SCHEMA public;
 
 
 --
--- TOC entry 3372 (class 0 OID 0)
+-- TOC entry 3390 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: EXTENSION plpgsql_check; Type: COMMENT; Schema: -; Owner: 
 --
@@ -215,7 +205,7 @@ COMMENT ON EXTENSION plpgsql_check IS 'extended check for plpgsql functions';
 
 
 --
--- TOC entry 3 (class 3079 OID 55923)
+-- TOC entry 3 (class 3079 OID 56309)
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -223,7 +213,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- TOC entry 3373 (class 0 OID 0)
+-- TOC entry 3391 (class 0 OID 0)
 -- Dependencies: 3
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
 --
@@ -234,7 +224,7 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 SET search_path = common, pg_catalog;
 
 --
--- TOC entry 683 (class 1247 OID 55935)
+-- TOC entry 685 (class 1247 OID 56321)
 -- Name: inventory_kind; Type: TYPE; Schema: common; Owner: postgres
 --
 
@@ -253,7 +243,7 @@ CREATE TYPE inventory_kind AS ENUM (
 ALTER TYPE inventory_kind OWNER TO postgres;
 
 --
--- TOC entry 686 (class 1247 OID 55951)
+-- TOC entry 688 (class 1247 OID 56337)
 -- Name: quantity; Type: DOMAIN; Schema: common; Owner: postgres
 --
 
@@ -264,8 +254,8 @@ CREATE DOMAIN quantity AS numeric(20,4) DEFAULT 0
 ALTER DOMAIN quantity OWNER TO postgres;
 
 --
--- TOC entry 3374 (class 0 OID 0)
--- Dependencies: 686
+-- TOC entry 3392 (class 0 OID 0)
+-- Dependencies: 688
 -- Name: DOMAIN quantity; Type: COMMENT; Schema: common; Owner: postgres
 --
 
@@ -273,7 +263,7 @@ COMMENT ON DOMAIN quantity IS 'quantity domain';
 
 
 --
--- TOC entry 688 (class 1247 OID 55953)
+-- TOC entry 690 (class 1247 OID 56339)
 -- Name: quantity_signed; Type: DOMAIN; Schema: common; Owner: postgres
 --
 
@@ -283,8 +273,8 @@ CREATE DOMAIN quantity_signed AS numeric(20,4) DEFAULT 0;
 ALTER DOMAIN quantity_signed OWNER TO postgres;
 
 --
--- TOC entry 3375 (class 0 OID 0)
--- Dependencies: 688
+-- TOC entry 3393 (class 0 OID 0)
+-- Dependencies: 690
 -- Name: DOMAIN quantity_signed; Type: COMMENT; Schema: common; Owner: postgres
 --
 
@@ -292,7 +282,7 @@ COMMENT ON DOMAIN quantity_signed IS 'quantity signed domain';
 
 
 --
--- TOC entry 689 (class 1247 OID 55956)
+-- TOC entry 691 (class 1247 OID 56342)
 -- Name: unit_conversion_type; Type: TYPE; Schema: common; Owner: postgres
 --
 
@@ -306,7 +296,7 @@ CREATE TYPE unit_conversion_type AS (
 ALTER TYPE unit_conversion_type OWNER TO postgres;
 
 --
--- TOC entry 277 (class 1255 OID 55957)
+-- TOC entry 278 (class 1255 OID 56343)
 -- Name: foo(); Type: FUNCTION; Schema: common; Owner: postgres
 --
 
@@ -341,7 +331,7 @@ $$;
 ALTER FUNCTION common.foo() OWNER TO postgres;
 
 --
--- TOC entry 278 (class 1255 OID 55958)
+-- TOC entry 279 (class 1255 OID 56344)
 -- Name: get_param_measurement_apply_latency(); Type: FUNCTION; Schema: common; Owner: postgres
 --
 
@@ -363,7 +353,7 @@ ALTER FUNCTION common.get_param_measurement_apply_latency() OWNER TO postgres;
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 279 (class 1255 OID 55959)
+-- TOC entry 280 (class 1255 OID 56345)
 -- Name: get_base_uom(character varying); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -385,7 +375,7 @@ ALTER FUNCTION inventory.get_base_uom(_part_code character varying) OWNER TO pos
 SET search_path = measurement, pg_catalog;
 
 --
--- TOC entry 280 (class 1255 OID 55960)
+-- TOC entry 281 (class 1255 OID 56346)
 -- Name: convert_quantity(character varying, double precision, character varying, character varying, timestamp with time zone); Type: FUNCTION; Schema: measurement; Owner: postgres
 --
 
@@ -424,9 +414,9 @@ BEGIN
   */
 
   -- визначити домен одиниці виміру, до якої приводимо
-  __uom_domain_to := uom_domain FROM uom.information WHERE uom_code = _uom_code_to;
+  __uom_domain_to := uom.get_domain(_uom_code := _uom_code_to);
   -- визначити домен одиниці виміру, з якої приводимо
-  __uom_domain_from := uom_domain FROM uom.information WHERE uom_code = _uom_code_from;
+  __uom_domain_from := uom.get_domain(_uom_code := _uom_code_from);
 
   --RAISE NOTICE 'conversion from % to %', __uom_domain_to, __uom_domain_from;
 
@@ -436,8 +426,8 @@ BEGIN
 
   -- якщо той самий домен, то використовуємо коефіцієнт Сі
   IF (__uom_domain_from = __uom_domain_to) THEN
-    --RAISE NOTICE 'formula = % * %', _quantity, mdm.factor_in_domain(_uom_code_from, _uom_code_to);
-    RETURN _quantity * uom.factor_in_domain(_uom_code_from, _uom_code_to);
+    --RAISE NOTICE 'formula = % * %', _quantity, mdm.get_factor(_uom_code_from, _uom_code_to);
+    RETURN _quantity * uom.get_factor(_uom_code_from, _uom_code_to);
   END IF;
 
     __unit_conversion_array := measurement.get_uom_conversion_factors(
@@ -465,7 +455,7 @@ BEGIN
           RAISE NOTICE 'partial forward _from_ match % to % = %',_uom_code_from, __m.uom_code_to, __m.factor;
           RETURN _quantity *  
             (__m.factor ^ __exponentiation) *
-            uom.factor_in_domain(_uom_code_to, __m.uom_code_to);
+            uom.get_factor(_uom_code_to, __m.uom_code_to);
         END IF;
       END LOOP;
 
@@ -476,7 +466,7 @@ BEGIN
           RAISE NOTICE 'partial forward _to_ match % to % = %',__m.uom_code_from, _uom_code_to, __m.factor;
           RETURN _quantity * 
             (__m.factor ^ __exponentiation) * 
-            uom.factor_in_domain(_uom_code_from, __m.uom_code_from);
+            uom.get_factor(_uom_code_from, __m.uom_code_from);
         END IF;
       END LOOP;
 
@@ -485,9 +475,9 @@ BEGIN
         __unit_conversion_array[1].uom_code_to, 
         __unit_conversion_array[1].factor;
       RETURN _quantity * 
-        uom.factor_in_domain(_uom_code_from, __unit_conversion_array[1].uom_code_from) * 
+        uom.get_factor(_uom_code_from, __unit_conversion_array[1].uom_code_from) * 
         (__unit_conversion_array[1].factor ^ __exponentiation) *
-        uom.factor_in_domain(__unit_conversion_array[1].uom_code_to, _uom_code_to);
+        uom.get_factor(__unit_conversion_array[1].uom_code_to, _uom_code_to);
 
     -- логіка перетворення з додаткового в основний домен
     ELSE
@@ -516,7 +506,7 @@ BEGIN
             RAISE NOTICE 'partial reverse _from_ match % to % = %',_uom_code_from, __m.uom_code_to, __m.factor;
             RETURN _quantity *  
               (__m.factor ^ __exponentiation) *
-              uom.factor_in_domain(_uom_code_from ,  __m.uom_code_to);
+              uom.get_factor(_uom_code_from ,  __m.uom_code_to);
           END IF;
         END LOOP;
 
@@ -527,7 +517,7 @@ BEGIN
             RAISE NOTICE 'partial reverse _to_ match % to % = %',__m.uom_code_to, _uom_code_from, __m.factor;
             RETURN _quantity * 
               (__m.factor ^ __exponentiation) * 
-              uom.factor_in_domain(_uom_code_to, __m.uom_code_from);
+              uom.get_factor(_uom_code_to, __m.uom_code_from);
           END IF;
         END LOOP;
 
@@ -536,9 +526,9 @@ BEGIN
           __unit_conversion_array[1].uom_code_to,
           __unit_conversion_array[1].factor;
         RETURN _quantity * 
-          uom.factor_in_domain(_uom_code_from ,  __unit_conversion_array[1].uom_code_to) *
+          uom.get_factor(_uom_code_from ,  __unit_conversion_array[1].uom_code_to) *
           (__unit_conversion_array[1].factor ^ __exponentiation) *
-          uom.factor_in_domain(__unit_conversion_array[1].uom_code_from, _uom_code_to);
+          uom.get_factor(__unit_conversion_array[1].uom_code_from, _uom_code_to);
 
       ELSE
         --RETURN 987654321;
@@ -560,7 +550,7 @@ $$;
 ALTER FUNCTION measurement.convert_quantity(_part_code character varying, _quantity double precision, _uom_code_from character varying, _uom_code_to character varying, _valid_from_date timestamp with time zone) OWNER TO postgres;
 
 --
--- TOC entry 281 (class 1255 OID 55961)
+-- TOC entry 282 (class 1255 OID 56347)
 -- Name: create_factor(character varying, character varying, double precision, timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: measurement; Owner: postgres
 --
 
@@ -619,8 +609,8 @@ $$;
 ALTER FUNCTION measurement.create_factor(_part_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone) OWNER TO postgres;
 
 --
--- TOC entry 3376 (class 0 OID 0)
--- Dependencies: 281
+-- TOC entry 3394 (class 0 OID 0)
+-- Dependencies: 282
 -- Name: FUNCTION create_factor(_part_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone); Type: COMMENT; Schema: measurement; Owner: postgres
 --
 
@@ -628,7 +618,7 @@ COMMENT ON FUNCTION create_factor(_part_code character varying, _uom_code charac
 
 
 --
--- TOC entry 282 (class 1255 OID 55962)
+-- TOC entry 283 (class 1255 OID 56348)
 -- Name: expire_factor(character varying, character varying, timestamp with time zone); Type: FUNCTION; Schema: measurement; Owner: postgres
 --
 
@@ -653,8 +643,8 @@ $$;
 ALTER FUNCTION measurement.expire_factor(_part_code character varying, _uom_code character varying, _end_date timestamp with time zone) OWNER TO postgres;
 
 --
--- TOC entry 3377 (class 0 OID 0)
--- Dependencies: 282
+-- TOC entry 3395 (class 0 OID 0)
+-- Dependencies: 283
 -- Name: FUNCTION expire_factor(_part_code character varying, _uom_code character varying, _end_date timestamp with time zone); Type: COMMENT; Schema: measurement; Owner: postgres
 --
 
@@ -662,7 +652,7 @@ COMMENT ON FUNCTION expire_factor(_part_code character varying, _uom_code charac
 
 
 --
--- TOC entry 283 (class 1255 OID 55963)
+-- TOC entry 284 (class 1255 OID 56349)
 -- Name: get_base_uom(character varying, timestamp with time zone); Type: FUNCTION; Schema: measurement; Owner: postgres
 --
 
@@ -690,7 +680,7 @@ $$;
 ALTER FUNCTION measurement.get_base_uom(_part_code character varying, _valid_from_date timestamp with time zone) OWNER TO postgres;
 
 --
--- TOC entry 284 (class 1255 OID 55964)
+-- TOC entry 285 (class 1255 OID 56350)
 -- Name: get_uom_conversion_factors(character varying, character varying, character varying, timestamp with time zone); Type: FUNCTION; Schema: measurement; Owner: postgres
 --
 
@@ -735,7 +725,7 @@ $$;
 ALTER FUNCTION measurement.get_uom_conversion_factors(_part_code character varying, _uom_domain_from character varying, _uom_domain_to character varying, _valid_from_date timestamp with time zone) OWNER TO postgres;
 
 --
--- TOC entry 285 (class 1255 OID 55965)
+-- TOC entry 286 (class 1255 OID 56351)
 -- Name: replace_factor(character varying, character varying, double precision, timestamp with time zone, timestamp with time zone); Type: FUNCTION; Schema: measurement; Owner: postgres
 --
 
@@ -786,8 +776,8 @@ $$;
 ALTER FUNCTION measurement.replace_factor(_part_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone) OWNER TO postgres;
 
 --
--- TOC entry 3378 (class 0 OID 0)
--- Dependencies: 285
+-- TOC entry 3396 (class 0 OID 0)
+-- Dependencies: 286
 -- Name: FUNCTION replace_factor(_part_code character varying, _uom_code character varying, _factor double precision, _end_date timestamp with time zone, _start_date timestamp with time zone); Type: COMMENT; Schema: measurement; Owner: postgres
 --
 
@@ -797,7 +787,7 @@ COMMENT ON FUNCTION replace_factor(_part_code character varying, _uom_code chara
 SET search_path = pgunit, pg_catalog;
 
 --
--- TOC entry 286 (class 1255 OID 55966)
+-- TOC entry 287 (class 1255 OID 56352)
 -- Name: assert_array_equals(anyelement, anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -821,7 +811,7 @@ $$;
 ALTER FUNCTION pgunit.assert_array_equals(_expected anyelement, _actual anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 287 (class 1255 OID 55967)
+-- TOC entry 288 (class 1255 OID 56353)
 -- Name: assert_equals(anyelement, anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -842,7 +832,7 @@ $$;
 ALTER FUNCTION pgunit.assert_equals(_expected anyelement, _actual anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 288 (class 1255 OID 55968)
+-- TOC entry 289 (class 1255 OID 56354)
 -- Name: assert_false(boolean, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -860,7 +850,7 @@ $$;
 ALTER FUNCTION pgunit.assert_false(_value boolean, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 289 (class 1255 OID 55969)
+-- TOC entry 290 (class 1255 OID 56355)
 -- Name: assert_not_equals(anyelement, anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -881,7 +871,7 @@ $$;
 ALTER FUNCTION pgunit.assert_not_equals(_expected anyelement, _actual anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 290 (class 1255 OID 55970)
+-- TOC entry 291 (class 1255 OID 56356)
 -- Name: assert_not_null(anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -899,7 +889,7 @@ $$;
 ALTER FUNCTION pgunit.assert_not_null(_value anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 291 (class 1255 OID 55971)
+-- TOC entry 292 (class 1255 OID 56357)
 -- Name: assert_null(anyelement, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -917,7 +907,7 @@ $$;
 ALTER FUNCTION pgunit.assert_null(_value anyelement, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 292 (class 1255 OID 55972)
+-- TOC entry 293 (class 1255 OID 56358)
 -- Name: assert_true(boolean, character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -935,7 +925,7 @@ $$;
 ALTER FUNCTION pgunit.assert_true(_value boolean, _message character varying) OWNER TO postgres;
 
 --
--- TOC entry 293 (class 1255 OID 55973)
+-- TOC entry 294 (class 1255 OID 56359)
 -- Name: fail(character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -951,7 +941,7 @@ $$;
 ALTER FUNCTION pgunit.fail(_message character varying) OWNER TO postgres;
 
 --
--- TOC entry 294 (class 1255 OID 55974)
+-- TOC entry 295 (class 1255 OID 56360)
 -- Name: run_test(character varying); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -971,7 +961,7 @@ $$;
 ALTER FUNCTION pgunit.run_test(_sp character varying) OWNER TO postgres;
 
 --
--- TOC entry 295 (class 1255 OID 55975)
+-- TOC entry 296 (class 1255 OID 56361)
 -- Name: test_assert_array_equals(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1095,7 +1085,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_array_equals() OWNER TO postgres;
 
 --
--- TOC entry 296 (class 1255 OID 55976)
+-- TOC entry 297 (class 1255 OID 56362)
 -- Name: test_assert_equals(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1194,7 +1184,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_equals() OWNER TO postgres;
 
 --
--- TOC entry 297 (class 1255 OID 55977)
+-- TOC entry 298 (class 1255 OID 56363)
 -- Name: test_assert_false(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1236,7 +1226,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_false() OWNER TO postgres;
 
 --
--- TOC entry 298 (class 1255 OID 55978)
+-- TOC entry 299 (class 1255 OID 56364)
 -- Name: test_assert_not_null(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1325,7 +1315,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_not_null() OWNER TO postgres;
 
 --
--- TOC entry 299 (class 1255 OID 55979)
+-- TOC entry 300 (class 1255 OID 56365)
 -- Name: test_assert_null(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1415,7 +1405,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_null() OWNER TO postgres;
 
 --
--- TOC entry 300 (class 1255 OID 55980)
+-- TOC entry 301 (class 1255 OID 56366)
 -- Name: test_assert_true(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1455,7 +1445,7 @@ $$;
 ALTER FUNCTION pgunit.test_assert_true() OWNER TO postgres;
 
 --
--- TOC entry 301 (class 1255 OID 55981)
+-- TOC entry 302 (class 1255 OID 56367)
 -- Name: test_fail(); Type: FUNCTION; Schema: pgunit; Owner: postgres
 --
 
@@ -1484,7 +1474,7 @@ ALTER FUNCTION pgunit.test_fail() OWNER TO postgres;
 SET search_path = schedule, pg_catalog;
 
 --
--- TOC entry 302 (class 1255 OID 55982)
+-- TOC entry 303 (class 1255 OID 56368)
 -- Name: get_date_of_julianized_day(integer); Type: FUNCTION; Schema: schedule; Owner: postgres
 --
 
@@ -1520,7 +1510,7 @@ $$;
 ALTER FUNCTION schedule.get_date_of_julianized_day(__jylianized_day integer) OWNER TO postgres;
 
 --
--- TOC entry 303 (class 1255 OID 55983)
+-- TOC entry 304 (class 1255 OID 56369)
 -- Name: get_julianized_day(date); Type: FUNCTION; Schema: schedule; Owner: postgres
 --
 
@@ -1553,7 +1543,7 @@ $$;
 ALTER FUNCTION schedule.get_julianized_day(__date date) OWNER TO postgres;
 
 --
--- TOC entry 304 (class 1255 OID 55984)
+-- TOC entry 305 (class 1255 OID 56370)
 -- Name: get_julianized_week(date); Type: FUNCTION; Schema: schedule; Owner: postgres
 --
 
@@ -1588,7 +1578,7 @@ ALTER FUNCTION schedule.get_julianized_week(__date date) OWNER TO postgres;
 SET search_path = tests, pg_catalog;
 
 --
--- TOC entry 305 (class 1255 OID 55985)
+-- TOC entry 306 (class 1255 OID 56371)
 -- Name: _load_data(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -1750,7 +1740,7 @@ $$;
 ALTER FUNCTION tests._load_data() OWNER TO postgres;
 
 --
--- TOC entry 306 (class 1255 OID 55987)
+-- TOC entry 307 (class 1255 OID 56373)
 -- Name: _reset_data(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -1844,7 +1834,7 @@ $$;
 ALTER FUNCTION tests._reset_data() OWNER TO postgres;
 
 --
--- TOC entry 307 (class 1255 OID 55988)
+-- TOC entry 308 (class 1255 OID 56374)
 -- Name: _run_all(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -1893,11 +1883,29 @@ ALTER FUNCTION tests._run_all() OWNER TO postgres;
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 308 (class 1255 OID 55989)
--- Name: factor_in_domain(character varying, character varying); Type: FUNCTION; Schema: uom; Owner: postgres
+-- TOC entry 309 (class 1255 OID 56376)
+-- Name: get_domain(character varying); Type: FUNCTION; Schema: uom; Owner: postgres
 --
 
-CREATE FUNCTION factor_in_domain(_uom_code_src character varying, _uom_code_dst character varying) RETURNS double precision
+CREATE FUNCTION get_domain(_uom_code character varying) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+
+  RETURN uom_domain FROM uom.information WHERE uom_code = _uom_code;
+
+END;
+$$;
+
+
+ALTER FUNCTION uom.get_domain(_uom_code character varying) OWNER TO postgres;
+
+--
+-- TOC entry 310 (class 1255 OID 56375)
+-- Name: get_factor(character varying, character varying); Type: FUNCTION; Schema: uom; Owner: postgres
+--
+
+CREATE FUNCTION get_factor(_uom_code_src character varying, _uom_code_dst character varying) RETURNS double precision
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -1908,28 +1916,11 @@ DECLARE
 
 BEGIN
 
-  /*
-  SELECT 
-    uom.uom_code, 
-    uom.uom_domain, 
-    uom.base_uom_code, 
-    uom.factor
-  FROM 
-    mdm.uom;
-
-  "kg";   "MASS";     "kg";   1
-  "m";    "LENGHT";   "m";    1
-  "pcs";  "QUANTITY"; "pcs";  1
-  "g";    "MASS";     "kg";   0.001
-  "t";    "MASS";     "kg";   1000
-  "mm";   "LENGHT";   "m";    0.001
-  */
-
   -- визначити домен одиниці виміру, з якої приводимо
-  __uom_domain_from := uom_domain FROM uom.information WHERE uom_code = _uom_code_src;
+  __uom_domain_from := uom.get_domain(_uom_code := _uom_code_src);
 
   -- визначити домен одиниці виміру, до якої приводимо
-  __uom_domain_to := uom_domain FROM uom.information WHERE uom_code = _uom_code_dst;
+  __uom_domain_to := uom.get_domain(_uom_code := _uom_code_dst);
 
   IF (__uom_domain_from = __uom_domain_to) THEN
     -- привести з вказаної одиниці до базової Сі = *
@@ -1949,7 +1940,7 @@ BEGIN
     RETURN __factor_1 / __factor_2;
 
   ELSE
-    RAISE EXCEPTION 'uom.factor_in_domain(): unit of measure not in the same domain: "%"', _uom_code_dst;
+    RAISE EXCEPTION 'units of measure are not in the same domain: "%" and "%"', _uom_code_src, _uom_code_dst;
     RETURN NULL;
   END IF;
 
@@ -1957,7 +1948,7 @@ END;
 $$;
 
 
-ALTER FUNCTION uom.factor_in_domain(_uom_code_src character varying, _uom_code_dst character varying) OWNER TO postgres;
+ALTER FUNCTION uom.get_factor(_uom_code_src character varying, _uom_code_dst character varying) OWNER TO postgres;
 
 SET search_path = common, pg_catalog;
 
@@ -1966,7 +1957,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 208 (class 1259 OID 55990)
+-- TOC entry 207 (class 1259 OID 56377)
 -- Name: settings; Type: TABLE; Schema: common; Owner: postgres
 --
 
@@ -1978,53 +1969,10 @@ CREATE TABLE settings (
 
 ALTER TABLE settings OWNER TO postgres;
 
-SET search_path = customer, pg_catalog;
-
---
--- TOC entry 209 (class 1259 OID 55996)
--- Name: information; Type: TABLE; Schema: customer; Owner: postgres
---
-
-CREATE TABLE information (
-    id bigint NOT NULL,
-    gid uuid DEFAULT public.uuid_generate_v1() NOT NULL,
-    customer_code character varying NOT NULL,
-    version_num integer NOT NULL,
-    display_name character varying NOT NULL,
-    published_date date DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE information OWNER TO postgres;
-
---
--- TOC entry 210 (class 1259 OID 56004)
--- Name: information_id_seq; Type: SEQUENCE; Schema: customer; Owner: postgres
---
-
-CREATE SEQUENCE information_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE information_id_seq OWNER TO postgres;
-
---
--- TOC entry 3379 (class 0 OID 0)
--- Dependencies: 210
--- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: customer; Owner: postgres
---
-
-ALTER SEQUENCE information_id_seq OWNED BY information.id;
-
-
 SET search_path = equipment, pg_catalog;
 
 --
--- TOC entry 211 (class 1259 OID 56006)
+-- TOC entry 208 (class 1259 OID 56383)
 -- Name: information; Type: TABLE; Schema: equipment; Owner: postgres
 --
 
@@ -2041,7 +1989,7 @@ CREATE TABLE information (
 ALTER TABLE information OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 56014)
+-- TOC entry 209 (class 1259 OID 56391)
 -- Name: information_id_seq; Type: SEQUENCE; Schema: equipment; Owner: postgres
 --
 
@@ -2056,8 +2004,8 @@ CREATE SEQUENCE information_id_seq
 ALTER TABLE information_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3380 (class 0 OID 0)
--- Dependencies: 212
+-- TOC entry 3397 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: equipment; Owner: postgres
 --
 
@@ -2067,7 +2015,7 @@ ALTER SEQUENCE information_id_seq OWNED BY information.id;
 SET search_path = facility, pg_catalog;
 
 --
--- TOC entry 213 (class 1259 OID 56016)
+-- TOC entry 210 (class 1259 OID 56393)
 -- Name: information; Type: TABLE; Schema: facility; Owner: postgres
 --
 
@@ -2084,7 +2032,7 @@ CREATE TABLE information (
 ALTER TABLE information OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 56024)
+-- TOC entry 211 (class 1259 OID 56401)
 -- Name: information_id_seq; Type: SEQUENCE; Schema: facility; Owner: postgres
 --
 
@@ -2099,8 +2047,8 @@ CREATE SEQUENCE information_id_seq
 ALTER TABLE information_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3381 (class 0 OID 0)
--- Dependencies: 214
+-- TOC entry 3398 (class 0 OID 0)
+-- Dependencies: 211
 -- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: facility; Owner: postgres
 --
 
@@ -2110,7 +2058,7 @@ ALTER SEQUENCE information_id_seq OWNED BY information.id;
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 216 (class 1259 OID 56032)
+-- TOC entry 212 (class 1259 OID 56403)
 -- Name: information; Type: TABLE; Schema: inventory; Owner: postgres
 --
 
@@ -2126,8 +2074,8 @@ CREATE TABLE information (
 ALTER TABLE information OWNER TO postgres;
 
 --
--- TOC entry 3382 (class 0 OID 0)
--- Dependencies: 216
+-- TOC entry 3399 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: TABLE information; Type: COMMENT; Schema: inventory; Owner: postgres
 --
 
@@ -2135,7 +2083,7 @@ COMMENT ON TABLE information IS 'inventory list';
 
 
 --
--- TOC entry 217 (class 1259 OID 56040)
+-- TOC entry 213 (class 1259 OID 56411)
 -- Name: salable; Type: TABLE; Schema: inventory; Owner: postgres
 --
 
@@ -2148,8 +2096,8 @@ INHERITS (information);
 ALTER TABLE salable OWNER TO postgres;
 
 --
--- TOC entry 3383 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 3400 (class 0 OID 0)
+-- Dependencies: 213
 -- Name: TABLE salable; Type: COMMENT; Schema: inventory; Owner: postgres
 --
 
@@ -2157,7 +2105,7 @@ COMMENT ON TABLE salable IS 'inventory salable component';
 
 
 --
--- TOC entry 215 (class 1259 OID 56026)
+-- TOC entry 214 (class 1259 OID 56420)
 -- Name: storable; Type: TABLE; Schema: inventory; Owner: postgres
 --
 
@@ -2172,7 +2120,7 @@ ALTER TABLE storable OWNER TO postgres;
 SET search_path = measurement, pg_catalog;
 
 --
--- TOC entry 218 (class 1259 OID 56049)
+-- TOC entry 215 (class 1259 OID 56426)
 -- Name: information; Type: TABLE; Schema: measurement; Owner: postgres
 --
 
@@ -2189,10 +2137,53 @@ CREATE TABLE information (
 
 ALTER TABLE information OWNER TO postgres;
 
+SET search_path = personnel, pg_catalog;
+
+--
+-- TOC entry 216 (class 1259 OID 56432)
+-- Name: information; Type: TABLE; Schema: personnel; Owner: postgres
+--
+
+CREATE TABLE information (
+    id bigint NOT NULL,
+    gid uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+    personnel_code character varying NOT NULL,
+    version_num integer NOT NULL,
+    display_name character varying NOT NULL,
+    published_date date DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE information OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 56440)
+-- Name: information_id_seq; Type: SEQUENCE; Schema: personnel; Owner: postgres
+--
+
+CREATE SEQUENCE information_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE information_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3401 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: personnel; Owner: postgres
+--
+
+ALTER SEQUENCE information_id_seq OWNED BY information.id;
+
+
 SET search_path = schedule, pg_catalog;
 
 --
--- TOC entry 219 (class 1259 OID 56055)
+-- TOC entry 218 (class 1259 OID 56442)
 -- Name: calendar; Type: TABLE; Schema: schedule; Owner: postgres
 --
 
@@ -2207,53 +2198,10 @@ CREATE TABLE calendar (
 
 ALTER TABLE calendar OWNER TO postgres;
 
-SET search_path = supplier, pg_catalog;
-
---
--- TOC entry 220 (class 1259 OID 56058)
--- Name: information; Type: TABLE; Schema: supplier; Owner: postgres
---
-
-CREATE TABLE information (
-    id bigint NOT NULL,
-    gid uuid DEFAULT public.uuid_generate_v1() NOT NULL,
-    supplier_code character varying NOT NULL,
-    version_num integer NOT NULL,
-    display_name character varying NOT NULL,
-    published_date date DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE information OWNER TO postgres;
-
---
--- TOC entry 221 (class 1259 OID 56066)
--- Name: information_id_seq; Type: SEQUENCE; Schema: supplier; Owner: postgres
---
-
-CREATE SEQUENCE information_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE information_id_seq OWNER TO postgres;
-
---
--- TOC entry 3384 (class 0 OID 0)
--- Dependencies: 221
--- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: supplier; Owner: postgres
---
-
-ALTER SEQUENCE information_id_seq OWNED BY information.id;
-
-
 SET search_path = tests, pg_catalog;
 
 --
--- TOC entry 222 (class 1259 OID 56068)
+-- TOC entry 219 (class 1259 OID 56445)
 -- Name: pgunit_covarage; Type: VIEW; Schema: tests; Owner: postgres
 --
 
@@ -2271,7 +2219,7 @@ EXCEPT
 ALTER TABLE pgunit_covarage OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 56073)
+-- TOC entry 220 (class 1259 OID 56450)
 -- Name: plpgsql_check_all; Type: VIEW; Schema: tests; Owner: postgres
 --
 
@@ -2304,7 +2252,7 @@ CREATE VIEW plpgsql_check_all AS
 ALTER TABLE plpgsql_check_all OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 56078)
+-- TOC entry 221 (class 1259 OID 56455)
 -- Name: plpgsql_check_nontriggered; Type: VIEW; Schema: tests; Owner: postgres
 --
 
@@ -2323,7 +2271,7 @@ ALTER TABLE plpgsql_check_nontriggered OWNER TO postgres;
 SET search_path = tooling, pg_catalog;
 
 --
--- TOC entry 225 (class 1259 OID 56083)
+-- TOC entry 222 (class 1259 OID 56460)
 -- Name: information; Type: TABLE; Schema: tooling; Owner: postgres
 --
 
@@ -2340,7 +2288,7 @@ CREATE TABLE information (
 ALTER TABLE information OWNER TO postgres;
 
 --
--- TOC entry 226 (class 1259 OID 56091)
+-- TOC entry 223 (class 1259 OID 56468)
 -- Name: information_id_seq; Type: SEQUENCE; Schema: tooling; Owner: postgres
 --
 
@@ -2355,18 +2303,85 @@ CREATE SEQUENCE information_id_seq
 ALTER TABLE information_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3385 (class 0 OID 0)
--- Dependencies: 226
+-- TOC entry 3402 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: tooling; Owner: postgres
 --
 
 ALTER SEQUENCE information_id_seq OWNED BY information.id;
 
 
+SET search_path = transactor, pg_catalog;
+
+--
+-- TOC entry 224 (class 1259 OID 56470)
+-- Name: information; Type: TABLE; Schema: transactor; Owner: postgres
+--
+
+CREATE TABLE information (
+    id bigint NOT NULL,
+    gid uuid DEFAULT public.uuid_generate_v1() NOT NULL,
+    transactor_code character varying NOT NULL,
+    version_num integer NOT NULL,
+    display_name character varying NOT NULL,
+    published_date date DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE information OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 56478)
+-- Name: customer; Type: TABLE; Schema: transactor; Owner: postgres
+--
+
+CREATE TABLE customer (
+)
+INHERITS (information);
+
+
+ALTER TABLE customer OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 56486)
+-- Name: information_id_seq; Type: SEQUENCE; Schema: transactor; Owner: postgres
+--
+
+CREATE SEQUENCE information_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE information_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3403 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: information_id_seq; Type: SEQUENCE OWNED BY; Schema: transactor; Owner: postgres
+--
+
+ALTER SEQUENCE information_id_seq OWNED BY information.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 56488)
+-- Name: supplier; Type: TABLE; Schema: transactor; Owner: postgres
+--
+
+CREATE TABLE supplier (
+)
+INHERITS (information);
+
+
+ALTER TABLE supplier OWNER TO postgres;
+
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 227 (class 1259 OID 56093)
+-- TOC entry 228 (class 1259 OID 56496)
 -- Name: assignment; Type: TABLE; Schema: uom; Owner: postgres
 --
 
@@ -2380,8 +2395,8 @@ CREATE TABLE assignment (
 ALTER TABLE assignment OWNER TO postgres;
 
 --
--- TOC entry 3386 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 3404 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: TABLE assignment; Type: COMMENT; Schema: uom; Owner: postgres
 --
 
@@ -2389,7 +2404,7 @@ COMMENT ON TABLE assignment IS 'uom role';
 
 
 --
--- TOC entry 228 (class 1259 OID 56096)
+-- TOC entry 229 (class 1259 OID 56499)
 -- Name: information; Type: TABLE; Schema: uom; Owner: postgres
 --
 
@@ -2404,7 +2419,7 @@ CREATE TABLE information (
 ALTER TABLE information OWNER TO postgres;
 
 --
--- TOC entry 229 (class 1259 OID 56102)
+-- TOC entry 230 (class 1259 OID 56505)
 -- Name: uom_role_uom_role_id_seq; Type: SEQUENCE; Schema: uom; Owner: postgres
 --
 
@@ -2419,28 +2434,18 @@ CREATE SEQUENCE uom_role_uom_role_id_seq
 ALTER TABLE uom_role_uom_role_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3387 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 3405 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: uom_role_uom_role_id_seq; Type: SEQUENCE OWNED BY; Schema: uom; Owner: postgres
 --
 
 ALTER SEQUENCE uom_role_uom_role_id_seq OWNED BY assignment.uom_role_id;
 
 
-SET search_path = customer, pg_catalog;
-
---
--- TOC entry 3152 (class 2604 OID 56104)
--- Name: information id; Type: DEFAULT; Schema: customer; Owner: postgres
---
-
-ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id_seq'::regclass);
-
-
 SET search_path = equipment, pg_catalog;
 
 --
--- TOC entry 3155 (class 2604 OID 56105)
+-- TOC entry 3162 (class 2604 OID 56507)
 -- Name: information id; Type: DEFAULT; Schema: equipment; Owner: postgres
 --
 
@@ -2450,7 +2455,7 @@ ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id
 SET search_path = facility, pg_catalog;
 
 --
--- TOC entry 3158 (class 2604 OID 56106)
+-- TOC entry 3165 (class 2604 OID 56508)
 -- Name: information id; Type: DEFAULT; Schema: facility; Owner: postgres
 --
 
@@ -2460,7 +2465,7 @@ ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 3161 (class 2604 OID 56107)
+-- TOC entry 3168 (class 2604 OID 56509)
 -- Name: salable version_num; Type: DEFAULT; Schema: inventory; Owner: postgres
 --
 
@@ -2468,18 +2473,18 @@ ALTER TABLE ONLY salable ALTER COLUMN version_num SET DEFAULT 1;
 
 
 --
--- TOC entry 3162 (class 2604 OID 56108)
+-- TOC entry 3169 (class 2604 OID 56510)
 -- Name: salable published_date; Type: DEFAULT; Schema: inventory; Owner: postgres
 --
 
 ALTER TABLE ONLY salable ALTER COLUMN published_date SET DEFAULT now();
 
 
-SET search_path = supplier, pg_catalog;
+SET search_path = personnel, pg_catalog;
 
 --
--- TOC entry 3166 (class 2604 OID 56109)
--- Name: information id; Type: DEFAULT; Schema: supplier; Owner: postgres
+-- TOC entry 3173 (class 2604 OID 56511)
+-- Name: information id; Type: DEFAULT; Schema: personnel; Owner: postgres
 --
 
 ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id_seq'::regclass);
@@ -2488,17 +2493,75 @@ ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id
 SET search_path = tooling, pg_catalog;
 
 --
--- TOC entry 3169 (class 2604 OID 56110)
+-- TOC entry 3176 (class 2604 OID 56512)
 -- Name: information id; Type: DEFAULT; Schema: tooling; Owner: postgres
 --
 
 ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id_seq'::regclass);
 
 
+SET search_path = transactor, pg_catalog;
+
+--
+-- TOC entry 3180 (class 2604 OID 56513)
+-- Name: customer id; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY customer ALTER COLUMN id SET DEFAULT nextval('information_id_seq'::regclass);
+
+
+--
+-- TOC entry 3181 (class 2604 OID 56514)
+-- Name: customer gid; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY customer ALTER COLUMN gid SET DEFAULT public.uuid_generate_v1();
+
+
+--
+-- TOC entry 3182 (class 2604 OID 56515)
+-- Name: customer published_date; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY customer ALTER COLUMN published_date SET DEFAULT now();
+
+
+--
+-- TOC entry 3179 (class 2604 OID 56516)
+-- Name: information id; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY information ALTER COLUMN id SET DEFAULT nextval('information_id_seq'::regclass);
+
+
+--
+-- TOC entry 3183 (class 2604 OID 56517)
+-- Name: supplier id; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY supplier ALTER COLUMN id SET DEFAULT nextval('information_id_seq'::regclass);
+
+
+--
+-- TOC entry 3184 (class 2604 OID 56518)
+-- Name: supplier gid; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY supplier ALTER COLUMN gid SET DEFAULT public.uuid_generate_v1();
+
+
+--
+-- TOC entry 3185 (class 2604 OID 56519)
+-- Name: supplier published_date; Type: DEFAULT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY supplier ALTER COLUMN published_date SET DEFAULT now();
+
+
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 3170 (class 2604 OID 56111)
+-- TOC entry 3186 (class 2604 OID 56520)
 -- Name: assignment uom_role_id; Type: DEFAULT; Schema: uom; Owner: postgres
 --
 
@@ -2508,46 +2571,27 @@ ALTER TABLE ONLY assignment ALTER COLUMN uom_role_id SET DEFAULT nextval('uom_ro
 SET search_path = common, pg_catalog;
 
 --
--- TOC entry 3344 (class 0 OID 55990)
--- Dependencies: 208
+-- TOC entry 3360 (class 0 OID 56377)
+-- Dependencies: 207
 -- Data for Name: settings; Type: TABLE DATA; Schema: common; Owner: postgres
 --
 
 INSERT INTO settings VALUES ('measurement_apply_latency', '2');
 
 
-SET search_path = customer, pg_catalog;
-
---
--- TOC entry 3345 (class 0 OID 55996)
--- Dependencies: 209
--- Data for Name: information; Type: TABLE DATA; Schema: customer; Owner: postgres
---
-
-
-
---
--- TOC entry 3388 (class 0 OID 0)
--- Dependencies: 210
--- Name: information_id_seq; Type: SEQUENCE SET; Schema: customer; Owner: postgres
---
-
-SELECT pg_catalog.setval('information_id_seq', 1, false);
-
-
 SET search_path = equipment, pg_catalog;
 
 --
--- TOC entry 3347 (class 0 OID 56006)
--- Dependencies: 211
+-- TOC entry 3361 (class 0 OID 56383)
+-- Dependencies: 208
 -- Data for Name: information; Type: TABLE DATA; Schema: equipment; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3389 (class 0 OID 0)
--- Dependencies: 212
+-- TOC entry 3406 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: information_id_seq; Type: SEQUENCE SET; Schema: equipment; Owner: postgres
 --
 
@@ -2557,16 +2601,16 @@ SELECT pg_catalog.setval('information_id_seq', 1, false);
 SET search_path = facility, pg_catalog;
 
 --
--- TOC entry 3349 (class 0 OID 56016)
--- Dependencies: 213
+-- TOC entry 3363 (class 0 OID 56393)
+-- Dependencies: 210
 -- Data for Name: information; Type: TABLE DATA; Schema: facility; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3390 (class 0 OID 0)
--- Dependencies: 214
+-- TOC entry 3407 (class 0 OID 0)
+-- Dependencies: 211
 -- Name: information_id_seq; Type: SEQUENCE SET; Schema: facility; Owner: postgres
 --
 
@@ -2576,24 +2620,24 @@ SELECT pg_catalog.setval('information_id_seq', 1, false);
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 3352 (class 0 OID 56032)
--- Dependencies: 216
+-- TOC entry 3365 (class 0 OID 56403)
+-- Dependencies: 212
 -- Data for Name: information; Type: TABLE DATA; Schema: inventory; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3353 (class 0 OID 56040)
--- Dependencies: 217
+-- TOC entry 3366 (class 0 OID 56411)
+-- Dependencies: 213
 -- Data for Name: salable; Type: TABLE DATA; Schema: inventory; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3351 (class 0 OID 56026)
--- Dependencies: 215
+-- TOC entry 3367 (class 0 OID 56420)
+-- Dependencies: 214
 -- Data for Name: storable; Type: TABLE DATA; Schema: inventory; Owner: postgres
 --
 
@@ -2607,8 +2651,8 @@ INSERT INTO storable VALUES ('20.10.125-001', 'pcs');
 SET search_path = measurement, pg_catalog;
 
 --
--- TOC entry 3354 (class 0 OID 56049)
--- Dependencies: 218
+-- TOC entry 3368 (class 0 OID 56426)
+-- Dependencies: 215
 -- Data for Name: information; Type: TABLE DATA; Schema: measurement; Owner: postgres
 --
 
@@ -2621,67 +2665,102 @@ INSERT INTO information VALUES ('10.01.076-003', 'kg', 2.5, '2016-11-07 12:55:18
 INSERT INTO information VALUES ('10.01.076-003', 'l', 0.330000000000000016, '2016-11-05 00:00:00+02', '2016-11-05 00:00:00+02', NULL, 'm');
 
 
-SET search_path = schedule, pg_catalog;
+SET search_path = personnel, pg_catalog;
 
 --
--- TOC entry 3355 (class 0 OID 56055)
--- Dependencies: 219
--- Data for Name: calendar; Type: TABLE DATA; Schema: schedule; Owner: postgres
---
-
-
-
-SET search_path = supplier, pg_catalog;
-
---
--- TOC entry 3356 (class 0 OID 56058)
--- Dependencies: 220
--- Data for Name: information; Type: TABLE DATA; Schema: supplier; Owner: postgres
+-- TOC entry 3369 (class 0 OID 56432)
+-- Dependencies: 216
+-- Data for Name: information; Type: TABLE DATA; Schema: personnel; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3391 (class 0 OID 0)
--- Dependencies: 221
--- Name: information_id_seq; Type: SEQUENCE SET; Schema: supplier; Owner: postgres
+-- TOC entry 3408 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: information_id_seq; Type: SEQUENCE SET; Schema: personnel; Owner: postgres
 --
 
 SELECT pg_catalog.setval('information_id_seq', 1, false);
 
 
+SET search_path = schedule, pg_catalog;
+
+--
+-- TOC entry 3371 (class 0 OID 56442)
+-- Dependencies: 218
+-- Data for Name: calendar; Type: TABLE DATA; Schema: schedule; Owner: postgres
+--
+
+
+
 SET search_path = tooling, pg_catalog;
 
 --
--- TOC entry 3358 (class 0 OID 56083)
--- Dependencies: 225
+-- TOC entry 3372 (class 0 OID 56460)
+-- Dependencies: 222
 -- Data for Name: information; Type: TABLE DATA; Schema: tooling; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3392 (class 0 OID 0)
--- Dependencies: 226
+-- TOC entry 3409 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: information_id_seq; Type: SEQUENCE SET; Schema: tooling; Owner: postgres
 --
 
 SELECT pg_catalog.setval('information_id_seq', 1, false);
 
 
+SET search_path = transactor, pg_catalog;
+
+--
+-- TOC entry 3375 (class 0 OID 56478)
+-- Dependencies: 225
+-- Data for Name: customer; Type: TABLE DATA; Schema: transactor; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3374 (class 0 OID 56470)
+-- Dependencies: 224
+-- Data for Name: information; Type: TABLE DATA; Schema: transactor; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3410 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: information_id_seq; Type: SEQUENCE SET; Schema: transactor; Owner: postgres
+--
+
+SELECT pg_catalog.setval('information_id_seq', 1, false);
+
+
+--
+-- TOC entry 3377 (class 0 OID 56488)
+-- Dependencies: 227
+-- Data for Name: supplier; Type: TABLE DATA; Schema: transactor; Owner: postgres
+--
+
+
+
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 3360 (class 0 OID 56093)
--- Dependencies: 227
+-- TOC entry 3378 (class 0 OID 56496)
+-- Dependencies: 228
 -- Data for Name: assignment; Type: TABLE DATA; Schema: uom; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3361 (class 0 OID 56096)
--- Dependencies: 228
+-- TOC entry 3379 (class 0 OID 56499)
+-- Dependencies: 229
 -- Data for Name: information; Type: TABLE DATA; Schema: uom; Owner: postgres
 --
 
@@ -2698,8 +2777,8 @@ INSERT INTO information VALUES ('ml', 'VOLUME', 'l', 0.00100000000000000002);
 
 
 --
--- TOC entry 3393 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 3411 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: uom_role_uom_role_id_seq; Type: SEQUENCE SET; Schema: uom; Owner: postgres
 --
 
@@ -2709,7 +2788,7 @@ SELECT pg_catalog.setval('uom_role_uom_role_id_seq', 1, false);
 SET search_path = common, pg_catalog;
 
 --
--- TOC entry 3172 (class 2606 OID 56113)
+-- TOC entry 3188 (class 2606 OID 56522)
 -- Name: settings wms_settings_pkey; Type: CONSTRAINT; Schema: common; Owner: postgres
 --
 
@@ -2717,39 +2796,10 @@ ALTER TABLE ONLY settings
     ADD CONSTRAINT wms_settings_pkey PRIMARY KEY (parameter_name);
 
 
-SET search_path = customer, pg_catalog;
-
---
--- TOC entry 3174 (class 2606 OID 56115)
--- Name: information information_customer_code_version_num_key; Type: CONSTRAINT; Schema: customer; Owner: postgres
---
-
-ALTER TABLE ONLY information
-    ADD CONSTRAINT information_customer_code_version_num_key UNIQUE (customer_code, version_num);
-
-
---
--- TOC entry 3176 (class 2606 OID 56117)
--- Name: information information_gid_key; Type: CONSTRAINT; Schema: customer; Owner: postgres
---
-
-ALTER TABLE ONLY information
-    ADD CONSTRAINT information_gid_key UNIQUE (gid);
-
-
---
--- TOC entry 3178 (class 2606 OID 56119)
--- Name: information information_pkey; Type: CONSTRAINT; Schema: customer; Owner: postgres
---
-
-ALTER TABLE ONLY information
-    ADD CONSTRAINT information_pkey PRIMARY KEY (id);
-
-
 SET search_path = equipment, pg_catalog;
 
 --
--- TOC entry 3180 (class 2606 OID 56121)
+-- TOC entry 3190 (class 2606 OID 56524)
 -- Name: information information_equipment_code_version_num_key; Type: CONSTRAINT; Schema: equipment; Owner: postgres
 --
 
@@ -2758,7 +2808,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3182 (class 2606 OID 56123)
+-- TOC entry 3192 (class 2606 OID 56526)
 -- Name: information information_gid_key; Type: CONSTRAINT; Schema: equipment; Owner: postgres
 --
 
@@ -2767,7 +2817,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3184 (class 2606 OID 56125)
+-- TOC entry 3194 (class 2606 OID 56528)
 -- Name: information information_pkey; Type: CONSTRAINT; Schema: equipment; Owner: postgres
 --
 
@@ -2778,7 +2828,7 @@ ALTER TABLE ONLY information
 SET search_path = facility, pg_catalog;
 
 --
--- TOC entry 3186 (class 2606 OID 56127)
+-- TOC entry 3196 (class 2606 OID 56530)
 -- Name: information information_facility_code_version_num_key; Type: CONSTRAINT; Schema: facility; Owner: postgres
 --
 
@@ -2787,7 +2837,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3188 (class 2606 OID 56129)
+-- TOC entry 3198 (class 2606 OID 56532)
 -- Name: information information_gid_key; Type: CONSTRAINT; Schema: facility; Owner: postgres
 --
 
@@ -2796,7 +2846,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3190 (class 2606 OID 56131)
+-- TOC entry 3200 (class 2606 OID 56534)
 -- Name: information information_pkey; Type: CONSTRAINT; Schema: facility; Owner: postgres
 --
 
@@ -2807,7 +2857,7 @@ ALTER TABLE ONLY information
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 3194 (class 2606 OID 56135)
+-- TOC entry 3202 (class 2606 OID 56536)
 -- Name: information information_pkey; Type: CONSTRAINT; Schema: inventory; Owner: postgres
 --
 
@@ -2816,7 +2866,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3196 (class 2606 OID 56137)
+-- TOC entry 3204 (class 2606 OID 56538)
 -- Name: salable salable_pkey; Type: CONSTRAINT; Schema: inventory; Owner: postgres
 --
 
@@ -2825,7 +2875,7 @@ ALTER TABLE ONLY salable
 
 
 --
--- TOC entry 3192 (class 2606 OID 56133)
+-- TOC entry 3206 (class 2606 OID 56540)
 -- Name: storable storable_pkey; Type: CONSTRAINT; Schema: inventory; Owner: postgres
 --
 
@@ -2836,7 +2886,7 @@ ALTER TABLE ONLY storable
 SET search_path = measurement, pg_catalog;
 
 --
--- TOC entry 3198 (class 2606 OID 56139)
+-- TOC entry 3208 (class 2606 OID 56542)
 -- Name: information measurement_pkey; Type: CONSTRAINT; Schema: measurement; Owner: postgres
 --
 
@@ -2844,22 +2894,11 @@ ALTER TABLE ONLY information
     ADD CONSTRAINT measurement_pkey PRIMARY KEY (part_code, uom_code, start_date);
 
 
-SET search_path = schedule, pg_catalog;
+SET search_path = personnel, pg_catalog;
 
 --
--- TOC entry 3200 (class 2606 OID 56141)
--- Name: calendar calendar_pkey; Type: CONSTRAINT; Schema: schedule; Owner: postgres
---
-
-ALTER TABLE ONLY calendar
-    ADD CONSTRAINT calendar_pkey PRIMARY KEY (calendar_date);
-
-
-SET search_path = supplier, pg_catalog;
-
---
--- TOC entry 3202 (class 2606 OID 56143)
--- Name: information information_gid_key; Type: CONSTRAINT; Schema: supplier; Owner: postgres
+-- TOC entry 3210 (class 2606 OID 56544)
+-- Name: information information_gid_key; Type: CONSTRAINT; Schema: personnel; Owner: postgres
 --
 
 ALTER TABLE ONLY information
@@ -2867,27 +2906,38 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3204 (class 2606 OID 56145)
--- Name: information information_pkey; Type: CONSTRAINT; Schema: supplier; Owner: postgres
+-- TOC entry 3212 (class 2606 OID 56546)
+-- Name: information information_personnel_code_version_num_key; Type: CONSTRAINT; Schema: personnel; Owner: postgres
+--
+
+ALTER TABLE ONLY information
+    ADD CONSTRAINT information_personnel_code_version_num_key UNIQUE (personnel_code, version_num);
+
+
+--
+-- TOC entry 3214 (class 2606 OID 56548)
+-- Name: information information_pkey; Type: CONSTRAINT; Schema: personnel; Owner: postgres
 --
 
 ALTER TABLE ONLY information
     ADD CONSTRAINT information_pkey PRIMARY KEY (id);
 
 
+SET search_path = schedule, pg_catalog;
+
 --
--- TOC entry 3206 (class 2606 OID 56147)
--- Name: information information_supplier_code_version_num_key; Type: CONSTRAINT; Schema: supplier; Owner: postgres
+-- TOC entry 3216 (class 2606 OID 56550)
+-- Name: calendar calendar_pkey; Type: CONSTRAINT; Schema: schedule; Owner: postgres
 --
 
-ALTER TABLE ONLY information
-    ADD CONSTRAINT information_supplier_code_version_num_key UNIQUE (supplier_code, version_num);
+ALTER TABLE ONLY calendar
+    ADD CONSTRAINT calendar_pkey PRIMARY KEY (calendar_date);
 
 
 SET search_path = tooling, pg_catalog;
 
 --
--- TOC entry 3208 (class 2606 OID 56149)
+-- TOC entry 3218 (class 2606 OID 56552)
 -- Name: information information_gid_key; Type: CONSTRAINT; Schema: tooling; Owner: postgres
 --
 
@@ -2896,7 +2946,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3210 (class 2606 OID 56151)
+-- TOC entry 3220 (class 2606 OID 56554)
 -- Name: information information_pkey; Type: CONSTRAINT; Schema: tooling; Owner: postgres
 --
 
@@ -2905,7 +2955,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3212 (class 2606 OID 56153)
+-- TOC entry 3222 (class 2606 OID 56556)
 -- Name: information information_tooling_code_version_num_key; Type: CONSTRAINT; Schema: tooling; Owner: postgres
 --
 
@@ -2913,10 +2963,39 @@ ALTER TABLE ONLY information
     ADD CONSTRAINT information_tooling_code_version_num_key UNIQUE (tooling_code, version_num);
 
 
+SET search_path = transactor, pg_catalog;
+
+--
+-- TOC entry 3224 (class 2606 OID 56558)
+-- Name: information information_gid_key; Type: CONSTRAINT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY information
+    ADD CONSTRAINT information_gid_key UNIQUE (gid);
+
+
+--
+-- TOC entry 3226 (class 2606 OID 56560)
+-- Name: information information_pkey; Type: CONSTRAINT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY information
+    ADD CONSTRAINT information_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3228 (class 2606 OID 56562)
+-- Name: information information_transactor_code_version_num_key; Type: CONSTRAINT; Schema: transactor; Owner: postgres
+--
+
+ALTER TABLE ONLY information
+    ADD CONSTRAINT information_transactor_code_version_num_key UNIQUE (transactor_code, version_num);
+
+
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 3218 (class 2606 OID 56155)
+-- TOC entry 3234 (class 2606 OID 56564)
 -- Name: information uom_pkey; Type: CONSTRAINT; Schema: uom; Owner: postgres
 --
 
@@ -2925,7 +3004,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3214 (class 2606 OID 56157)
+-- TOC entry 3230 (class 2606 OID 56566)
 -- Name: assignment uom_role_pkey; Type: CONSTRAINT; Schema: uom; Owner: postgres
 --
 
@@ -2934,7 +3013,7 @@ ALTER TABLE ONLY assignment
 
 
 --
--- TOC entry 3216 (class 2606 OID 56159)
+-- TOC entry 3232 (class 2606 OID 56568)
 -- Name: assignment uom_role_uom_role_code_key; Type: CONSTRAINT; Schema: uom; Owner: postgres
 --
 
@@ -2945,7 +3024,7 @@ ALTER TABLE ONLY assignment
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 3219 (class 2606 OID 56160)
+-- TOC entry 3235 (class 2606 OID 56569)
 -- Name: storable storable_uom_base_code_fkey; Type: FK CONSTRAINT; Schema: inventory; Owner: postgres
 --
 
@@ -2956,7 +3035,7 @@ ALTER TABLE ONLY storable
 SET search_path = measurement, pg_catalog;
 
 --
--- TOC entry 3220 (class 2606 OID 56165)
+-- TOC entry 3236 (class 2606 OID 56574)
 -- Name: information measurement_part_code_fkey; Type: FK CONSTRAINT; Schema: measurement; Owner: postgres
 --
 
@@ -2965,7 +3044,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3221 (class 2606 OID 56170)
+-- TOC entry 3237 (class 2606 OID 56579)
 -- Name: information measurement_uom_base_code_fkey; Type: FK CONSTRAINT; Schema: measurement; Owner: postgres
 --
 
@@ -2974,7 +3053,7 @@ ALTER TABLE ONLY information
 
 
 --
--- TOC entry 3222 (class 2606 OID 56175)
+-- TOC entry 3238 (class 2606 OID 56584)
 -- Name: information measurement_uom_code_fkey; Type: FK CONSTRAINT; Schema: measurement; Owner: postgres
 --
 
@@ -2985,7 +3064,7 @@ ALTER TABLE ONLY information
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 3223 (class 2606 OID 56180)
+-- TOC entry 3239 (class 2606 OID 56589)
 -- Name: information uom_base_uom_code_fkey; Type: FK CONSTRAINT; Schema: uom; Owner: postgres
 --
 
@@ -2993,7 +3072,7 @@ ALTER TABLE ONLY information
     ADD CONSTRAINT uom_base_uom_code_fkey FOREIGN KEY (base_uom_code) REFERENCES information(uom_code);
 
 
--- Completed on 2018-01-15 03:16:41 EET
+-- Completed on 2018-01-15 04:56:53 EET
 
 --
 -- PostgreSQL database dump complete
