@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.6
 -- Dumped by pg_dump version 9.6.6
 
--- Started on 2018-01-19 01:01:55 EET
+-- Started on 2018-01-19 23:34:56 EET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -496,7 +496,7 @@ $$;
 ALTER FUNCTION facility.get_head(__document_id bigint) OWNER TO postgres;
 
 --
--- TOC entry 331 (class 1255 OID 58741)
+-- TOC entry 330 (class 1255 OID 58741)
 -- Name: init(common.facility_head); Type: FUNCTION; Schema: facility; Owner: postgres
 --
 
@@ -633,21 +633,88 @@ $$;
 ALTER FUNCTION facility.init(__head common.facility_head) OWNER TO postgres;
 
 --
--- TOC entry 330 (class 1255 OID 58735)
--- Name: reinit(bigint, common.facility_head); Type: FUNCTION; Schema: facility; Owner: postgres
+-- TOC entry 331 (class 1255 OID 58743)
+-- Name: reinit(common.facility_head); Type: FUNCTION; Schema: facility; Owner: postgres
 --
 
-CREATE FUNCTION reinit(__document_id bigint, __head common.facility_head) RETURNS void
+CREATE FUNCTION reinit(__head common.facility_head) RETURNS void
     LANGUAGE plpgsql
     AS $$
 DECLARE
 BEGIN
---
+  --DELETE FROM facility.information WHERE id = __head.document_id;
+
+  CASE __head.facility_type
+    WHEN 'ENTERPRISE'::common.facility_kind THEN 
+      UPDATE
+        facility.enterprise
+      SET 
+        facility_code = __head.facility_code, 
+        version_num = __head.version_num, 
+        display_name = __head.display_name, 
+        published_date = __head.document_date, 
+        parent_facility_code = __head.parent_facility_code
+      WHERE
+        id = __head.document_id;
+
+    WHEN 'SITE'::common.facility_kind THEN
+      UPDATE
+        facility.site
+      SET 
+        facility_code = __head.facility_code, 
+        version_num = __head.version_num, 
+        display_name = __head.display_name, 
+        published_date = __head.document_date, 
+        parent_facility_code = __head.parent_facility_code
+      WHERE
+        id = __head.document_id;
+
+    WHEN 'AREA'::common.facility_kind THEN 
+      UPDATE
+        facility.area
+      SET 
+        facility_code = __head.facility_code, 
+        version_num = __head.version_num, 
+        display_name = __head.display_name, 
+        published_date = __head.document_date, 
+        parent_facility_code = __head.parent_facility_code
+      WHERE
+        id = __head.document_id;
+
+    WHEN 'LINE'::common.facility_kind THEN 
+      UPDATE
+        facility.line
+      SET 
+        facility_code = __head.facility_code, 
+        version_num = __head.version_num, 
+        display_name = __head.display_name, 
+        published_date = __head.document_date, 
+        parent_facility_code = __head.parent_facility_code
+      WHERE
+        id = __head.document_id;
+
+    WHEN 'ZONE'::common.facility_kind THEN 
+      UPDATE
+        facility.zone
+      SET 
+        facility_code = __head.facility_code, 
+        version_num = __head.version_num, 
+        display_name = __head.display_name, 
+        published_date = __head.document_date, 
+        parent_facility_code = __head.parent_facility_code
+      WHERE
+        id = __head.document_id;
+
+    ELSE
+      RAISE EXCEPTION 'unsupported facility_type %', __head.facility_type;
+
+    END CASE;
+
 END;
 $$;
 
 
-ALTER FUNCTION facility.reinit(__document_id bigint, __head common.facility_head) OWNER TO postgres;
+ALTER FUNCTION facility.reinit(__head common.facility_head) OWNER TO postgres;
 
 SET search_path = inventory, pg_catalog;
 
@@ -3387,7 +3454,6 @@ INSERT INTO area VALUES (11, '2f3546bc-fca3-11e7-9533-d4bed939923a', 'A04', 1, '
 --
 
 INSERT INTO enterprise VALUES (1, 'd344d486-fc88-11e7-aa48-d4bed939923a', 'E01', 1, 'E01', '2018-01-18', NULL, 'ENTERPRISE');
-INSERT INTO enterprise VALUES (13, '57ecd930-fca3-11e7-9535-d4bed939923a', 'E04', 1, 'E04', '2018-01-18', NULL, 'ENTERPRISE');
 
 
 --
@@ -4051,7 +4117,7 @@ ALTER TABLE ONLY information
     ADD CONSTRAINT uom_base_uom_code_fkey FOREIGN KEY (base_uom_code) REFERENCES information(uom_code);
 
 
--- Completed on 2018-01-19 01:01:55 EET
+-- Completed on 2018-01-19 23:34:57 EET
 
 --
 -- PostgreSQL database dump complete
