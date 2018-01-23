@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.6
 -- Dumped by pg_dump version 9.6.6
 
--- Started on 2018-01-23 02:01:39 EET
+-- Started on 2018-01-23 02:17:54 EET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -240,7 +240,7 @@ CREATE TYPE document_kind AS ENUM (
 ALTER TYPE document_kind OWNER TO postgres;
 
 --
--- TOC entry 823 (class 1247 OID 58709)
+-- TOC entry 822 (class 1247 OID 58709)
 -- Name: facility_kind; Type: TYPE; Schema: common; Owner: postgres
 --
 
@@ -256,7 +256,7 @@ CREATE TYPE facility_kind AS ENUM (
 ALTER TYPE facility_kind OWNER TO postgres;
 
 --
--- TOC entry 826 (class 1247 OID 58732)
+-- TOC entry 825 (class 1247 OID 58732)
 -- Name: facility_head; Type: TYPE; Schema: common; Owner: postgres
 --
 
@@ -396,7 +396,7 @@ COMMENT ON DOMAIN quantity_signed IS 'quantity signed domain';
 SET search_path = facility, pg_catalog;
 
 --
--- TOC entry 318 (class 1255 OID 58734)
+-- TOC entry 316 (class 1255 OID 58734)
 -- Name: destroy(bigint); Type: FUNCTION; Schema: facility; Owner: postgres
 --
 
@@ -412,7 +412,7 @@ $$;
 ALTER FUNCTION facility.destroy(__document_id bigint) OWNER TO postgres;
 
 --
--- TOC entry 317 (class 1255 OID 58733)
+-- TOC entry 315 (class 1255 OID 58733)
 -- Name: get_head(bigint); Type: FUNCTION; Schema: facility; Owner: postgres
 --
 
@@ -441,7 +441,7 @@ $$;
 ALTER FUNCTION facility.get_head(__document_id bigint) OWNER TO postgres;
 
 --
--- TOC entry 320 (class 1255 OID 58741)
+-- TOC entry 319 (class 1255 OID 58741)
 -- Name: init(common.facility_head); Type: FUNCTION; Schema: facility; Owner: postgres
 --
 
@@ -578,7 +578,7 @@ $$;
 ALTER FUNCTION facility.init(__head common.facility_head) OWNER TO postgres;
 
 --
--- TOC entry 321 (class 1255 OID 58743)
+-- TOC entry 320 (class 1255 OID 58743)
 -- Name: reinit(common.facility_head); Type: FUNCTION; Schema: facility; Owner: postgres
 --
 
@@ -664,7 +664,7 @@ ALTER FUNCTION facility.reinit(__head common.facility_head) OWNER TO postgres;
 SET search_path = inventory, pg_catalog;
 
 --
--- TOC entry 327 (class 1255 OID 59947)
+-- TOC entry 326 (class 1255 OID 59947)
 -- Name: convert_quantity(character varying, integer, common.quantity, character varying, character varying); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -851,7 +851,7 @@ $$;
 ALTER FUNCTION inventory.destroy(__document_id bigint) OWNER TO postgres;
 
 --
--- TOC entry 326 (class 1255 OID 59945)
+-- TOC entry 325 (class 1255 OID 59945)
 -- Name: get_base_uom(character varying, integer); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -980,7 +980,7 @@ $$;
 ALTER FUNCTION inventory.get_meas_spec(__document_id bigint) OWNER TO postgres;
 
 --
--- TOC entry 325 (class 1255 OID 59944)
+-- TOC entry 324 (class 1255 OID 59944)
 -- Name: get_uom_conversion_factors(character varying, integer, character varying, character varying); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -1020,7 +1020,7 @@ $$;
 ALTER FUNCTION inventory.get_uom_conversion_factors(_part_code character varying, _version_num integer, _uom_domain_from character varying, _uom_domain_to character varying) OWNER TO postgres;
 
 --
--- TOC entry 330 (class 1255 OID 58310)
+-- TOC entry 329 (class 1255 OID 58310)
 -- Name: init(common.inventory_head, common.unit_conversion_type[], common.inventory_kind[]); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -1144,7 +1144,7 @@ $$;
 ALTER FUNCTION inventory.reinit(__document_id bigint, __meas common.unit_conversion_type[], __kind common.inventory_kind[]) OWNER TO postgres;
 
 --
--- TOC entry 328 (class 1255 OID 59948)
+-- TOC entry 327 (class 1255 OID 59948)
 -- Name: set_kind_spec(bigint, common.inventory_kind[]); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -1172,7 +1172,7 @@ $$;
 ALTER FUNCTION inventory.set_kind_spec(__document_id bigint, __inventory_kinds common.inventory_kind[]) OWNER TO postgres;
 
 --
--- TOC entry 329 (class 1255 OID 59949)
+-- TOC entry 328 (class 1255 OID 59949)
 -- Name: set_meas_spec(bigint, common.unit_conversion_type[]); Type: FUNCTION; Schema: inventory; Owner: postgres
 --
 
@@ -1995,7 +1995,7 @@ ALTER FUNCTION schedule.get_julianized_week(__date date) OWNER TO postgres;
 SET search_path = tests, pg_catalog;
 
 --
--- TOC entry 322 (class 1255 OID 59933)
+-- TOC entry 321 (class 1255 OID 59933)
 -- Name: __schedule__get_date_of_julianized_day(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -2024,7 +2024,7 @@ $$;
 ALTER FUNCTION tests.__schedule__get_date_of_julianized_day() OWNER TO postgres;
 
 --
--- TOC entry 323 (class 1255 OID 59934)
+-- TOC entry 322 (class 1255 OID 59934)
 -- Name: __schedule__get_julianized_day(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -2053,7 +2053,7 @@ $$;
 ALTER FUNCTION tests.__schedule__get_julianized_day() OWNER TO postgres;
 
 --
--- TOC entry 324 (class 1255 OID 59935)
+-- TOC entry 323 (class 1255 OID 59935)
 -- Name: __schedule__get_julianized_week(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -2082,7 +2082,7 @@ $$;
 ALTER FUNCTION tests.__schedule__get_julianized_week() OWNER TO postgres;
 
 --
--- TOC entry 313 (class 1255 OID 58331)
+-- TOC entry 318 (class 1255 OID 58331)
 -- Name: _load_data(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -2091,151 +2091,48 @@ CREATE FUNCTION _load_data() RETURNS void
     AS $$
 BEGIN
 
-  --SET search_path = component, pg_catalog;
-  INSERT INTO inventory.assembly VALUES ('11.31.050-001', 1, '11с31п-50х40', '2017-10-21', 'ASSEMBLY');
-  INSERT INTO inventory.assembly VALUES ('11.32.050-001', 1, '11с32п-50х40', '2017-10-21', 'ASSEMBLY');
-  INSERT INTO inventory.assembly VALUES ('11.33.050-001', 1, '11с33п-50х40', '2017-10-21', 'ASSEMBLY');
-  INSERT INTO inventory.assembly VALUES ('80.31.050-001', 1, 'Крпс-089,0х109,0', '2017-10-21', 'ASSEMBLY');
-  INSERT INTO inventory.assembly VALUES ('82.31.050-001', 1, 'Рчк-250х20', '2017-10-21', 'ASSEMBLY');
+  INSERT INTO uom.information VALUES ('kg', 'MASS', 'kg', 1);
+  INSERT INTO uom.information VALUES ('m', 'LENGHT', 'm', 1);
+  INSERT INTO uom.information VALUES ('pcs', 'QUANTITY', 'pcs', 1);
+  INSERT INTO uom.information VALUES ('g', 'MASS', 'kg', 0.0010);
+  INSERT INTO uom.information VALUES ('t', 'MASS', 'kg', 1000);
+  INSERT INTO uom.information VALUES ('mm', 'LENGHT', 'm', 0.0010);
+  INSERT INTO uom.information VALUES ('km', 'LENGHT', 'm', 1000);
+  INSERT INTO uom.information VALUES ('cm', 'LENGHT', 'm', 0.0100);
+  INSERT INTO uom.information VALUES ('l', 'VOLUME', 'l', 1);
+  INSERT INTO uom.information VALUES ('ml', 'VOLUME', 'l', 0.0010);
 
-  INSERT INTO inventory.buyable VALUES ('Гайка М12', 1, 'Гайка-М12', '2017-10-21', 'BUYABLE');
+  INSERT INTO facility.area VALUES (3, '00f11b88-fc89-11e7-b381-d4bed939923a', 'A01', 1, 'A01', '2018-01-18', 'S01', 'AREA');
+  INSERT INTO facility.area VALUES (11, '2f3546bc-fca3-11e7-9533-d4bed939923a', 'A04', 1, 'A04', '2018-01-18', 'S01', 'AREA');
+  INSERT INTO facility.line VALUES (4, '1e749946-fc89-11e7-b4dd-d4bed939923a', 'L01', 1, 'L01', '2018-01-18', 'A01', 'LINE');
+  INSERT INTO facility.line VALUES (6, 'f0f0aacc-fca2-11e7-952e-d4bed939923a', 'L02', 1, 'L02', '2018-01-18', 'A01', 'LINE');
+  INSERT INTO facility.line VALUES (7, 'fcead30c-fca2-11e7-952f-d4bed939923a', 'L03', 1, 'L03', '2018-01-18', 'A01', 'LINE');
+  INSERT INTO facility.line VALUES (9, '087b7910-fca3-11e7-9531-d4bed939923a', 'L04', 1, 'L04', '2018-01-18', 'A01', 'LINE');
+  INSERT INTO facility.site VALUES (2, 'e975ae6a-fc88-11e7-a8d5-d4bed939923a', 'S01', 1, 'S01', '2018-01-18', 'E01', 'SITE');
+  INSERT INTO facility.site VALUES (12, '38c2ed2e-fca3-11e7-9534-d4bed939923a', 'S04', 1, 'S04', '2018-01-18', 'E01', 'SITE');
 
-  INSERT INTO inventory.part VALUES ('22.16.050-001', 1, 'КТ33-50х40', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('22.25.050-001', 1, 'КТ32-50х40', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('40.31.050-001', 1, 'Птрб-057,0х126,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('40.32.050-001', 1, 'Птрб-057,0х074,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('40.33.050-001', 1, 'Птрб-057,0х054,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('41.31.050-001', 1, 'Крпс-089,0х109,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('42.01.050-001', 1, 'Ббшк-022,0х044,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('50.01.050-001', 1, 'Втлк-050,0х039,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('60.01.050-001', 1, 'ШП-068,0х052,5', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('51.01.050-001', 1, 'Пржн-050,6х042,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('61.01.050-001', 1, 'Штк-013,3х075,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('52.01.050-001', 1, 'Шйб-051,0х042,6', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('70.01.050-001', 1, 'Ф4-051,5х041,7х11,0', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('71.02.050-001', 1, 'Кршк-ПП-50', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('71.03.050-001', 1, 'Зглш-ПП-50', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('55.31.050-001', 1, 'Рчк-250х20', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('53.01.004-001', 1, 'Штфт-4', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('70.04.020-001', 1, 'Клц-20', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('72.01.009-001', 1, 'Клц-009', '2017-10-21', 'PART');
-  INSERT INTO inventory.part VALUES ('42.02.022-001', 1, 'Втлк-Р-50х18', '2017-10-21', 'PART');
-
-  --SET search_path = ebom, pg_catalog;
-  INSERT INTO ebom.information VALUES (1, DEFAULT, '11.31.050-001', 1, '11с31п-50х40: information', '2017-10-23');
-  INSERT INTO ebom.definition VALUES (1, DEFAULT, '11с31п-50х40: definition', 1, '2017-10-21', NULL, NULL, 'PROPOSED', '2017-10-21 20:55:30.985148+03', 1);
-  INSERT INTO ebom.assembly VALUES (1, '80.31.050-001', 1, 1.0000, 'pcs', 'ASSEMBLY');
-  INSERT INTO ebom.assembly VALUES (1, '82.31.050-001', 1, 1.0000, 'pcs', 'ASSEMBLY');
-  INSERT INTO ebom.buyable VALUES (1, 'Гайка М12', 1, 1.0000, 'pcs', 'BUYABLE');
-  INSERT INTO ebom.part VALUES (1, '40.31.050-001', 1, 2.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '50.01.050-001', 1, 2.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '51.01.050-001', 1, 2.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '52.01.050-001', 1, 2.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '53.01.004-001', 1, 1.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '60.01.050-001', 1, 1.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '61.01.050-001', 1, 1.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '70.01.050-001', 1, 2.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '70.04.020-001', 1, 1.0000, 'pcs', 'PART');
-  INSERT INTO ebom.part VALUES (1, '72.01.009-001', 1, 2.0000, 'pcs', 'PART');
-
-  --SET search_path = material, pg_catalog;
-  INSERT INTO inventory.consumable VALUES ('22.16.050-001', 1, 'КТ33-50х40', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('22.25.050-001', 1, 'КТ32-50х40', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('40.31.050-001', 1, 'Птрб-057,0х126,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('40.32.050-001', 1, 'Птрб-057,0х074,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('40.33.050-001', 1, 'Птрб-057,0х054,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('41.31.050-001', 1, 'Крпс-089,0х109,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('42.01.050-001', 1, 'Ббшк-022,0х044,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('50.01.050-001', 1, 'Втлк-050,0х039,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('60.01.050-001', 1, 'ШП-068,0х052,5', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('51.01.050-001', 1, 'Пржн-050,6х042,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('61.01.050-001', 1, 'Штк-013,3х075,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('52.01.050-001', 1, 'Шйб-051,0х042,6', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('70.01.050-001', 1, 'Ф4-051,5х041,7х11,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('71.02.050-001', 1, 'Кршк-ПП-50', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('71.03.050-001', 1, 'Зглш-ПП-50', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('55.31.050-001', 1, 'Рчк-250х20', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('53.01.004-001', 1, 'Штфт-4', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('70.04.020-001', 1, 'Клц-20', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('72.01.009-001', 1, 'Клц-009', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('42.02.022-001', 1, 'Втлк-Р-50х18', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('80.31.050-001', 1, 'Крпс-089,0х109,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('82.31.050-001', 1, 'Рчк-250х20', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('53.01.004-001.010', 1, 'Штфт-004,0х012,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('40.31.050-001.010', 1, 'Птрб-057,0х126,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('82.31.050-001.010', 1, 'Рчк-250х20', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('40.32.050-001.010', 1, 'Птрб-057,0х074,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('80.31.050-001.010', 1, 'Крпс-089,0х109,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('60.01.050-001.020', 1, 'ШП-068,0х052,5', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('22.25.050-001.030', 1, 'КТ32-50х40', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('40.33.050-001.010', 1, 'Птрб-057,0х054,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('51.01.050-001.010', 1, 'Пржн-050,6х042,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('60.01.050-001.010', 1, 'ШП-068,0х052,5', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('60.01.050-001.030', 1, 'ШП-068,0х052,5', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('41.31.050-001.010', 1, 'Крпс-089,0х109,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('41.31.050-001.020', 1, 'Крпс-089,0х109,0', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('60.01.050-001.011', 1, 'ШП-068,0х052,5', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('22.16.050-001.030', 1, 'КТ33-50х40', '2017-10-22', 'CONSUMABLE');
-  INSERT INTO inventory.consumable VALUES ('Гайка М12', 1, 'Гайка М12', '2017-10-24', 'CONSUMABLE');
-
-  INSERT INTO inventory.primal VALUES ('Квд-080х080-ст3ПС', 1, 'Квд-ст3ПС-080х080', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Крг-004,0-ст45', 1, 'Крг-ст45-004,0', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Крг-016-ст20Х13', 1, 'Крг-ст20Х13-016', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Крг-022-ст20', 1, 'Крг-ст20-022', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Лст-000,8-ст08Х17', 1, 'Лст-ст08Х17-000,8', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Лст-001,0-ст08Х17', 1, 'Лст-ст08Х17-001,0', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Лст-001,2-ст65Г', 1, 'Лст-ст65Г-001,2', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Лст-003,0-ст3', 1, 'Лст-ст3-003,0', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Лст-004,4-ст08Х17', 1, 'Лст-ст08Х17-004,4', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('ПЕ 15803-020', 1, 'ПЕ 15803-020', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Плс-020х4-ст3', 1, 'Плс-ст3-020х4', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Трб-057,0х03,5-ст20-Ш', 1, 'Трб-ст20-057,0х03,5-Ш', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Трб-068,0х03,5-ст20Х13', 1, 'Трб-ст20Х13-068,0х03,5', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Трб-068,0х04,0-ст20Х13', 1, 'Трб-ст20Х13-068,0х04,0', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Трб-089,0х03,0-ст20-Ш', 1, 'Трб-ст20-089,0х03,0-Ш', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Трб-089,0х03,5-ст20-Ш', 1, 'Трб-ст20-089,0х03,5-Ш', '2017-10-22', 'PRIMAL');
-  INSERT INTO inventory.primal VALUES ('Ф-4', 1, 'Ф-4', '2017-10-22', 'PRIMAL');
-
-  INSERT INTO inventory.producible VALUES ('22.16.050-001', 1, 'КТ33-50х40', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('22.25.050-001', 1, 'КТ32-50х40', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('40.31.050-001', 1, 'Птрб-057,0х126,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('40.32.050-001', 1, 'Птрб-057,0х074,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('40.33.050-001', 1, 'Птрб-057,0х054,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('41.31.050-001', 1, 'Крпс-089,0х109,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('42.01.050-001', 1, 'Ббшк-022,0х044,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('50.01.050-001', 1, 'Втлк-050,0х039,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('60.01.050-001', 1, 'ШП-068,0х052,5', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('51.01.050-001', 1, 'Пржн-050,6х042,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('61.01.050-001', 1, 'Штк-013,3х075,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('52.01.050-001', 1, 'Шйб-051,0х042,6', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('70.01.050-001', 1, 'Ф4-051,5х041,7х11,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('71.02.050-001', 1, 'Кршк-ПП-50', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('71.03.050-001', 1, 'Зглш-ПП-50', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('55.31.050-001', 1, 'Рчк-250х20', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('53.01.004-001', 1, 'Штфт-4', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('70.04.020-001', 1, 'Клц-20', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('72.01.009-001', 1, 'Клц-009', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('42.02.022-001', 1, 'Втлк-Р-50х18', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('11.31.050-001', 1, '11с31п-50х40', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('11.32.050-001', 1, '11с32п-50х40', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('11.33.050-001', 1, '11с33п-50х40', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('80.31.050-001', 1, 'Крпс-089,0х109,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('82.31.050-001', 1, 'Рчк-250х20', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('53.01.004-001.010', 1, 'Штфт-004,0х012,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('40.31.050-001.010', 1, 'Птрб-057,0х126,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('82.31.050-001.010', 1, 'Рчк-250х20', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('40.32.050-001.010', 1, 'Птрб-057,0х074,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('80.31.050-001.010', 1, 'Крпс-089,0х109,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('60.01.050-001.020', 1, 'ШП-068,0х052,5', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('22.25.050-001.030', 1, 'КТ32-50х40', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('40.33.050-001.010', 1, 'Птрб-057,0х054,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('51.01.050-001.010', 1, 'Пржн-050,6х042,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('60.01.050-001.010', 1, 'ШП-068,0х052,5', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('60.01.050-001.030', 1, 'ШП-068,0х052,5', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('41.31.050-001.010', 1, 'Крпс-089,0х109,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('41.31.050-001.020', 1, 'Крпс-089,0х109,0', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('60.01.050-001.011', 1, 'ШП-068,0х052,5', '2017-10-22', 'PRODUCIBLE');
-  INSERT INTO inventory.producible VALUES ('22.16.050-001.030', 1, 'КТ33-50х40', '2017-10-22', 'PRODUCIBLE');
+  INSERT INTO inventory.definition VALUES (1, 'c9000ec8-fa3a-11e7-9489-d4bed939923a', 'fl-16-50', 1, '2018-01-15', NULL, NULL, 'PROPOSED', '2018-01-15 23:26:44.534271+02', 1, 'pcs');
+  INSERT INTO inventory.definition VALUES (2, 'd83fb96a-fa3a-11e7-948a-d4bed939923a', 'fl-25-50', 1, '2018-01-15', NULL, NULL, 'PROPOSED', '2018-01-15 23:27:10.118984+02', 2, 'pcs');
+  INSERT INTO inventory.definition VALUES (3, '9d521068-fa3b-11e7-ac45-d4bed939923a', 'pipe-076x3', 1, '2018-01-15', NULL, NULL, 'PROPOSED', '2018-01-15 23:32:40.748622+02', 4, 'kg');
+  INSERT INTO inventory.information VALUES (1, 'a711da30-fa3a-11e7-8e63-d4bed939923a', '22.16.050-001', 'fl-16-50', '2018-01-15');
+  INSERT INTO inventory.information VALUES (2, 'b39a3ff4-fa3a-11e7-8e64-d4bed939923a', '22.25.050-001', 'fl-25-50', '2018-01-15');
+  INSERT INTO inventory.information VALUES (3, 'f08b5682-fa3a-11e7-86da-d4bed939923a', '22.40.050-001', 'fl-40-50', '2018-01-15');
+  INSERT INTO inventory.information VALUES (4, '7edbcfd4-fa3b-11e7-b771-d4bed939923a', 'pipe-076x3', 'pipe-076x3', '2018-01-15');
+  INSERT INTO inventory.measurement VALUES (1, 'pcs', 1);
+  INSERT INTO inventory.measurement VALUES (2, 'pcs', 1);
+  INSERT INTO inventory.measurement VALUES (3, 'm', 25);
+  INSERT INTO inventory.variety VALUES (1, 'PART');
+  INSERT INTO inventory.variety VALUES (1, 'PRODUCIBLE');
+  INSERT INTO inventory.variety VALUES (1, 'SALABLE');
+  INSERT INTO inventory.variety VALUES (1, 'STORABLE');
+  INSERT INTO inventory.variety VALUES (2, 'PART');
+  INSERT INTO inventory.variety VALUES (2, 'PRODUCIBLE');
+  INSERT INTO inventory.variety VALUES (2, 'SALABLE');
+  INSERT INTO inventory.variety VALUES (2, 'STORABLE');
+  INSERT INTO inventory.variety VALUES (3, 'STORABLE');
+  INSERT INTO inventory.variety VALUES (3, 'BUYABLE');
+  INSERT INTO inventory.variety VALUES (3, 'CONSUMABLE');
+  INSERT INTO inventory.variety VALUES (3, 'PRIMAL');
 
 END;
 $$;
@@ -2244,7 +2141,7 @@ $$;
 ALTER FUNCTION tests._load_data() OWNER TO postgres;
 
 --
--- TOC entry 314 (class 1255 OID 58333)
+-- TOC entry 330 (class 1255 OID 58333)
 -- Name: _reset_data(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -2258,79 +2155,41 @@ BEGIN
   WHERE table_schema NOT IN ('pg_catalog', 'information_schema', 'public', 'tests', 'common')
   ORDER BY table_schema,table_name;
   */
-  TRUNCATE TABLE binding.ebom_to_mbom CASCADE;
-  TRUNCATE TABLE binding.ebom_to_product CASCADE;
-  TRUNCATE TABLE binding.ebom_to_route CASCADE;
-  TRUNCATE TABLE binding.mbom_to_operation CASCADE;
-  TRUNCATE TABLE binding.mbom_to_product CASCADE;
-  TRUNCATE TABLE binding.operation_to_product CASCADE;
-  TRUNCATE TABLE binding.route_to_mbom CASCADE;
-  TRUNCATE TABLE binding.route_to_operation CASCADE;
-  TRUNCATE TABLE ebom.assembly CASCADE;
-  TRUNCATE TABLE ebom.buyable CASCADE;
-  TRUNCATE TABLE ebom.component CASCADE;
-  TRUNCATE TABLE ebom.definition CASCADE;
-  TRUNCATE TABLE ebom.information CASCADE;
-  TRUNCATE TABLE ebom.part CASCADE;
+  TRUNCATE TABLE equipment.information CASCADE;
+  TRUNCATE TABLE facility.area CASCADE;
+  TRUNCATE TABLE facility.enterprise CASCADE;
+  TRUNCATE TABLE facility.information CASCADE;
+  TRUNCATE TABLE facility.line CASCADE;
+  TRUNCATE TABLE facility.site CASCADE;
+  TRUNCATE TABLE facility.zone CASCADE;
+  TRUNCATE TABLE inventory.definition CASCADE;
   TRUNCATE TABLE inventory.information CASCADE;
-  TRUNCATE TABLE inventory.salable CASCADE;
-  TRUNCATE TABLE inventory.consumable CASCADE;
-  TRUNCATE TABLE inventory.information CASCADE;
-  TRUNCATE TABLE inventory.primal CASCADE;
-  TRUNCATE TABLE inventory.producible CASCADE;
-  TRUNCATE TABLE inventory.assembly CASCADE;
-  TRUNCATE TABLE inventory.buyable CASCADE;
-  TRUNCATE TABLE inventory.information CASCADE;
-  TRUNCATE TABLE inventory.part CASCADE;
-  TRUNCATE TABLE mbom.consumable CASCADE;
-  TRUNCATE TABLE mbom.definition CASCADE;
-  TRUNCATE TABLE mbom.information CASCADE;
-  TRUNCATE TABLE mbom.material CASCADE;
-  TRUNCATE TABLE mbom.primal CASCADE;
-  TRUNCATE TABLE operation.consumable CASCADE;
-  TRUNCATE TABLE operation.definition CASCADE;
-  TRUNCATE TABLE operation.dependency CASCADE;
-  TRUNCATE TABLE operation.equipment CASCADE;
-  TRUNCATE TABLE operation.information CASCADE;
-  TRUNCATE TABLE operation.material CASCADE;
-  TRUNCATE TABLE operation.personnel CASCADE;
-  TRUNCATE TABLE operation.primal CASCADE;
-  TRUNCATE TABLE operation.segment CASCADE;
-  TRUNCATE TABLE operation.tooling CASCADE;
-  TRUNCATE TABLE product.consumable CASCADE;
-  TRUNCATE TABLE product.definition CASCADE;
-  TRUNCATE TABLE product.dependency CASCADE;
-  TRUNCATE TABLE product.equipment CASCADE;
-  TRUNCATE TABLE product.information CASCADE;
-  TRUNCATE TABLE product.material CASCADE;
-  TRUNCATE TABLE product.personnel CASCADE;
-  TRUNCATE TABLE product.primal CASCADE;
-  TRUNCATE TABLE product.segment CASCADE;
-  TRUNCATE TABLE product.tooling CASCADE;
-  TRUNCATE TABLE route.consumable CASCADE;
-  TRUNCATE TABLE route.definition CASCADE;
-  TRUNCATE TABLE route.information CASCADE;
-  TRUNCATE TABLE route.location CASCADE;
-  TRUNCATE TABLE route.primal CASCADE;
-  TRUNCATE TABLE route.segment CASCADE;
+  TRUNCATE TABLE inventory.measurement CASCADE;
+  TRUNCATE TABLE inventory.variety CASCADE;
+  TRUNCATE TABLE personnel.information CASCADE;
+  TRUNCATE TABLE schedule.calendar CASCADE;
+  TRUNCATE TABLE tooling.information CASCADE;
+  TRUNCATE TABLE transactor.customer CASCADE;
+  TRUNCATE TABLE transactor.information CASCADE;
+  TRUNCATE TABLE transactor.supplier CASCADE;
+  --TRUNCATE TABLE uom.assignment CASCADE;
+  --TRUNCATE TABLE uom.information CASCADE;
+
   /*
   SELECT 'ALTER SEQUENCE ' || sequence_schema || '.' || sequence_name || ' RESTART WITH 1;'
   FROM information_schema.sequences
-  WHERE sequence_catalog = 'mes' AND sequence_schema != 'common'
+  WHERE sequence_catalog = 'mdm' AND sequence_schema != 'common'
   ORDER by sequence_schema, sequence_name;
   */
-  ALTER SEQUENCE ebom.definition_id_seq RESTART WITH 1;
-  ALTER SEQUENCE ebom.information_id_seq RESTART WITH 1;
-  ALTER SEQUENCE mbom.definition_id_seq RESTART WITH 1;
-  ALTER SEQUENCE mbom.information_id_seq RESTART WITH 1;
-  ALTER SEQUENCE operation.definition_id_seq RESTART WITH 1;
-  ALTER SEQUENCE operation.information_id_seq RESTART WITH 1;
-  ALTER SEQUENCE operation.segment_id_seq RESTART WITH 1;
-  ALTER SEQUENCE product.definition_id_seq RESTART WITH 1;
-  ALTER SEQUENCE product.information_id_seq RESTART WITH 1;
-  ALTER SEQUENCE product.segment_id_seq RESTART WITH 1;
-  ALTER SEQUENCE route.definition_id_seq RESTART WITH 1;
-  ALTER SEQUENCE route.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE equipment.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE facility.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE inventory.definition_id_seq RESTART WITH 1;
+  ALTER SEQUENCE inventory.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE personnel.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE tooling.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE transactor.information_id_seq RESTART WITH 1;
+  ALTER SEQUENCE uom.uom_role_uom_role_id_seq RESTART WITH 1;
+
 END;
 $$;
 
@@ -2338,7 +2197,7 @@ $$;
 ALTER FUNCTION tests._reset_data() OWNER TO postgres;
 
 --
--- TOC entry 315 (class 1255 OID 58334)
+-- TOC entry 313 (class 1255 OID 58334)
 -- Name: _run_all(); Type: FUNCTION; Schema: tests; Owner: postgres
 --
 
@@ -2387,7 +2246,7 @@ ALTER FUNCTION tests._run_all() OWNER TO postgres;
 SET search_path = uom, pg_catalog;
 
 --
--- TOC entry 316 (class 1255 OID 58335)
+-- TOC entry 314 (class 1255 OID 58335)
 -- Name: get_domain(character varying); Type: FUNCTION; Schema: uom; Owner: postgres
 --
 
@@ -2405,7 +2264,7 @@ $$;
 ALTER FUNCTION uom.get_domain(_uom_code character varying) OWNER TO postgres;
 
 --
--- TOC entry 319 (class 1255 OID 58336)
+-- TOC entry 317 (class 1255 OID 58336)
 -- Name: get_factor(character varying, character varying); Type: FUNCTION; Schema: uom; Owner: postgres
 --
 
@@ -3071,7 +2930,7 @@ CREATE TABLE information (
     uom_code character varying(4) NOT NULL,
     uom_domain character varying(10),
     base_uom_code character varying,
-    factor double precision
+    factor numeric
 );
 
 
@@ -3660,13 +3519,13 @@ SET search_path = uom, pg_catalog;
 INSERT INTO information VALUES ('kg', 'MASS', 'kg', 1);
 INSERT INTO information VALUES ('m', 'LENGHT', 'm', 1);
 INSERT INTO information VALUES ('pcs', 'QUANTITY', 'pcs', 1);
-INSERT INTO information VALUES ('g', 'MASS', 'kg', 0.00100000000000000002);
+INSERT INTO information VALUES ('g', 'MASS', 'kg', 0.001);
 INSERT INTO information VALUES ('t', 'MASS', 'kg', 1000);
-INSERT INTO information VALUES ('mm', 'LENGHT', 'm', 0.00100000000000000002);
+INSERT INTO information VALUES ('mm', 'LENGHT', 'm', 0.001);
 INSERT INTO information VALUES ('km', 'LENGHT', 'm', 1000);
-INSERT INTO information VALUES ('cm', 'LENGHT', 'm', 0.0100000000000000002);
+INSERT INTO information VALUES ('cm', 'LENGHT', 'm', 0.01);
 INSERT INTO information VALUES ('l', 'VOLUME', 'l', 1);
-INSERT INTO information VALUES ('ml', 'VOLUME', 'l', 0.00100000000000000002);
+INSERT INTO information VALUES ('ml', 'VOLUME', 'l', 0.001);
 
 
 --
@@ -4098,7 +3957,7 @@ ALTER TABLE ONLY information
     ADD CONSTRAINT uom_base_uom_code_fkey FOREIGN KEY (base_uom_code) REFERENCES information(uom_code);
 
 
--- Completed on 2018-01-23 02:01:40 EET
+-- Completed on 2018-01-23 02:17:55 EET
 
 --
 -- PostgreSQL database dump complete
