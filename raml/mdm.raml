@@ -1,7 +1,7 @@
 #%RAML 0.8
 title: Holonic MDM API
 version: v1
-#baseUri: http://mdm.io/mes/api/{version}
+#baseUri: http://mdm.io/mdm/api/{version}
 baseUri: http://127.0.0.1:5000
 mediaType: application/json
 documentation:
@@ -9,18 +9,96 @@ documentation:
     content: ""
 
 schemas:
-  - Facility: !include json/commons-material-schema.json
-  - Facilities: !include json/commons-materials-schema.json
-  - Inventory: !include json/commons-material-schema.json
-  - Inventories: !include json/commons-materials-schema.json
-  - Schedule: !include json/commons-material-schema.json
-  - Schedules: !include json/commons-materials-schema.json
+  - Facility: !include json/mdm-facility-schema.json
+  - Facilities: !include json/mdm-facilities-schema.json
+  - Inventory: !include json/mdm-inventory-schema.json
+  - Inventories: !include json/mdm-inventories-schema.json
+  - UOM: !include json/mdm-uom-schema.json
+  - UOMs: !include json/mdm-uoms-schema.json
   - Error: !include json/commons-error-schema.json
   - Message: !include json/commons-message-schema.json
 
-/schedule:
+/uom:
+  get:
+    description: Get a list of Units of Measure
+    responses:
+      200:
+        body:
+          application/json:
+            schema: UOMs
+            example: !include json/mdm-uoms-example.json
+  /{resourceId}:
+    get:
+      description: Get a Unit of Measure by ID
+      responses:
+        200:
+          body:
+            application/json:
+              schema: UOM
+              example: !include json/mdm-uom-example.json
+        404:
+          body:
+            application/json:
+              schema: Error
+              example: !include json/commons-error-example.json
 
 /facility:
+  get:
+    description: Get a list of Facilities
+    responses:
+      200:
+        body:
+          application/json:
+            schema: Facilities
+            example: !include json/mdm-facilities-example.json
+  post:
+    description: Add new Facilities
+    body:
+      application/json:
+        schema: Facility
+        example: !include json/mdm-facility-example.json
+    responses:
+      201:
+        body:
+          application/json:
+            schema: Message
+            example: !include json/commons-message-example.json
+      400:
+        body:
+            application/json:
+              schema: Error
+              example: !include json/commons-error-example.json
+  /{resourceId}:
+    get:
+      description: Get a Facility by ID
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Facility
+              example: !include json/mdm-facility-example.json
+        404:
+          body:
+            application/json:
+              schema: Error
+              example: !include json/commons-error-example.json
+    put:
+      description: Update Facility by ID
+      body:
+        application/json:
+          schema: Facility
+          example: !include json/mdm-facility-example.json
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Message
+              example: !include json/commons-message-example.json
+        400:
+          body:
+            application/json:
+              schema: Error
+              example: !include json/commons-error-example.json
 
 /inventories:
   get:
@@ -30,16 +108,24 @@ schemas:
         body:
           application/json:
             schema: Inventories
+            example: !include json/mdm-inventories-example.json
   post:
     description: Add new Inventory
     body:
       application/json:
         schema: Inventory
+        example: !include json/mdm-inventory-example.json
     responses:
       201:
         body:
           application/json:
-            schema: Inventory
+            schema: Message
+            example: !include json/commons-message-example.json
+      400:
+        body:
+          application/json:
+            schema: Error
+            example: !include json/commons-error-example.json
   /{resourceId}:
     get:
       description: Get a Inventory by ID
@@ -48,188 +134,35 @@ schemas:
           body:
             application/json:
               schema: Inventory
+              example: !include json/mdm-inventory-example.json
         404:
           body:
             application/json:
               schema: Error
+              example: !include json/commons-error-example.json
     put:
       description: Update Inventory by ID
       body:
         application/json:
           schema: Inventory
+          example: !include json/mdm-inventory-example.json
       responses:
         200:
           body:
             application/json:
-              schema: Inventory
-        404:
+              schema: Message
+              example: !include json/commons-message-example.json
+        400:
           body:
             application/json:
               schema: Error
+              example: !include json/commons-error-example.json
     delete:
       description: Delete a Inventory by ID
       responses:
         204:
-        404:
+        400:
           body:
             application/json:
               schema: Error
-
-  /materials:
-    get:
-      description: Get a list of Materials
-      responses:
-        200:
-          body:
-            application/json:
-              schema: Inventories
-    post:
-      description: Add new Material
-      body:
-        application/json:
-          schema: Inventory
-      responses:
-        201:
-          body:
-            application/json:
-              schema: Inventory
-    /{resourceId}:
-      get:
-        description: Get a Material by ID
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Inventory
-          404:
-            body:
-              application/json:
-                schema: Error
-      put:
-        description: Update Material by ID
-        body:
-          application/json:
-            schema: Inventory
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Inventory
-          404:
-            body:
-              application/json:
-                schema: Error
-      delete:
-        description: Delete a Material by ID
-        responses:
-          204:
-          404:
-            body:
-              application/json:
-                schema: Error
-
-  /components:
-    get:
-      description: Get a list of Components
-      responses:
-        200:
-          body:
-            application/json:
-              schema: Inventories
-    post:
-      description: Add new Component
-      body:
-        application/json:
-          schema: Inventory
-      responses:
-        201:
-          body:
-            application/json:
-              schema: Inventory
-    /{resourceId}:
-      get:
-        description: Get a Component by ID
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Inventory
-          404:
-            body:
-              application/json:
-                schema: Error
-      put:
-        description: Update Component by ID
-        body:
-          application/json:
-            schema: Inventory
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Inventory
-          404:
-            body:
-              application/json:
-                schema: Error
-      delete:
-        description: Delete a Component by ID
-        responses:
-          204:
-          404:
-            body:
-              application/json:
-                schema: Error
-
-  /products:
-    get:
-      description: Get a list of Products
-      responses:
-        200:
-          body:
-            application/json:
-              schema: Inventories
-    post:
-      description: Add new Product
-      body:
-        application/json:
-          schema: Inventory
-      responses:
-        201:
-          body:
-            application/json:
-              schema: Inventory
-    /{resourceId}:
-      get:
-        description: Get a Product by ID
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Inventory
-          404:
-            body:
-              application/json:
-                schema: Error
-      put:
-        description: Update Product by ID
-        body:
-          application/json:
-            schema: Inventory
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Inventory
-          404:
-            body:
-              application/json:
-                schema: Error
-      delete:
-        description: Delete a Product by ID
-        responses:
-          204:
-          404:
-            body:
-              application/json:
-                schema: Error
+              example: !include json/commons-error-example.json

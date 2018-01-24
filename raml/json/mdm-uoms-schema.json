@@ -4,7 +4,7 @@
   "description": "Manufacturing Materials Collection Type definition",
   "type": "array",
   "items": {
-    "$ref": "commons-material-schema.json"
+    "$ref": "mdm-uom-schema.json"
   },
   "uniqueItems": true
 }
