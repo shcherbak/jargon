@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Manufacturing Materials Collection",
-  "description": "Manufacturing Materials Collection Type definition",
+  "title": "Facilities Collection",
+  "description": "Facilities Collection Type definition",
   "type": "array",
   "items": {
     "$ref": "mdm-facility-schema.json"

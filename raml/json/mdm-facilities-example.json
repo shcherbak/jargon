@@ -1,14 +1,20 @@
 [
   {
     "id": 123,
-    "part_code": "12.34.567-890.123",
-    "name": "Warehouse Item 1",
-    "unit": "PCS"
+    "gid": "b3dbaf2c-3f1c-11e7-b691-d4bed939923a",
+    "facility_code": "SZN-A10-AB1AA0",
+    "display_name": "Storage Zone of Area ARE-M10-ZX1BB0",
+    "document_date": "2018-01-01",
+    "parent_facility_code": "ARE-M10-ZX1BB0",
+    "facility_type": "ZONE"
   },
   {
     "id": 456,
-    "part_code": "23.45.678-901.234",
-    "name": "Warehouse Item 2",
-    "unit": "PCS"
+    "gid": "160fd11a-4011-11e7-9b12-d4bed939923a",
+    "facility_code": "LNE-A11-AB1AA1",
+    "display_name": "Production Line of Area ARE-M10-ZX1BB0",
+    "document_date": "2018-01-01",
+    "parent_facility_code": "ARE-M10-ZX1BB0",
+    "facility_type": "LINE"
   }
 ]
