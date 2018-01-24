@@ -60,18 +60,30 @@ def page_not_found(e):
 
 @app.route('/')
 def hello_world():
-    return 'Guildhall MES-API v1'
+    return 'Jargon MDM-API v1'
 
 
-@app.route('/eboms', methods=['GET'])
-def get_eboms():
+@app.route('/measures', methods=['GET'])
+def get_uoms():
     sdate, edate, facility = date_range_helper(request)
     print (sdate, edate, facility)
     return jsonify(dao.DemandList(pool, facility, sdate, edate).to_dict())
 
 
-@app.route('/eboms', methods=['POST'])
-def post_ebom():
+@app.route('/measures/<int:document_id>', methods=['GET'])
+def get_uom(document_id):
+    document = dao.Demand(pool, document_id)
+    return jsonify(document.to_dict())
+
+
+@app.route('/facilities', methods=['GET'])
+def get_facilities():
+    sdate, edate, facility = date_range_helper(request)
+    return jsonify(dao.ReserveList(pool, facility, sdate, edate).to_dict())
+
+
+@app.route('/facilities', methods=['POST'])
+def post_facility():
     success = False
     document_id = None
     inputs = OutboundDocumentJsonInputs(request)
@@ -80,7 +92,7 @@ def post_ebom():
         return response
     else:
         data = request.get_json()
-        document = dao.Demand(pool)
+        document = dao.Reserve(pool)
         document.from_dict(data)
         document_id = document.init()
     if document_id:
@@ -91,38 +103,14 @@ def post_ebom():
     return response
 
 
-@app.route('/eboms/<int:document_id>', methods=['GET'])
-def get_demand(document_id):
-    document = dao.Demand(pool, document_id)
+@app.route('/facilities/<int:document_id>', methods=['GET'])
+def get_facility(document_id):
+    document = dao.Reserve(pool, document_id)
     return jsonify(document.to_dict())
 
 
-@app.route('/eboms/<int:document_id>', methods=['DELETE'])
-def del_demand(document_id):
-    document = dao.Demand(pool)
-    success = document.delete(document_id)
-    if success:
-        response = ('', 204)
-    else:
-        response = jsonify(success=False, errors=document.errors), 400
-
-    return response
-
-
-@app.route('/eboms/<int:document_id>/body', methods=['PATCH'])
-def patch_demand_body(document_id):
-    data = request.get_json()
-    if data:
-        d = dao.Demand(pool)
-        d.from_dict(data)
-        d.reinit(document_id)
-        return jsonify(str(document_id))
-    else:
-        return '', 400
-
-
-@app.route('/eboms/<int:document_id>/fsmt', methods=['PUT'])
-def patch_demand_fsmt(document_id):
+@app.route('/facilities/<int:document_id>', methods=['PUT'])
+def put_facility(document_id):
     success = False
     inputs = FsmtJsonInputs(request)
 
@@ -130,7 +118,7 @@ def patch_demand_fsmt(document_id):
         response = jsonify(success=False, errors=inputs.errors), 400
     else:
         data = request.get_json()
-        document = dao.Demand(pool)
+        document = dao.Reserve(pool)
 
         if data['curr_fsmt'] == 'COMMITTED':
             success = document.commit(document_id)
@@ -151,15 +139,15 @@ def patch_demand_fsmt(document_id):
 
 
 
-
-@app.route('/mboms', methods=['GET'])
-def get_reserves():
+@app.route('/inventories', methods=['GET'])
+def get_inventories():
     sdate, edate, facility = date_range_helper(request)
-    return jsonify(dao.ReserveList(pool, facility, sdate, edate).to_dict())
+    print (sdate, edate, facility)
+    return jsonify(dao.DemandList(pool, facility, sdate, edate).to_dict())
 
 
-@app.route('/mboms', methods=['POST'])
-def post_reserve():
+@app.route('/inventories', methods=['POST'])
+def post_inventory():
     success = False
     document_id = None
     inputs = OutboundDocumentJsonInputs(request)
@@ -168,7 +156,7 @@ def post_reserve():
         return response
     else:
         data = request.get_json()
-        document = dao.Reserve(pool)
+        document = dao.Demand(pool)
         document.from_dict(data)
         document_id = document.init()
     if document_id:
@@ -179,15 +167,15 @@ def post_reserve():
     return response
 
 
-@app.route('/mboms/<int:document_id>', methods=['GET'])
-def get_reserve(document_id):
-    document = dao.Reserve(pool, document_id)
+@app.route('/inventories/<int:document_id>', methods=['GET'])
+def get_inventory(document_id):
+    document = dao.Demand(pool, document_id)
     return jsonify(document.to_dict())
 
 
-@app.route('/mboms/<int:document_id>', methods=['DELETE'])
-def del_reserve(document_id):
-    document = dao.Reserve(pool)
+@app.route('/inventories/<int:document_id>', methods=['DELETE'])
+def del_inventory(document_id):
+    document = dao.Demand(pool)
     success = document.delete(document_id)
     if success:
         response = ('', 204)
@@ -196,21 +184,8 @@ def del_reserve(document_id):
 
     return response
 
-
-@app.route('/mboms/<int:document_id>/body', methods=['PATCH'])
-def patch_reserve_body(document_id):
-    data = request.get_json()
-    if data:
-        d = dao.Reserve(pool)
-        d.from_dict(data)
-        d.reinit(document_id)
-        return jsonify(str(document_id))
-    else:
-        return '', 400
-
-
-@app.route('/mboms/<int:document_id>/fsmt', methods=['PUT'])
-def patch_reserve_fsmt(document_id):
+@app.route('/inventories/<int:document_id>', methods=['PUT'])
+def put_inventory(document_id):
     success = False
     inputs = FsmtJsonInputs(request)
 
@@ -218,7 +193,7 @@ def patch_reserve_fsmt(document_id):
         response = jsonify(success=False, errors=inputs.errors), 400
     else:
         data = request.get_json()
-        document = dao.Reserve(pool)
+        document = dao.Demand(pool)
 
         if data['curr_fsmt'] == 'COMMITTED':
             success = document.commit(document_id)

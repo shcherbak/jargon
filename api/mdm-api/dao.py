@@ -198,16 +198,6 @@ class Demand(OutboundDocument):
     DECOMMIT_DOCUMENT_SQL = "SELECT demand.do_decommit(__document_id := %s, __apprise := %s)"
 
 
-class Reserve(OutboundDocument):
-    GET_HEAD_SQL = "SELECT reserve.get_head(__document_id := %s)"
-    GET_BODY_SQL = "SELECT reserve.get_body(__document_id := %s)"
-    UPDATE_BODY_SQL = "SELECT reserve.reinit(__document_id := %s, __body := %s)"
-    DELETE_DOCUMENT_SQL = "SELECT reserve.destroy(__document_id := %s)"
-    CREATE_DOCUMENT_SQL = "SELECT reserve.init(__head := %s, __body := %s)"
-    COMMIT_DOCUMENT_SQL = "SELECT reserve.do_commit(__document_id := %s, __apprise := %s)"
-    DECOMMIT_DOCUMENT_SQL = "SELECT reserve.do_decommit(__document_id := %s, __apprise := %s)"
-
-
 class BaseDocumentList:
     GET_LSIT_SQL = None
 
@@ -254,7 +244,3 @@ class BaseDocumentList:
 
 class DemandList(BaseDocumentList):
     GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
-
-
-class ReserveList(BaseDocumentList):
-    GET_LSIT_SQL = "SELECT reserve.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
