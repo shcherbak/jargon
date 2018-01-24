@@ -1,31 +1,34 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Manufacturing Material",
-  "description": "Manufacturing Material Type definition",
+  "title": "Unit of Measure",
+  "description": "Unit of Measure Type definition",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer",
-      "description": "The unique identifier of the good"
-    },
-    "part_code": {
+    "uom_code": {
       "type": "string",
-      "description": "Part Code or Stock Keeping Unit",
-      "pattern": "^[0-9]{2}.[0-9]{2}.[0-9]{3}-[0-9]{3}($|.[0-9]{3}$)"
+      "description": "ISO code of uom"
     },
-    "name": {
+    "uom_domain": {
       "type": "string"
     },
-    "unit": {
-      "type": "string",
-      "description": "Warehouse storage unit"
+    "base_uom_code": {
+      "type": "string"
+    },
+    "factor": {
+      "default": 0,
+      "description": "An explanation about the purpose of this instance.",
+      "title": "The Quantity Schema",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 9999999999999999.9999,
+      "multipleOf": 0.0001
     }
   },
   "additionalPoperties": false,
   "required": [
-    "id",
-    "part_code",
-    "name",
-    "unit"
+    "uom_code",
+    "uom_domain",
+    "base_uom_code",
+    "factor"
   ]
 }

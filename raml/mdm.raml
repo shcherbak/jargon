@@ -18,7 +18,7 @@ schemas:
   - Error: !include json/commons-error-schema.json
   - Message: !include json/commons-message-schema.json
 
-/uom:
+/measures:
   get:
     description: Get a list of Units of Measure
     responses:
@@ -42,7 +42,7 @@ schemas:
               schema: Error
               example: !include json/commons-error-example.json
 
-/facility:
+/facilities:
   get:
     description: Get a list of Facilities
     responses:

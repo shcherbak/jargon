@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Manufacturing Materials Collection",
-  "description": "Manufacturing Materials Collection Type definition",
+  "title": "Units of Measure Collection",
+  "description": "Units of Measure Collection Type definition",
   "type": "array",
   "items": {
     "$ref": "mdm-uom-schema.json"

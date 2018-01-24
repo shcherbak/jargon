@@ -1,6 +1,6 @@
 {
-  "id": 123,
-  "part_code": "12.34.567-890.123",
-  "name": "Material Item 1",
-  "unit": "PCS"
+  "uom_code": "km",
+  "uom_domain": "LENGHT",
+  "base_uom_code": "m",
+  "factor": 1000.0
 }

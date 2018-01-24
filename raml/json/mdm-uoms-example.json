@@ -1,14 +1,14 @@
 [
   {
-    "id": 123,
-    "part_code": "12.34.567-890.123",
-    "name": "Warehouse Item 1",
-    "unit": "PCS"
+    "uom_code": "km",
+    "uom_domain": "LENGHT",
+    "base_uom_code": "m",
+    "factor": 1000.0
   },
   {
-    "id": 456,
-    "part_code": "23.45.678-901.234",
-    "name": "Warehouse Item 2",
-    "unit": "PCS"
+    "uom_code": "g",
+    "uom_domain": "MASS",
+    "base_uom_code": "kg",
+    "factor": 0.001
   }
 ]
