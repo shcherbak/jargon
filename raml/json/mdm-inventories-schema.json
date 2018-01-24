@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Manufacturing Materials Collection",
-  "description": "Manufacturing Materials Collection Type definition",
+  "title": "Inventory Entities Collection",
+  "description": "Inventory Entities Collection Type definition",
   "type": "array",
   "items": {
     "$ref": "mdm-inventory-schema.json"

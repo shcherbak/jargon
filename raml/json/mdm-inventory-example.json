@@ -1,6 +1,28 @@
 {
-  "id": 123,
-  "part_code": "12.34.567-890.123",
-  "name": "Material Item 1",
-  "unit": "PCS"
+  "head": {
+    "id": 1,
+    "gid": "b3dbaf2c-3f1c-11e7-b691-d4bed939923a",
+    "display_name": "Flange DN50",
+    "part_code": "22.16.050-001",
+    "version_num": 1,
+    "document_date": "2017-02-01",
+    "uom_code": "kg",
+    "curr_fsmt": "PROPOSED"
+  },
+  "meas": [
+    {
+      "uom_code_from": "kg",
+      "uom_code_to": "kg",
+      "factor": 1.0
+    },
+    {
+      "uom_code_from": "kg",
+      "uom_code_to": "g",
+      "factor": 1000.0
+    }
+  ],
+  "kind": [
+    "ASSEMBLY",
+    "STORABLE"
+  ]
 }
