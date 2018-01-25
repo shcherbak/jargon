@@ -105,7 +105,7 @@ def post_facility():
 
 @app.route('/facilities/<int:document_id>', methods=['GET'])
 def get_facility(document_id):
-    document = dao.Reserve(pool, document_id)
+    document = dao.Facility(pool, document_id)
     return jsonify(document.to_dict())
 
 

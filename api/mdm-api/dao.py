@@ -6,6 +6,126 @@ import psycopg2.extras
 import pgcast
 
 
+class Facility:
+    GET_HEAD_SQL = "SELECT facility.get_head(__document_id := %s)"
+    GET_BODY_SQL = None
+    UPDATE_BODY_SQL = "SELECT facility.reinit(__head := %s)"
+    DELETE_DOCUMENT_SQL = "SELECT facility.destroy(__document_id := %s)"
+    CREATE_DOCUMENT_SQL = "SELECT facility.init(__head := %s)"
+    COMMIT_DOCUMENT_SQL = None
+    DECOMMIT_DOCUMENT_SQL = None
+
+
+
+    def __init__(self, pool, document_id=None):
+        self.pool = pool
+        self.errors = []
+        if document_id:
+            self.load(document_id)
+        else:
+            self.head = None
+
+    def init(self):
+        conn = None
+        document_id = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.CREATE_DOCUMENT_SQL, (self.head,))
+            document_id = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return document_id
+
+    def reinit(self, head):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.UPDATE_BODY_SQL, (head,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def load(self, document_id):
+        self._load_head(document_id)
+
+    def delete(self, document_id):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.DELETE_DOCUMENT_SQL, (document_id,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def commit(self, document_id, apprise=True):
+        pass
+
+    def decommit(self, document_id, apprise=True):
+        pass
+
+    def _load_head(self, document_id):
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.GET_HEAD_SQL, (document_id,))
+            print(self.GET_HEAD_SQL)
+            self = curs.fetchone()[0]
+            print(self)
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+
+    def _load_body(self, document_id):
+        pass
+
+    def to_dict(self):
+        return self.to_dict()
+
+    def from_dict(self, d):
+        self.head = pgcast.FacilityHead()
+        self.head.from_dict(d)
+
+    def to_json(self):
+        return "json string {0}".format(self)
+
+    def from_json(self, json):
+        self.head = json
+
+
+#class InventoryDocument:
+
+
 class BaseDocument:
     GET_HEAD_SQL = None
     GET_BODY_SQL = None
