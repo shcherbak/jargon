@@ -88,8 +88,91 @@ class FacilityHead(object):
         if s:
             self.from_string(s)
 
+    def __repr__(self):
+            return "facility_head(document_id={0}, \
+                    gid={1}, facility_code={2}, version_num={3}, \
+                    display_name={4}, document_date={5}, parent_facility_code={6}, document_type={7})". \
+                format(self.document_id,
+                       self.gid,
+                       self.facility_code,
+                       self.version_num,
+                       self.display_name,
+                       self.document_date,
+                       self.parent_facility_code,
+                       self.document_type)
+
+    def __conform__(self, proto):
+        if proto == _ext.ISQLQuote:
+            return self
+
+    def to_dict(self):
+        if self.document_date:
+            _document_date = self.document_date.strftime('%Y-%m-%d')
+        else:
+            _document_date = None
+        return {"document_id": self.document_id,
+                "gid": self.gid,
+                "facility_code": self.facility_code,
+                "version_num": self.version_num,
+                "display_name": self.display_name,
+                "document_date": _document_date,
+                "parent_facility_code": self.parent_facility_code,
+                "document_type": self.document_type}
+
+    def from_dict(self, d):
+        if len(d['document_date']) > 0:
+            _document_date = datetime.datetime.strptime(d['document_date'], "%Y-%m-%d").date()
+        else:
+            _document_date = None
+
+        self.document_id = d['document_id']
+        self.gid = d['gid']
+        self.facility_code = d['facility_code']
+        self.version_num = d['version_num']
+        self.display_name = d['display_name']
+        self.document_date = _document_date
+        self.parent_facility_code = d['parent_facility_code']
+        self.document_type = d['document_type']
+
+    def from_tuple(self, t):
+        self.document_id = int(t[0])
+        self.gid = uuid.UUID(t[1])
+        self.display_name = t[2]
+        self.facility_code = t[3]
+        self.version_num = t[4]
+        if len(t[5]) > 0:
+            self.document_date = datetime.datetime.strptime(t[5], "%Y-%m-%d")
+        else:
+            self.document_date = None
+        self.parent_facility_code = t[6]
+        self.document_type = t[7]
+
     def from_string(self, s):
-        pass
+        if s is None:
+            return None
+        m = re.match(r"\((\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?\)", s)
+        if m:
+            self.from_tuple((m.group(1),
+                             m.group(2),
+                             m.group(3),
+                             m.group(4),
+                             m.group(5),
+                             m.group(6),
+                             m.group(8)))
+        else:
+            raise psycopg2.InterfaceError("bad facility_head representation: %r" % s)
+
+    def getquoted(self):
+        return "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})::common.facility_head" \
+            .format(_adapt(self.document_id),
+                    _adapt(self.gid),
+                    _adapt(self.facility_code),
+                    _adapt(self.version_num),
+                    _adapt(self.display_name),
+                    _adapt(self.document_date),
+                    _adapt(self.parent_facility_code),
+                    _adapt(self.document_type))
+
 
 
 def register_common_facility_head(oid=None, conn_or_curs=None):
@@ -125,8 +208,97 @@ class InventoryHead(object):
         if s:
             self.from_string(s)
 
+    def __repr__(self):
+        return "facility_head(document_id={0}, \
+                gid={1}, display_name={2}, part_code={3}, \
+                version_num={4}, document_date={5}, uom_code={6}, curr_fsmt={7}, document_type={8})". \
+            format(self.document_id,
+                   self.gid,
+                   self.display_name,
+                   self.part_code,
+                   self.version_num,
+                   self.document_date,
+                   self.uom_code,
+                   self.curr_fsmt,
+                   self.document_type)
+
+    def __conform__(self, proto):
+        if proto == _ext.ISQLQuote:
+            return self
+
+    def to_dict(self):
+        if self.document_date:
+            _document_date = self.document_date.strftime('%Y-%m-%d')
+        else:
+            _document_date = None
+        return {"document_id": self.document_id,
+                "gid": self.gid,
+                "display_name": self.display_name,
+                "part_code": self.part_code,
+                "version_num": self.version_num,
+                "document_date": _document_date,
+                "uom_code": self.uom_code,
+                "curr_fsmt": self.curr_fsmt,
+                "document_type": self.document_type}
+
+    def from_dict(self, d):
+        if len(d['document_date']) > 0:
+            _document_date = datetime.datetime.strptime(d['document_date'], "%Y-%m-%d").date()
+        else:
+            _document_date = None
+
+        self.document_id = d['document_id']
+        self.gid = d['gid']
+        self.display_name = d['display_name']
+        self.part_code = d['part_code']
+        self.version_num = d['version_num']
+        self.document_date = _document_date
+        self.uom_code = d['uom_code']
+        self.curr_fsmt = d['curr_fsmt']
+        self.document_type = d['document_type']
+
+    def from_tuple(self, t):
+        self.document_id = int(t[0])
+        self.gid = uuid.UUID(t[1])
+        self.display_name = t[2]
+        self.part_code = t[3]
+        self.version_num = t[4]
+        if len(t[5]) > 0:
+            self.document_date = datetime.datetime.strptime(t[5], "%Y-%m-%d")
+        else:
+            self.document_date = None
+        self.uom_code = t[6]
+        self.curr_fsmt = t[7]
+        self.document_type = t[8]
+
     def from_string(self, s):
-        pass
+        if s is None:
+            return None
+        m = re.match(r"\((\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?\)", s)
+        if m:
+            self.from_tuple((m.group(1),
+                             m.group(2),
+                             m.group(3),
+                             m.group(4),
+                             m.group(5),
+                             m.group(6),
+                             m.group(7),
+                             m.group(8),
+                             m.group(9)))
+        else:
+            raise psycopg2.InterfaceError("bad inventory_head representation: %r" % s)
+
+    def getquoted(self):
+        return "({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})::common.inventory_head" \
+            .format(_adapt(self.document_id),
+                    _adapt(self.gid),
+                    _adapt(self.display_name),
+                    _adapt(self.part_code),
+                    _adapt(self.version_num),
+                    _adapt(self.document_date),
+                    _adapt(self.uom_code),
+                    _adapt(self.curr_fsmt),
+                    _adapt(self.document_type))
 
 
 def register_common_inventory_head(oid=None, conn_or_curs=None):
@@ -155,8 +327,48 @@ class UnitConversion(object):
         if s:
             self.from_string(s)
 
+    def __repr__(self):
+        return "{0}(uom_code_from={1}, uom_code_to={2}, factor={3})" \
+            .format(type(self).__name__,
+                    self.uom_code_from,
+                    self.uom_code_to,
+                    str(self.factor))
+
+    def __conform__(self, proto):
+        if proto == _ext.ISQLQuote:
+            return self
+
+    def to_dict(self):
+        return {"uom_code_from": self.uom_code_from,
+                "uom_code_to": self.uom_code_to,
+                "factor": float(self.factor)}
+
+    def from_dict(self, d):
+        self.uom_code_from = d['uom_code_from']
+        self.uom_code_to = d['uom_code_to']
+        self.factor = Decimal(d['factor'])
+
+    def from_tuple(self, t):
+        self.uom_code_from = t[0]
+        self.uom_code_to = t[1]
+        self.factor = Decimal(t[2])
+
     def from_string(self, s):
-        pass
+        if s is None:
+            return None
+        m = re.match(r"\((\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?\)", s)
+        if m:
+            self.from_tuple((m.group(1),
+                             m.group(2),
+                             m.group(3)))
+        else:
+            raise psycopg2.InterfaceError("bad unit_conversion_type representation: %r" % s)
+
+    def getquoted(self):
+        return "({0}, {1}, {2})::common.unit_conversion_type"\
+            .format(_adapt(self.uom_code_from),
+                    _adapt(self.uom_code_to),
+                    _adapt(self.factor))
 
 
 def register_common_unit_conversion(oid=None, conn_or_curs=None):
@@ -177,93 +389,9 @@ def register_common_unit_conversion(oid=None, conn_or_curs=None):
 
     return UNIT_CONVERSION
 
-class ComponentSpecification(object):
-    def __init__(self, s=None, curs=None):
-        self.part_code = ''
-        self.version_num = 0
-        self.quantity = Decimal(0)
-        self.uom_code = ''
-        self.component_type = ''
-        if s:
-            self.from_string(s)
-
-    def __repr__(self):
-        return "{0}(part_code={1}, version_num={2}, quantity={3}, uom_code={4}, component_type={5})" \
-            .format(type(self).__name__,
-                    self.part_code,
-                    self.version_num,
-                    str(self.quantity),
-                    self.uom_code,
-                    self.component_type)
-
-    def __conform__(self, proto):
-        if proto == _ext.ISQLQuote:
-            return self
-
-    def to_dict(self):
-        return {"part_code": self.good_code,
-                "version_num": int(self.quantity),
-                "quantity": float(self.quantity),
-                "uom_code": self.uom_code,
-                "component_type": self.component_type}
-
-    def from_dict(self, d):
-        self.part_code = d['part_code']
-        self.version_num = int(d['version_num'])
-        self.quantity = Decimal(d['quantity'])
-        self.uom_code = d['uom_code']
-        self.component_type = d['component_type']
-
-    def from_tuple(self, t):
-        self.part_code = t[0]
-        self.version_num = int(t[1])
-        self.quantity = Decimal(t[2])
-        self.uom_code = t[3]
-        self.component_type = t[4]
-
-    def from_string(self, s):
-        if s is None:
-            return None
-        m = re.match(r"\((\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?,(\"[^\"]*\"|[^,]+)?\)", s)
-        if m:
-            self.from_tuple((m.group(1),
-                             m.group(2),
-                             m.group(3),
-                             m.group(4),
-                             m.group(5)))
-        else:
-            raise psycopg2.InterfaceError("bad component_specification representation: %r" % s)
-
-    def getquoted(self):
-        return "({0}, {1}, {2}, {3}, {4})::common.component_specification"\
-            .format(_adapt(self.part_code),
-                    _adapt(self.version_num),
-                    _adapt(self.quantity),
-                    _adapt(self.uom_code),
-                    _adapt(self.component_type))
-
-
-def register_common_component_specification(oid=None, conn_or_curs=None):
-    if not oid:
-        oid1 = _get_pg_typname_oid(conn_or_curs, 'common', 'component_specification')
-        oid2 = _get_pg_typarray_oid(conn_or_curs, 'common', 'component_specification')
-    elif isinstance(oid, (list, tuple)):
-        oid1, oid2 = oid
-    else:
-        print('error')
-        exit(1)
-
-    COMPONENT_SPECIFICATION = _ext.new_type((oid1,), "COMPONENT_SPECIFICATION", ComponentSpecification)
-    COMPONENT_SPECIFICATION_ARRAY = _ext.new_array_type((oid2,), "COMPONENT_SPECIFICATION_ARRAY", COMPONENT_SPECIFICATION)
-
-    _ext.register_type(COMPONENT_SPECIFICATION, conn_or_curs)
-    _ext.register_type(COMPONENT_SPECIFICATION_ARRAY, conn_or_curs)
-
-    return COMPONENT_SPECIFICATION
 
 def register(conn):
     psycopg2.extras.register_uuid()
-    register_common_component_specification(conn_or_curs=conn)
     register_common_facility_head(conn_or_curs=conn)
     register_common_inventory_head(conn_or_curs=conn)
     register_common_unit_conversion(conn_or_curs=conn)
