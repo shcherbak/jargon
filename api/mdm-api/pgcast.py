@@ -84,22 +84,22 @@ class FacilityHead(object):
         self.display_name = None
         self.document_date = None
         self.parent_facility_code = None
-        self.document_type = None
+        self.facility_type = None
         if s:
             self.from_string(s)
 
     def __repr__(self):
-            return "facility_head(document_id={0}, \
-                    gid={1}, facility_code={2}, version_num={3}, \
-                    display_name={4}, document_date={5}, parent_facility_code={6}, document_type={7})". \
-                format(self.document_id,
-                       self.gid,
-                       self.facility_code,
-                       self.version_num,
-                       self.display_name,
-                       self.document_date,
-                       self.parent_facility_code,
-                       self.document_type)
+        return "facility_head(document_id={0}, \
+                gid={1}, facility_code={2}, version_num={3}, \
+                display_name={4}, document_date={5}, parent_facility_code={6}, facility_type={7})". \
+            format(self.document_id,
+                   self.gid,
+                   self.facility_code,
+                   self.version_num,
+                   self.display_name,
+                   self.document_date,
+                   self.parent_facility_code,
+                   self.facility_type)
 
     def __conform__(self, proto):
         if proto == _ext.ISQLQuote:
@@ -117,7 +117,7 @@ class FacilityHead(object):
                 "display_name": self.display_name,
                 "document_date": _document_date,
                 "parent_facility_code": self.parent_facility_code,
-                "document_type": self.document_type}
+                "facility_type": self.facility_type}
 
     def from_dict(self, d):
         if len(d['document_date']) > 0:
@@ -132,20 +132,20 @@ class FacilityHead(object):
         self.display_name = d['display_name']
         self.document_date = _document_date
         self.parent_facility_code = d['parent_facility_code']
-        self.document_type = d['document_type']
+        self.facility_type = d['facility_type']
 
     def from_tuple(self, t):
         self.document_id = int(t[0])
         self.gid = uuid.UUID(t[1])
-        self.display_name = t[2]
-        self.facility_code = t[3]
-        self.version_num = t[4]
+        self.facility_code = t[2]
+        self.version_num = t[3]
+        self.display_name = t[4]
         if len(t[5]) > 0:
             self.document_date = datetime.datetime.strptime(t[5], "%Y-%m-%d")
         else:
             self.document_date = None
         self.parent_facility_code = t[6]
-        self.document_type = t[7]
+        self.facility_type = t[7]
 
     def from_string(self, s):
         if s is None:
@@ -158,6 +158,7 @@ class FacilityHead(object):
                              m.group(4),
                              m.group(5),
                              m.group(6),
+                             m.group(7),
                              m.group(8)))
         else:
             raise psycopg2.InterfaceError("bad facility_head representation: %r" % s)
@@ -171,8 +172,7 @@ class FacilityHead(object):
                     _adapt(self.display_name),
                     _adapt(self.document_date),
                     _adapt(self.parent_facility_code),
-                    _adapt(self.document_type))
-
+                    _adapt(self.facility_type))
 
 
 def register_common_facility_head(oid=None, conn_or_curs=None):
@@ -209,7 +209,7 @@ class InventoryHead(object):
             self.from_string(s)
 
     def __repr__(self):
-        return "facility_head(document_id={0}, \
+        return "inventory_head(document_id={0}, \
                 gid={1}, display_name={2}, part_code={3}, \
                 version_num={4}, document_date={5}, uom_code={6}, curr_fsmt={7}, document_type={8})". \
             format(self.document_id,

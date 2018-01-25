@@ -22,11 +22,11 @@ class Facility:
     def __init__(self, pool, document_id=None):
         self.pool = pool
         self.errors = []
+        self.head = None
         if document_id:
             self.load(document_id)
         else:
             self.head = None
-            self.body = None
 
     def init(self):
         conn = None
@@ -35,7 +35,7 @@ class Facility:
             conn = self.pool.getconn()
             pgcast.register(conn)
             curs = conn.cursor()
-            curs.execute(self.CREATE_DOCUMENT_SQL, (self.head, self.body,))
+            curs.execute(self.CREATE_DOCUMENT_SQL, (self.head,))
             document_id = curs.fetchone()[0]
             conn.commit()
             curs.close()
@@ -53,7 +53,7 @@ class Facility:
             conn = self.pool.getconn()
             pgcast.register(conn)
             curs = conn.cursor()
-            curs.execute(self.UPDATE_BODY_SQL, (document_id, self.body,))
+            curs.execute(self.UPDATE_BODY_SQL, (self.head,))
             conn.commit()
             curs.close()
         except (Exception, psycopg2.DatabaseError) as error:
@@ -66,7 +66,6 @@ class Facility:
 
     def load(self, document_id):
         self._load_head(document_id)
-        self._load_body(document_id)
 
     def delete(self, document_id):
         success = True
@@ -138,46 +137,20 @@ class Facility:
             if conn is not None:
                 self.pool.putconn(conn)
 
-    def _load_body(self, document_id):
-        conn = None
-        try:
-            conn = self.pool.getconn()
-            pgcast.register(conn)
-            curs = conn.cursor()
-            curs.execute(self.GET_BODY_SQL, (document_id,))
-            self.body = curs.fetchone()[0]
-            conn.commit()
-            curs.close()
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-        finally:
-            if conn is not None:
-                self.pool.putconn(conn)
 
     def to_dict(self):
-        _body = []
-        for row in self.body:
-            _body.append(row.to_dict())
-        return {"head": self.head.to_dict(), "body": _body}
+        return {"head": self.head.to_dict()}
 
     def from_dict(self, d):
-        self.head = pgcast.DocumentHead()
-        self.head.from_dict(d['head'])
-        self.body = []
-        for row in d['body']:
-            b = pgcast.DocumentBody()
-            b.from_dict(row)
-            self.body.append(b)
-            # return self.create_document(self.head, self.body)
-
+        print("from dict")
+        self.head = pgcast.FacilityHead()
+        self.head.from_dict(d)
 
     def to_json(self):
         return "json string {0}".format(self)
 
     def from_json(self, json):
         self.head = json
-        self.body = json
-        # return self
 
 
 class Inventory:
