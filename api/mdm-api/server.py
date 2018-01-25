@@ -9,9 +9,8 @@ from flask import Flask, jsonify, request
 import dao
 from connection import pool
 from inputs import (FsmtJsonInputs,
-                    OutboundDocumentJsonInputs,
-                    InboundDocumentJsonInputs,
-                    GenericDocumentJsonInputs)
+                    FacilityJsonInputs,
+                    InventoryJsonInputs)
 
 app = Flask(__name__)
 app.config.from_object('serverconfig')
@@ -67,32 +66,32 @@ def hello_world():
 def get_uoms():
     sdate, edate, facility = date_range_helper(request)
     print (sdate, edate, facility)
-    return jsonify(dao.DemandList(pool, facility, sdate, edate).to_dict())
+    return jsonify(dao.MeasureList(pool, facility, sdate, edate).to_dict())
 
 
 @app.route('/measures/<int:document_id>', methods=['GET'])
 def get_uom(document_id):
-    document = dao.Demand(pool, document_id)
+    document = dao.Measure(pool, document_id)
     return jsonify(document.to_dict())
 
 
 @app.route('/facilities', methods=['GET'])
 def get_facilities():
     sdate, edate, facility = date_range_helper(request)
-    return jsonify(dao.ReserveList(pool, facility, sdate, edate).to_dict())
+    return jsonify(dao.FacilityList(pool, facility, sdate, edate).to_dict())
 
 
 @app.route('/facilities', methods=['POST'])
 def post_facility():
     success = False
     document_id = None
-    inputs = OutboundDocumentJsonInputs(request)
+    inputs = FacilityJsonInputs(request)
     if not inputs.validate():
         response = jsonify(success=success, errors=inputs.errors), 400
         return response
     else:
         data = request.get_json()
-        document = dao.Reserve(pool)
+        document = dao.Facility(pool)
         document.from_dict(data)
         document_id = document.init()
     if document_id:
@@ -112,13 +111,13 @@ def get_facility(document_id):
 @app.route('/facilities/<int:document_id>', methods=['PUT'])
 def put_facility(document_id):
     success = False
-    inputs = FsmtJsonInputs(request)
+    inputs = FacilityJsonInputs(request)
 
     if not inputs.validate():
         response = jsonify(success=False, errors=inputs.errors), 400
     else:
         data = request.get_json()
-        document = dao.Reserve(pool)
+        document = dao.Facility(pool)
 
         if data['curr_fsmt'] == 'COMMITTED':
             success = document.commit(document_id)
@@ -143,20 +142,20 @@ def put_facility(document_id):
 def get_inventories():
     sdate, edate, facility = date_range_helper(request)
     print (sdate, edate, facility)
-    return jsonify(dao.DemandList(pool, facility, sdate, edate).to_dict())
+    return jsonify(dao.InventoryList(pool, facility, sdate, edate).to_dict())
 
 
 @app.route('/inventories', methods=['POST'])
 def post_inventory():
     success = False
     document_id = None
-    inputs = OutboundDocumentJsonInputs(request)
+    inputs = InventoryJsonInputs(request)
     if not inputs.validate():
         response = jsonify(success=success, errors=inputs.errors), 400
         return response
     else:
         data = request.get_json()
-        document = dao.Demand(pool)
+        document = dao.Inventory(pool)
         document.from_dict(data)
         document_id = document.init()
     if document_id:
@@ -169,13 +168,13 @@ def post_inventory():
 
 @app.route('/inventories/<int:document_id>', methods=['GET'])
 def get_inventory(document_id):
-    document = dao.Demand(pool, document_id)
+    document = dao.Inventory(pool, document_id)
     return jsonify(document.to_dict())
 
 
 @app.route('/inventories/<int:document_id>', methods=['DELETE'])
 def del_inventory(document_id):
-    document = dao.Demand(pool)
+    document = dao.Inventory(pool)
     success = document.delete(document_id)
     if success:
         response = ('', 204)
@@ -187,13 +186,13 @@ def del_inventory(document_id):
 @app.route('/inventories/<int:document_id>', methods=['PUT'])
 def put_inventory(document_id):
     success = False
-    inputs = FsmtJsonInputs(request)
+    inputs = InventoryJsonInputs(request)
 
     if not inputs.validate():
         response = jsonify(success=False, errors=inputs.errors), 400
     else:
         data = request.get_json()
-        document = dao.Demand(pool)
+        document = dao.Inventory(pool)
 
         if data['curr_fsmt'] == 'COMMITTED':
             success = document.commit(document_id)

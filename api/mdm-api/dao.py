@@ -6,6 +6,9 @@ import psycopg2.extras
 import pgcast
 
 
+class Measure:
+    pass
+
 class Facility:
     GET_HEAD_SQL = "SELECT facility.get_head(__document_id := %s)"
     GET_BODY_SQL = None
@@ -15,125 +18,6 @@ class Facility:
     COMMIT_DOCUMENT_SQL = None
     DECOMMIT_DOCUMENT_SQL = None
 
-
-
-    def __init__(self, pool, document_id=None):
-        self.pool = pool
-        self.errors = []
-        if document_id:
-            self.load(document_id)
-        else:
-            self.head = None
-
-    def init(self):
-        conn = None
-        document_id = None
-        try:
-            conn = self.pool.getconn()
-            pgcast.register(conn)
-            curs = conn.cursor()
-            curs.execute(self.CREATE_DOCUMENT_SQL, (self.head,))
-            document_id = curs.fetchone()[0]
-            conn.commit()
-            curs.close()
-        except (Exception, psycopg2.DatabaseError) as error:
-            self.errors.append(error.pgerror)
-        finally:
-            if conn is not None:
-                self.pool.putconn(conn)
-        return document_id
-
-    def reinit(self, head):
-        success = True
-        conn = None
-        try:
-            conn = self.pool.getconn()
-            pgcast.register(conn)
-            curs = conn.cursor()
-            curs.execute(self.UPDATE_BODY_SQL, (head,))
-            conn.commit()
-            curs.close()
-        except (Exception, psycopg2.DatabaseError) as error:
-            success = False
-            self.errors.append(error.pgerror)
-        finally:
-            if conn is not None:
-                self.pool.putconn(conn)
-        return success
-
-    def load(self, document_id):
-        self._load_head(document_id)
-
-    def delete(self, document_id):
-        success = True
-        conn = None
-        try:
-            conn = self.pool.getconn()
-            pgcast.register(conn)
-            curs = conn.cursor()
-            curs.execute(self.DELETE_DOCUMENT_SQL, (document_id,))
-            conn.commit()
-            curs.close()
-        except (Exception, psycopg2.DatabaseError) as error:
-            success = False
-            self.errors.append(error.pgerror)
-        finally:
-            if conn is not None:
-                self.pool.putconn(conn)
-        return success
-
-    def commit(self, document_id, apprise=True):
-        pass
-
-    def decommit(self, document_id, apprise=True):
-        pass
-
-    def _load_head(self, document_id):
-        conn = None
-        try:
-            conn = self.pool.getconn()
-            pgcast.register(conn)
-            curs = conn.cursor()
-            curs.execute(self.GET_HEAD_SQL, (document_id,))
-            print(self.GET_HEAD_SQL)
-            self = curs.fetchone()[0]
-            print(self)
-            conn.commit()
-            curs.close()
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-        finally:
-            if conn is not None:
-                self.pool.putconn(conn)
-
-    def _load_body(self, document_id):
-        pass
-
-    def to_dict(self):
-        return self.to_dict()
-
-    def from_dict(self, d):
-        self.head = pgcast.FacilityHead()
-        self.head.from_dict(d)
-
-    def to_json(self):
-        return "json string {0}".format(self)
-
-    def from_json(self, json):
-        self.head = json
-
-
-#class InventoryDocument:
-
-
-class BaseDocument:
-    GET_HEAD_SQL = None
-    GET_BODY_SQL = None
-    UPDATE_BODY_SQL = None
-    DELETE_DOCUMENT_SQL = None
-    CREATE_DOCUMENT_SQL = None
-    COMMIT_DOCUMENT_SQL = None
-    DECOMMIT_DOCUMENT_SQL = None
 
     def __init__(self, pool, document_id=None):
         self.pool = pool
@@ -286,6 +170,7 @@ class BaseDocument:
             self.body.append(b)
             # return self.create_document(self.head, self.body)
 
+
     def to_json(self):
         return "json string {0}".format(self)
 
@@ -295,27 +180,203 @@ class BaseDocument:
         # return self
 
 
-class OutboundDocument(BaseDocument):
+class Inventory:
+    GET_HEAD_SQL = "SELECT inventory.get_head(__document_id := %s)"
+    GET_MEAS_SQL = "SELECT inventory.get_meas_spec(__document_id := %s)"
+    GET_KIND_SQL = "SELECT inventory.get_kind_spec(__document_id := %s)"
+    UPDATE_BODY_SQL = "SELECT inventory.reinit(__head := %s)"
+    DELETE_DOCUMENT_SQL = "SELECT inventory.destroy(__document_id := %s)"
+    CREATE_DOCUMENT_SQL = "SELECT inventory.init(__head := %s, __meas := %s, __kind := %s)"
+    COMMIT_DOCUMENT_SQL = None
+    DECOMMIT_DOCUMENT_SQL = None
+
+
+    def __init__(self, pool, document_id=None):
+        self.pool = pool
+        self.errors = []
+        if document_id:
+            self.load(document_id)
+        else:
+            self.head = None
+            self.meas = None
+            self.kind = None
+
+    def init(self):
+        conn = None
+        document_id = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.CREATE_DOCUMENT_SQL, (self.head, self.meas, self.kind,))
+            document_id = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return document_id
+
+    def reinit(self, document_id):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.UPDATE_BODY_SQL, (self.head,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def load(self, document_id):
+        self._load_head(document_id)
+        self._load_meas(document_id)
+        self._load_kind(document_id)
+
+    def delete(self, document_id):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.DELETE_DOCUMENT_SQL, (document_id,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def commit(self, document_id, apprise=True):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.COMMIT_DOCUMENT_SQL, (document_id, apprise,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def decommit(self, document_id, apprise=True):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.DECOMMIT_DOCUMENT_SQL, (document_id, apprise,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def _load_head(self, document_id):
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.GET_HEAD_SQL, (document_id,))
+            self.head = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+
+    def _load_meas(self, document_id):
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.GET_MEAS_SQL, (document_id,))
+            self.meas = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+
+    def _load_kind(self, document_id):
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.GET_KIND_SQL, (document_id,))
+            self.kind = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+
+
+    def to_dict(self):
+        _meas = []
+        _kind = []
+        for row in self.meas:
+            _meas.append(row.to_dict())
+        #for row in self.kind:
+        #    _kind.append(row.to_dict())
+        return {"head": self.head.to_dict(), "meas": _meas, "kind": self.kind}
+
     def from_dict(self, d):
-        self.head = pgcast.OutboundHead()
+        self.head = pgcast.InventoryHead()
         self.head.from_dict(d['head'])
-        self.body = []
-        for row in d['body']:
-            b = pgcast.DocumentBody()
-            b.from_dict(row)
-            self.body.append(b)
+        self.meas = []
+        self.kind = d['kind']
+        for row in d['meas']:
+            m = pgcast.UnitConversion()
+            m.from_dict(row)
+            self.body.append(m)
             # return self.create_document(self.head, self.body)
-        #print (self.head.to_dict())
+        #for row in d['kind']:
+        #    b = pgcast.DocumentBody()
+        #    b.from_dict(row)
+        #    self.body.append(b)
 
 
-class Demand(OutboundDocument):
-    GET_HEAD_SQL = "SELECT demand.get_head(__document_id := %s)"
-    GET_BODY_SQL = "SELECT demand.get_body(__document_id := %s)"
-    UPDATE_BODY_SQL = "SELECT demand.reinit(__document_id := %s, __body := %s)"
-    DELETE_DOCUMENT_SQL = "SELECT demand.destroy(__document_id := %s)"
-    CREATE_DOCUMENT_SQL = "SELECT demand.init(__head := %s, __body := %s)"
-    COMMIT_DOCUMENT_SQL = "SELECT demand.do_commit(__document_id := %s, __apprise := %s)"
-    DECOMMIT_DOCUMENT_SQL = "SELECT demand.do_decommit(__document_id := %s, __apprise := %s)"
+    def to_json(self):
+        return "json string {0}".format(self)
+
+    def from_json(self, json):
+        self.head = json
+        self.body = json
+        # return self
 
 
 class BaseDocumentList:
@@ -362,5 +423,14 @@ class BaseDocumentList:
         return result_list
 
 
-class DemandList(BaseDocumentList):
+class MeasureList(BaseDocumentList):
     GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
+
+
+class InventoryList(BaseDocumentList):
+    GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
+
+
+class FacilityList(BaseDocumentList):
+    GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
+
