@@ -24,7 +24,7 @@
       "multipleOf": 0.0001
     }
   },
-  "additionalPoperties": false,
+  "additionalProperties": false,
   "required": [
     "uom_code",
     "uom_domain",

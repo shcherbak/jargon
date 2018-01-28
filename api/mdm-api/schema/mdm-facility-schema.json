@@ -43,7 +43,7 @@
       ]
     }
   },
-  "additionalPoperties": false,
+  "additionalProperties": false,
   "required": [
     "id",
     "gid",
