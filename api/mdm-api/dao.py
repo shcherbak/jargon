@@ -9,6 +9,7 @@ import pgcast
 class Measure:
     pass
 
+
 class Facility:
     GET_HEAD_SQL = "SELECT facility.get_head(__document_id := %s)"
     GET_BODY_SQL = None
@@ -17,7 +18,6 @@ class Facility:
     CREATE_DOCUMENT_SQL = "SELECT facility.init(__head := %s)"
     COMMIT_DOCUMENT_SQL = None
     DECOMMIT_DOCUMENT_SQL = None
-
 
     def __init__(self, pool, document_id=None):
         self.pool = pool
@@ -46,7 +46,7 @@ class Facility:
                 self.pool.putconn(conn)
         return document_id
 
-    def reinit(self, document_id):
+    def reinit(self):
         success = True
         conn = None
         try:
@@ -137,7 +137,6 @@ class Facility:
             if conn is not None:
                 self.pool.putconn(conn)
 
-
     def to_dict(self):
         return {"head": self.head.to_dict()}
 
@@ -162,7 +161,6 @@ class Inventory:
     CREATE_DOCUMENT_SQL = "SELECT inventory.init(__head := %s, __meas := %s, __kind := %s)"
     COMMIT_DOCUMENT_SQL = None
     DECOMMIT_DOCUMENT_SQL = None
-
 
     def __init__(self, pool, document_id=None):
         self.pool = pool
@@ -192,7 +190,7 @@ class Inventory:
                 self.pool.putconn(conn)
         return document_id
 
-    def reinit(self, document_id):
+    def reinit(self):
         success = True
         conn = None
         try:
@@ -317,13 +315,11 @@ class Inventory:
             if conn is not None:
                 self.pool.putconn(conn)
 
-
     def to_dict(self):
         _meas = []
-        _kind = []
         for row in self.meas:
             _meas.append(row.to_dict())
-        #for row in self.kind:
+        # for row in self.kind:
         #    _kind.append(row.to_dict())
         return {"head": self.head.to_dict(), "meas": _meas, "kind": self.kind}
 
@@ -337,11 +333,10 @@ class Inventory:
             m.from_dict(row)
             self.body.append(m)
             # return self.create_document(self.head, self.body)
-        #for row in d['kind']:
-        #    b = pgcast.DocumentBody()
-        #    b.from_dict(row)
-        #    self.body.append(b)
-
+            # for row in d['kind']:
+            #    b = pgcast.DocumentBody()
+            #    b.from_dict(row)
+            #    self.body.append(b)
 
     def to_json(self):
         return "json string {0}".format(self)
@@ -406,4 +401,3 @@ class InventoryList(BaseDocumentList):
 
 class FacilityList(BaseDocumentList):
     GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
-

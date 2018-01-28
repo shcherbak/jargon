@@ -14,11 +14,12 @@ def connection():
     except(Exception, psycopg2.DatabaseError) as error:
         print(error)
 
+
 def pool():
     try:
         params = dbpoolconfig()
-        pool = SimpleConnectionPool(**params)
-        print ("!!!!!!!!!!!! pool() !!!!!!!!!!!!")
-        return pool
+        connection_pool = SimpleConnectionPool(**params)
+        print("!!!!!!!!!!!! pool() !!!!!!!!!!!!")
+        return connection_pool
     except(Exception, psycopg2.DatabaseError) as error:
         print(error)

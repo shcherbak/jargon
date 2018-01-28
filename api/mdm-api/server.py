@@ -52,6 +52,7 @@ def date_range_helper(request):
 
     return sdate, edate, facility
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return "404 not found", 404
@@ -65,7 +66,7 @@ def hello_world():
 @app.route('/measures', methods=['GET'])
 def get_uoms():
     sdate, edate, facility = date_range_helper(request)
-    print (sdate, edate, facility)
+    print(sdate, edate, facility)
     return jsonify(dao.MeasureList(pool, facility, sdate, edate).to_dict())
 
 
@@ -137,11 +138,10 @@ def put_facility(document_id):
     return response
 
 
-
 @app.route('/inventories', methods=['GET'])
 def get_inventories():
     sdate, edate, facility = date_range_helper(request)
-    print (sdate, edate, facility)
+    print(sdate, edate, facility)
     return jsonify(dao.InventoryList(pool, facility, sdate, edate).to_dict())
 
 
@@ -182,6 +182,7 @@ def del_inventory(document_id):
         response = jsonify(success=False, errors=document.errors), 400
 
     return response
+
 
 @app.route('/inventories/<int:document_id>', methods=['PUT'])
 def put_inventory(document_id):

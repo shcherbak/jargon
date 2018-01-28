@@ -20,6 +20,7 @@ def dbconfig(filename='config.ini', section='database'):
 
     return db
 
+
 def dbpoolconfig(filename='config.ini', section='database-pool'):
     # create a parser
     parser = ConfigParser()

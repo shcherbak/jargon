@@ -83,11 +83,14 @@ class Inputs(object):
 class FsmtJsonInputs(Inputs):
     json = [JsonSchema(schema=j.loads(open("schema/warehouse-fsmt-schema.json").read()))]
 
+
 class FacilityJsonInputs(Inputs):
     json = [JsonSchema(schema=j.loads(open("schema/warehouse-generic-document-schema.json").read()))]
 
+
 class InventoryJsonInputs(Inputs):
     json = [JsonSchema(schema=j.loads(open("schema/warehouse-inbound-document-schema.json").read()))]
+
 
 class JsonInputsMsg(Inputs):
     schema = j.loads(open("schema/warehouse-fsmt-schema.json").read())
