@@ -10,7 +10,8 @@ import dao
 from connection import pool
 from inputs import (FsmtJsonInputs,
                     FacilityJsonInputs,
-                    InventoryJsonInputs)
+                    InventoryJsonInputs,
+                    MeasureJsonInputs)
 
 app = Flask(__name__)
 app.config.from_object('serverconfig')

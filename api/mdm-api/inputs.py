@@ -85,11 +85,15 @@ class FsmtJsonInputs(Inputs):
 
 
 class FacilityJsonInputs(Inputs):
-    json = [JsonSchema(schema=j.loads(open("schema/warehouse-generic-document-schema.json").read()))]
+    json = [JsonSchema(schema=j.loads(open("schema/mdm-facility-schema.json").read()))]
 
 
 class InventoryJsonInputs(Inputs):
-    json = [JsonSchema(schema=j.loads(open("schema/warehouse-inbound-document-schema.json").read()))]
+    json = [JsonSchema(schema=j.loads(open("schema/mdm-inventory-schema.json").read()))]
+
+
+class MeasureJsonInputs(Inputs):
+    json = [JsonSchema(schema=j.loads(open("schema/mdm-uom-schema.json").read()))]
 
 
 class JsonInputsMsg(Inputs):
