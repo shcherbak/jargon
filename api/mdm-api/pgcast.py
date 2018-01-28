@@ -350,8 +350,48 @@ class UnitConversion(PgUserTypeMaping):
                 self.factor)
 
 
+class UomHead(PgUserTypeMaping):
+    pg_schm_name = 'common'
+    pg_type_name = 'unit_head'
+    pg_field_list = ['uom_code', 'uom_domain', 'base_uom_code', 'factor']
+
+    def __init__(self, s=None, curs=None):
+        self.uom_code = None
+        self.uom_domain = None
+        self.base_uom_code = None
+        self.factor = None
+        if s:
+            self.from_string(s)
+            print(self)
+
+    def to_dict(self):
+        return {"uom_code": self.uom_code,
+                "uom_domain": self.uom_domain,
+                "base_uom_code": self.base_uom_code,
+                "factor": float(self.factor)}
+
+    def from_dict(self, d):
+        self.uom_code = d['uom_code']
+        self.uom_domain = d['uom_domain']
+        self.base_uom_code = d['base_uom_code']
+        self.factor = Decimal(d['factor'])
+
+    def from_tuple(self, t):
+        self.uom_code = t[0]
+        self.uom_domain = t[1]
+        self.base_uom_code = t[2]
+        self.factor = Decimal(t[3])
+
+    def to_tuple(self):
+        return (self.uom_code,
+                self.uom_domain,
+                self.base_uom_code,
+                self.factor)
+
+
 def register(conn):
     psycopg2.extras.register_uuid()
+    pg_typ_caster(connection=conn, nspname='common', typname='uom_head', mapclass=UomHead)
     pg_typ_caster(connection=conn, nspname='common', typname='facility_head', mapclass=FacilityHead)
     pg_typ_caster(connection=conn, nspname='common', typname='inventory_head', mapclass=InventoryHead)
     pg_typ_caster(connection=conn, nspname='common', typname='unit_conversion_type', mapclass=UnitConversion)

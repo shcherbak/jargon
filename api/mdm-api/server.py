@@ -71,9 +71,9 @@ def get_uoms():
     return jsonify(dao.MeasureList(pool, facility, sdate, edate).to_dict())
 
 
-@app.route('/measures/<int:document_id>', methods=['GET'])
-def get_uom(document_id):
-    document = dao.Measure(pool, document_id)
+@app.route('/measures/<string:uom_code>', methods=['GET'])
+def get_uom(uom_code):
+    document = dao.Measure(pool, uom_code)
     return jsonify(document.to_dict())
 
 

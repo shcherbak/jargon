@@ -7,7 +7,145 @@ import pgcast
 
 
 class Measure:
-    pass
+    GET_HEAD_SQL = "SELECT uom.get_head(__uom_code := %s)"
+    GET_BODY_SQL = None
+    UPDATE_BODY_SQL = "SELECT uom.reinit(__head := %s)"
+    DELETE_DOCUMENT_SQL = "SELECT uom.destroy(__document_id := %s)"
+    CREATE_DOCUMENT_SQL = "SELECT uom.init(__head := %s)"
+    COMMIT_DOCUMENT_SQL = None
+    DECOMMIT_DOCUMENT_SQL = None
+
+    def __init__(self, pool, uom_code=None):
+        self.pool = pool
+        self.errors = []
+        self.head = None
+        if uom_code:
+            self.load(uom_code)
+        else:
+            self.head = None
+
+    def init(self):
+        conn = None
+        document_id = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.CREATE_DOCUMENT_SQL, (self.head,))
+            document_id = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return document_id
+
+    def reinit(self):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.UPDATE_BODY_SQL, (self.head,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def load(self, uom_code):
+        self._load_head(uom_code)
+
+    def delete(self, document_id):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.DELETE_DOCUMENT_SQL, (document_id,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def commit(self, document_id, apprise=True):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.COMMIT_DOCUMENT_SQL, (document_id, apprise,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def decommit(self, document_id, apprise=True):
+        success = True
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.DECOMMIT_DOCUMENT_SQL, (document_id, apprise,))
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            success = False
+            self.errors.append(error.pgerror)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+        return success
+
+    def _load_head(self, uom_code):
+        conn = None
+        try:
+            conn = self.pool.getconn()
+            pgcast.register(conn)
+            curs = conn.cursor()
+            curs.execute(self.GET_HEAD_SQL, (uom_code,))
+            self.head = curs.fetchone()[0]
+            conn.commit()
+            curs.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                self.pool.putconn(conn)
+
+    def to_dict(self):
+        return {"head": self.head.to_dict()}
+
+    def from_dict(self, d):
+        print("from dict")
+        self.head = pgcast.UomHead()
+        self.head.from_dict(d)
+
+    def to_json(self):
+        return "json string {0}".format(self)
+
+    def from_json(self, json):
+        self.head = json
 
 
 class Facility:
