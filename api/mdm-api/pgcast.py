@@ -86,14 +86,12 @@ class PgUserTypeMaping(object):
         else:
             if isinstance(o, str):
                 return "'{0}'".format(o)
-                # return o
             elif isinstance(o, int):
                 return o
             elif isinstance(o, Decimal):
                 return o
             elif isinstance(o, datetime.date):
                 return _ext.DateFromPy(o)
-                # _ext.Flo
             elif isinstance(o, datetime.timedelta):
                 return _ext.IntervalFromPy(o)
             else:
