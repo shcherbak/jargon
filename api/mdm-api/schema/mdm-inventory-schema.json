@@ -92,6 +92,9 @@
             "COMMITTED",
             "DECOMMITTED"
           ]
+        },
+        "document_type": {
+          "type": "string"
         }
       },
       "additionalProperties": false,

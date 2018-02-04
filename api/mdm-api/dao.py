@@ -9,9 +9,9 @@ import pgcast
 class Measure:
     GET_HEAD_SQL = "SELECT uom.get_head(__uom_code := %s)"
     GET_BODY_SQL = None
-    UPDATE_BODY_SQL = "SELECT uom.reinit(__head := %s)"
-    DELETE_DOCUMENT_SQL = "SELECT uom.destroy(__document_id := %s)"
-    CREATE_DOCUMENT_SQL = "SELECT uom.init(__head := %s)"
+    UPDATE_BODY_SQL = None
+    DELETE_DOCUMENT_SQL = None
+    CREATE_DOCUMENT_SQL = None
     COMMIT_DOCUMENT_SQL = None
     DECOMMIT_DOCUMENT_SQL = None
 
@@ -305,6 +305,7 @@ class Inventory:
         self.errors = []
         if document_id:
             self.load(document_id)
+            #print('SELF.KIND', type(self.kind))
         else:
             self.head = None
             self.meas = None
@@ -455,9 +456,10 @@ class Inventory:
 
     def to_dict(self):
         _meas = []
+        _kind = []
         for row in self.meas:
             _meas.append(row.to_dict())
-        # for row in self.kind:
+        #for row in self.kind:
         #    _kind.append(row.to_dict())
         return {"head": self.head.to_dict(), "meas": _meas, "kind": self.kind}
 
@@ -469,7 +471,7 @@ class Inventory:
         for row in d['meas']:
             m = pgcast.UnitConversion()
             m.from_dict(row)
-            self.body.append(m)
+            self.meas.append(m)
             # return self.create_document(self.head, self.body)
             # for row in d['kind']:
             #    b = pgcast.DocumentBody()

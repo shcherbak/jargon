@@ -187,15 +187,27 @@ class PgUserTypeMaping(object):
         return tuple(_res)
 
 
+#class FacilityKind(PgUserTypeMaping):
+#    pg_schm_name = 'common',
+#    pg_type_name = 'facility_kind'
+#    pg_field_list = []
+
+
+#class InventoryKind(PgUserTypeMaping):
+#    pg_schm_name = 'common',
+#    pg_type_name = 'inventory_kind'
+#    pg_field_list = []
+
+
 class FacilityHead(PgUserTypeMaping):
     pg_schm_name = 'common'
     pg_type_name = 'facility_head'
-    pg_field_list = ['document_id', 'gid', 'facility_code',
+    pg_field_list = ['id', 'gid', 'facility_code',
                      'version_num', 'display_name', 'document_date',
                      'parent_facility_code', 'facility_type']
 
     def __init__(self, s=None, curs=None):
-        self.document_id = None
+        self.id = None
         self.gid = None
         self.facility_code = None
         self.version_num = None
@@ -212,7 +224,7 @@ class FacilityHead(PgUserTypeMaping):
             _document_date = self.document_date.strftime('%Y-%m-%d')
         else:
             _document_date = None
-        return {"document_id": self.document_id,
+        return {"id": self.id,
                 "gid": self.gid,
                 "facility_code": self.facility_code,
                 "version_num": self.version_num,
@@ -227,7 +239,7 @@ class FacilityHead(PgUserTypeMaping):
         else:
             _document_date = None
 
-        self.document_id = d['document_id']
+        self.id = d['id']
         self.gid = d['gid']
         self.facility_code = d['facility_code']
         self.version_num = d['version_num']
@@ -237,7 +249,7 @@ class FacilityHead(PgUserTypeMaping):
         self.facility_type = d['facility_type']
 
     def from_tuple(self, t):
-        self.document_id = int(t[0])
+        self.id = int(t[0])
         self.gid = uuid.UUID(t[1])
         self.facility_code = t[2]
         self.version_num = t[3]
@@ -250,7 +262,7 @@ class FacilityHead(PgUserTypeMaping):
         self.facility_type = t[7]
 
     def to_tuple(self):
-        return (self.document_id,
+        return (self.id,
                 self.gid,
                 self.facility_code,
                 self.version_num,
@@ -263,12 +275,12 @@ class FacilityHead(PgUserTypeMaping):
 class InventoryHead(PgUserTypeMaping):
     pg_schm_name = 'common'
     pg_type_name = 'inventory_head'
-    pg_field_list = ['document_id', 'gid', 'display_name',
+    pg_field_list = ['id', 'gid', 'display_name',
                      'part_code', 'version_num', 'document_date',
                      'uom_code', 'curr_fsmt', 'document_type']
 
     def __init__(self, s=None, curs=None):
-        self.document_id = None
+        self.id = None
         self.gid = None
         self.display_name = None
         self.part_code = None
@@ -286,7 +298,7 @@ class InventoryHead(PgUserTypeMaping):
             _document_date = self.document_date.strftime('%Y-%m-%d')
         else:
             _document_date = None
-        return {"document_id": self.document_id,
+        return {"id": self.id,
                 "gid": self.gid,
                 "display_name": self.display_name,
                 "part_code": self.part_code,
@@ -302,7 +314,7 @@ class InventoryHead(PgUserTypeMaping):
         else:
             _document_date = None
 
-        self.document_id = d['document_id']
+        self.id = d['id']
         self.gid = d['gid']
         self.display_name = d['display_name']
         self.part_code = d['part_code']
@@ -313,7 +325,7 @@ class InventoryHead(PgUserTypeMaping):
         self.document_type = d['document_type']
 
     def from_tuple(self, t):
-        self.document_id = int(t[0])
+        self.id = int(t[0])
         self.gid = uuid.UUID(t[1])
         self.display_name = t[2]
         self.part_code = t[3]
@@ -327,7 +339,7 @@ class InventoryHead(PgUserTypeMaping):
         self.document_type = t[8]
 
     def to_tuple(self):
-        return (self.document_id,
+        return (self.id,
                 self.gid,
                 self.display_name,
                 self.part_code,
@@ -415,5 +427,7 @@ def register(conn):
     psycopg2.extras.register_uuid()
     pg_typ_caster(connection=conn, nspname='common', typname='uom_head', mapclass=UomHead)
     pg_typ_caster(connection=conn, nspname='common', typname='facility_head', mapclass=FacilityHead)
+    #pg_typ_caster(connection=conn, nspname='common', typname='facility_kind', mapclass=FacilityKind)
     pg_typ_caster(connection=conn, nspname='common', typname='inventory_head', mapclass=InventoryHead)
+    #pg_typ_caster(connection=conn, nspname='common', typname='inventory_kind', mapclass=InventoryKind)
     pg_typ_caster(connection=conn, nspname='common', typname='unit_conversion_type', mapclass=UnitConversion)

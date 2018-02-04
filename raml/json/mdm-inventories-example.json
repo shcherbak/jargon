@@ -8,7 +8,8 @@
       "version_num": 1,
       "document_date": "2017-02-01",
       "uom_code": "kg",
-      "curr_fsmt": "PROPOSED"
+      "curr_fsmt": "PROPOSED",
+      "document_type": "INVENTORY"
     },
     "meas": [
       {
@@ -36,7 +37,8 @@
       "version_num": 1,
       "document_date": "2017-02-01",
       "uom_code": "kg",
-      "curr_fsmt": "PROPOSED"
+      "curr_fsmt": "PROPOSED",
+      "document_type": "INVENTORY"
     },
     "meas": [
       {

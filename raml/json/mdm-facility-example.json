@@ -2,8 +2,9 @@
   "id": 123,
   "gid": "b3dbaf2c-3f1c-11e7-b691-d4bed939923a",
   "facility_code": "SZN-A10-AB1AA0",
+  "version_num": 1,
   "display_name": "Storage Zone of Area ARE-M10-ZX1BB0",
   "document_date": "2018-01-01",
-  "parent_facility_code": "ARE-M10-ZX1BB0",
+  "parent_facility_code": "A04",
   "facility_type": "ZONE"
 }
