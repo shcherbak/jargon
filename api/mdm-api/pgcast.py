@@ -193,10 +193,63 @@ class PgUserTypeMaping(object):
 #    pg_field_list = []
 
 
-#class InventoryKind(PgUserTypeMaping):
-#    pg_schm_name = 'common',
-#    pg_type_name = 'inventory_kind'
-#    pg_field_list = []
+class InventoryKind(PgUserTypeMaping):
+    pg_schm_name = 'common',
+    pg_type_name = 'inventory_kind'
+    pg_field_list = []
+
+    def __init__(self, s=None, curs=None):
+        self.val = None
+        if s:
+            self.from_string(s)
+            #print(self)
+
+
+    def __conform__(self, proto):
+        if proto == _ext.ISQLQuote:
+            return self
+
+    # create
+    def from_set(self, s):
+        #print("FROM SET ", self.val)
+        self.val = s
+
+    def to_dict(self):
+        pass
+        #print("to DICT ", self.val)
+        #return self.val
+
+    def from_dict(self, d):
+        pass
+        #print("FROM DICT ", d)
+        #self.val = self.from_set(set(d))
+
+    # get
+    def from_tuple(self, t):
+        #print("FROM TUPLE ", t)
+        self.val = t[0]
+
+    def to_tuple(self):
+        pass
+        #print("to TUPLE ", self.val)
+        #return (self.val)
+
+    def __repr__(self):
+        return "'{0}'::common.inventory_kind".format(self.val)
+
+    # get
+    def from_string(self, s):
+        #print("FROM string ")
+        #print('strng to parse', s)
+        rv = []
+        rv.append(s)
+        self.from_tuple(tuple(rv))
+
+    # create
+    def getquoted(self):
+        #print("get quoted ")
+        return "'{0}'::common.inventory_kind".format(self.val)
+
 
 
 class FacilityHead(PgUserTypeMaping):
@@ -217,7 +270,7 @@ class FacilityHead(PgUserTypeMaping):
         self.facility_type = None
         if s:
             self.from_string(s)
-            print(self)
+            #print(self)
 
     def to_dict(self):
         if self.document_date:
@@ -291,7 +344,7 @@ class InventoryHead(PgUserTypeMaping):
         self.document_type = None
         if s:
             self.from_string(s)
-            print(self)
+            #print(self)
 
     def to_dict(self):
         if self.document_date:
@@ -361,7 +414,7 @@ class UnitConversion(PgUserTypeMaping):
         self.factor = None
         if s:
             self.from_string(s)
-            print(self)
+            #print(self)
 
     def to_dict(self):
         return {"uom_code_from": self.uom_code_from,
@@ -429,5 +482,5 @@ def register(conn):
     pg_typ_caster(connection=conn, nspname='common', typname='facility_head', mapclass=FacilityHead)
     #pg_typ_caster(connection=conn, nspname='common', typname='facility_kind', mapclass=FacilityKind)
     pg_typ_caster(connection=conn, nspname='common', typname='inventory_head', mapclass=InventoryHead)
-    #pg_typ_caster(connection=conn, nspname='common', typname='inventory_kind', mapclass=InventoryKind)
+    pg_typ_caster(connection=conn, nspname='common', typname='inventory_kind', mapclass=InventoryKind)
     pg_typ_caster(connection=conn, nspname='common', typname='unit_conversion_type', mapclass=UnitConversion)

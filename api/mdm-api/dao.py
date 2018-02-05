@@ -459,24 +459,23 @@ class Inventory:
         _kind = []
         for row in self.meas:
             _meas.append(row.to_dict())
-        #for row in self.kind:
-        #    _kind.append(row.to_dict())
-        return {"head": self.head.to_dict(), "meas": _meas, "kind": self.kind}
+        for row in self.kind:
+            _kind.append(row.val)
+        return {"head": self.head.to_dict(), "meas": _meas, "kind": _kind}
 
     def from_dict(self, d):
         self.head = pgcast.InventoryHead()
         self.head.from_dict(d['head'])
         self.meas = []
-        self.kind = d['kind']
         for row in d['meas']:
             m = pgcast.UnitConversion()
             m.from_dict(row)
             self.meas.append(m)
-            # return self.create_document(self.head, self.body)
-            # for row in d['kind']:
-            #    b = pgcast.DocumentBody()
-            #    b.from_dict(row)
-            #    self.body.append(b)
+        self.kind = []
+        for row in d['kind']:
+            m = pgcast.InventoryKind()
+            m.from_set(row)
+            self.kind.append(m)
 
     def to_json(self):
         return "json string {0}".format(self)
@@ -484,7 +483,6 @@ class Inventory:
     def from_json(self, json):
         self.head = json
         self.body = json
-        # return self
 
 
 class BaseDocumentList:
