@@ -305,6 +305,7 @@ class Inventory:
         self.errors = []
         if document_id:
             self.load(document_id)
+            print(self)
             #print('SELF.KIND', type(self.kind))
         else:
             self.head = None
@@ -319,12 +320,17 @@ class Inventory:
             pgcast.register(conn)
             curs = conn.cursor()
             curs.execute(self.CREATE_DOCUMENT_SQL, (self.head, self.meas, self.kind,))
+            print("CURSOR", (self.CREATE_DOCUMENT_SQL, (self.head, self.meas, self.kind,)))
             document_id = curs.fetchone()[0]
             conn.commit()
             curs.close()
-        except (Exception, psycopg2.DatabaseError) as error:
-            self.errors.append(error.pgerror)
+        #except (Exception, psycopg2.DatabaseError) as error:
+        #    self.errors.append(error.pgerror)
+        except (Exception) as error:
+            print(error)
+            self.errors.append(error)
         finally:
+            print("WTF!!!!!!!!!!!!!!!!!!!!!!!!")
             if conn is not None:
                 self.pool.putconn(conn)
         return document_id
@@ -466,16 +472,19 @@ class Inventory:
     def from_dict(self, d):
         self.head = pgcast.InventoryHead()
         self.head.from_dict(d['head'])
+        print('FROM DICT', self.head)
         self.meas = []
         for row in d['meas']:
             m = pgcast.UnitConversion()
             m.from_dict(row)
             self.meas.append(m)
+        print('FROM DICT', self.meas)
         self.kind = []
         for row in d['kind']:
             m = pgcast.InventoryKind()
             m.from_set(row)
             self.kind.append(m)
+        print('FROM DICT', self.kind)
 
     def to_json(self):
         return "json string {0}".format(self)

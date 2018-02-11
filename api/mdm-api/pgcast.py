@@ -10,7 +10,6 @@ import psycopg2.extras
 import re
 
 
-
 def pg_typ_caster(connection, nspname, typname, mapclass):
     def _get_pg_nspname_oid():
         _sql = 'SELECT oid FROM pg_namespace WHERE nspname = %s'
@@ -59,6 +58,140 @@ def pg_typ_caster(connection, nspname, typname, mapclass):
     return pg_udf_type
 
 
+def parse_string_from_dict(dict_object, dict_element):
+    try:
+        _result = dict_object[dict_element]
+    except (Exception, KeyError):
+        _result = None
+    return _result
+
+
+def parse_int_from_dict(dict_object, dict_element):
+    try:
+        if dict_object[dict_element]:
+            _result = int(dict_object[dict_element])
+        else:
+            _result = None
+    except (Exception, KeyError):
+        _result = None
+    return _result
+
+
+def parse_decimal_from_dict(dict_object, dict_element):
+    try:
+        if dict_object[dict_element]:
+            _result = Decimal(dict_object[dict_element])
+        else:
+            _result = None
+    except (Exception, KeyError):
+        _result = None
+    return _result
+
+
+def parse_date_from_dict(dict_object, dict_element):
+    try:
+        if len(dict_object[dict_element]) > 0:
+            _result = date_from_string(dict_object[dict_element])
+        else:
+            _result = None
+    except (Exception, KeyError):
+        _result = None
+    return _result
+
+
+def parse_uuid_from_dict(dict_object, dict_element):
+    try:
+        _result = uuid.UUID(dict_object[dict_element])
+    except (Exception, KeyError):
+        _result = None
+    return _result
+
+
+def parse_string_from_tuple(tuple_object, tuple_element):
+    try:
+        _result = tuple_object[tuple_element]
+    except (Exception, IndexError):
+        _result = None
+    return _result
+
+
+def parse_int_from_tuple(tuple_object, tuple_element):
+    try:
+        if tuple_object[tuple_element]:
+            _result = int(tuple_object[tuple_element])
+        else:
+            _result = None
+    except (Exception, IndexError):
+        _result = None
+    return _result
+
+
+def parse_decimal_from_tuple(tuple_object, tuple_element):
+    try:
+        if tuple_object[tuple_element]:
+            _result = Decimal(tuple_object[tuple_element])
+        else:
+            _result = None
+    except (Exception, IndexError):
+        _result = None
+    return _result
+
+
+def parse_date_from_tuple(tuple_object, tuple_element):
+    try:
+        if len(tuple_object[tuple_element]) > 0:
+            _result = date_from_string(tuple_object[tuple_element])
+        else:
+            _result = None
+    except (Exception, IndexError):
+        _result = None
+    return _result
+
+
+def parse_interval_from_tuple(tuple_object, tuple_element):
+    try:
+        _result = _ext.PYINTERVAL(tuple_object[tuple_element], None)
+    except (Exception, IndexError):
+        _result = None
+    return _result
+
+
+def parse_uuid_from_tuple(tuple_object, tuple_element):
+    try:
+        _result = uuid.UUID(tuple_object[tuple_element])
+    except (Exception, IndexError):
+        _result = None
+    return _result
+
+
+def date_from_string(str_date):
+    if str_date and len(str_date) > 0:
+        return datetime.datetime.strptime(str_date, "%Y-%m-%d")
+    else:
+        return None
+
+
+def date_to_string(pydate):
+    if pydate:
+        return pydate.strftime('%Y-%m-%d')
+    else:
+        return None
+
+
+def decimal_to_string(pydecimal, precision=4):
+    if pydecimal:
+        return float('%.4f'%(pydecimal))
+    else:
+        return None
+
+
+def uuid_to_string(pyuuid):
+    if pyuuid:
+        return str(pyuuid)
+    else:
+        return None
+
+
 class PgUserTypeMaping(object):
     pg_schm_name = ''
     pg_type_name = ''
@@ -95,7 +228,7 @@ class PgUserTypeMaping(object):
             elif isinstance(o, datetime.timedelta):
                 return _ext.IntervalFromPy(o)
             else:
-                #return _ext.adapt(obj=o, alternate=None, protocol=None)
+                # return _ext.adapt(obj=o, alternate=None, protocol=None)
                 return _ext.adapt(o, None, None)
 
     _re_tokenize = re.compile(r"""
@@ -187,7 +320,7 @@ class PgUserTypeMaping(object):
         return tuple(_res)
 
 
-#class FacilityKind(PgUserTypeMaping):
+# class FacilityKind(PgUserTypeMaping):
 #    pg_schm_name = 'common',
 #    pg_type_name = 'facility_kind'
 #    pg_field_list = []
@@ -202,8 +335,7 @@ class InventoryKind(PgUserTypeMaping):
         self.val = None
         if s:
             self.from_string(s)
-            #print(self)
-
+            print(self)
 
     def __conform__(self, proto):
         if proto == _ext.ISQLQuote:
@@ -211,18 +343,18 @@ class InventoryKind(PgUserTypeMaping):
 
     # create
     def from_set(self, s):
-        #print("FROM SET ", self.val)
+        # print("FROM SET ", self.val)
         self.val = s
 
     def to_dict(self):
         pass
-        #print("to DICT ", self.val)
-        #return self.val
+        # print("to DICT ", self.val)
+        # return self.val
 
     def from_dict(self, d):
         pass
-        #print("FROM DICT ", d)
-        #self.val = self.from_set(set(d))
+        # print("FROM DICT ", d)
+        # self.val = self.from_set(set(d))
 
     # get
     def from_tuple(self, t):
@@ -251,7 +383,6 @@ class InventoryKind(PgUserTypeMaping):
         return "'{0}'::common.inventory_kind".format(self.val)
 
 
-
 class FacilityHead(PgUserTypeMaping):
     pg_schm_name = 'common'
     pg_type_name = 'facility_head'
@@ -270,53 +401,42 @@ class FacilityHead(PgUserTypeMaping):
         self.facility_type = None
         if s:
             self.from_string(s)
-            #print(self)
+            print(self)
 
     def to_dict(self):
-        if self.document_date:
-            _document_date = self.document_date.strftime('%Y-%m-%d')
-        else:
-            _document_date = None
         return {"id": self.id,
                 "gid": self.gid,
                 "facility_code": self.facility_code,
                 "version_num": self.version_num,
                 "display_name": self.display_name,
-                "document_date": _document_date,
+                "document_date": date_to_string(self.document_date),
                 "parent_facility_code": self.parent_facility_code,
                 "facility_type": self.facility_type}
 
     def from_dict(self, d):
-        if len(d['document_date']) > 0:
-            _document_date = datetime.datetime.strptime(d['document_date'], "%Y-%m-%d").date()
-        else:
-            _document_date = None
-
-        self.id = d['id']
-        self.gid = d['gid']
-        self.facility_code = d['facility_code']
-        self.version_num = d['version_num']
-        self.display_name = d['display_name']
-        self.document_date = _document_date
-        self.parent_facility_code = d['parent_facility_code']
-        self.facility_type = d['facility_type']
+        self.id = parse_int_from_dict(d, 'id')
+        self.gid = parse_uuid_from_dict(d, 'gid')
+        self.facility_code = parse_string_from_dict(d, 'facility_code')
+        self.version_num = parse_int_from_dict(d, 'version_num')
+        self.display_name = parse_string_from_dict(d, 'display_name')
+        self.document_date = parse_date_from_dict(d, 'document_date')
+        self.parent_facility_code = parse_string_from_dict(d, 'parent_facility_code')
+        self.facility_type = parse_string_from_dict(d, 'facility_type')
+        print(self)
 
     def from_tuple(self, t):
-        self.id = int(t[0])
-        self.gid = uuid.UUID(t[1])
-        self.facility_code = t[2]
-        self.version_num = t[3]
-        self.display_name = t[4]
-        if len(t[5]) > 0:
-            self.document_date = datetime.datetime.strptime(t[5], "%Y-%m-%d")
-        else:
-            self.document_date = None
-        self.parent_facility_code = t[6]
-        self.facility_type = t[7]
+        self.id = parse_int_from_tuple(t, 0)
+        self.gid = parse_uuid_from_tuple(t, 1)
+        self.facility_code = parse_string_from_tuple(t, 2)
+        self.version_num = parse_int_from_tuple(t, 3)
+        self.display_name = parse_string_from_tuple(t, 4)
+        self.document_date = parse_date_from_tuple(t, 5)
+        self.parent_facility_code = parse_string_from_tuple(t, 6)
+        self.facility_type = parse_string_from_tuple(t, 7)
 
     def to_tuple(self):
         return (self.id,
-                self.gid,
+                uuid_to_string(self.gid),
                 self.facility_code,
                 self.version_num,
                 self.display_name,
@@ -344,56 +464,45 @@ class InventoryHead(PgUserTypeMaping):
         self.document_type = None
         if s:
             self.from_string(s)
-            #print(self)
+            print(self)
 
     def to_dict(self):
-        if self.document_date:
-            _document_date = self.document_date.strftime('%Y-%m-%d')
-        else:
-            _document_date = None
         return {"id": self.id,
                 "gid": self.gid,
                 "display_name": self.display_name,
                 "part_code": self.part_code,
                 "version_num": self.version_num,
-                "document_date": _document_date,
+                "document_date": date_to_string(self.document_date),
                 "uom_code": self.uom_code,
                 "curr_fsmt": self.curr_fsmt,
                 "document_type": self.document_type}
 
     def from_dict(self, d):
-        if len(d['document_date']) > 0:
-            _document_date = datetime.datetime.strptime(d['document_date'], "%Y-%m-%d").date()
-        else:
-            _document_date = None
-
-        self.id = d['id']
-        self.gid = d['gid']
-        self.display_name = d['display_name']
-        self.part_code = d['part_code']
-        self.version_num = d['version_num']
-        self.document_date = _document_date
-        self.uom_code = d['uom_code']
-        self.curr_fsmt = d['curr_fsmt']
-        self.document_type = d['document_type']
+        self.id = parse_int_from_dict(d, 'id')
+        self.gid = parse_uuid_from_dict(d, 'gid')
+        self.display_name = parse_string_from_dict(d, 'display_name')
+        self.part_code = parse_string_from_dict(d, 'part_code')
+        self.version_num = parse_int_from_dict(d, 'version_num')
+        self.document_date = parse_date_from_dict(d, 'document_date')
+        self.uom_code = parse_string_from_dict(d, 'uom_code')
+        self.curr_fsmt = parse_string_from_dict(d, 'curr_fsmt')
+        self.document_type = parse_string_from_dict(d, 'document_type')
+        print(self)
 
     def from_tuple(self, t):
-        self.id = int(t[0])
-        self.gid = uuid.UUID(t[1])
-        self.display_name = t[2]
-        self.part_code = t[3]
-        self.version_num = t[4]
-        if len(t[5]) > 0:
-            self.document_date = datetime.datetime.strptime(t[5], "%Y-%m-%d")
-        else:
-            self.document_date = None
-        self.uom_code = t[6]
-        self.curr_fsmt = t[7]
-        self.document_type = t[8]
+        self.id = parse_int_from_tuple(t, 0)
+        self.gid = parse_uuid_from_tuple(t, 1)
+        self.display_name = parse_string_from_tuple(t, 2)
+        self.part_code = parse_string_from_tuple(t, 3)
+        self.version_num = parse_int_from_tuple(t, 4)
+        self.document_date = parse_date_from_tuple(t, 5)
+        self.uom_code = parse_string_from_tuple(t, 6)
+        self.curr_fsmt = parse_string_from_tuple(t, 7)
+        self.document_type = parse_string_from_tuple(t, 8)
 
     def to_tuple(self):
         return (self.id,
-                self.gid,
+                uuid_to_string(self.gid),
                 self.display_name,
                 self.part_code,
                 self.version_num,
@@ -414,22 +523,23 @@ class UnitConversion(PgUserTypeMaping):
         self.factor = None
         if s:
             self.from_string(s)
-            #print(self)
+            print(self)
 
     def to_dict(self):
         return {"uom_code_from": self.uom_code_from,
                 "uom_code_to": self.uom_code_to,
-                "factor": float(self.factor)}
+                "factor": decimal_to_string(self.factor)}
 
     def from_dict(self, d):
-        self.uom_code_from = d['uom_code_from']
-        self.uom_code_to = d['uom_code_to']
-        self.factor = Decimal(d['factor'])
+        self.uom_code_from = parse_string_from_dict(d, 'uom_code_from')
+        self.uom_code_to = parse_string_from_dict(d, 'uom_code_to')
+        self.factor = parse_decimal_from_dict(d, 'factor')
+        print(self)
 
     def from_tuple(self, t):
-        self.uom_code_from = t[0]
-        self.uom_code_to = t[1]
-        self.factor = Decimal(t[2])
+        self.uom_code_from = parse_string_from_tuple(t, 0)
+        self.uom_code_to = parse_string_from_tuple(t, 1)
+        self.factor = parse_decimal_from_tuple(t, 2)
 
     def to_tuple(self):
         return (self.uom_code_from,
@@ -455,19 +565,20 @@ class UomHead(PgUserTypeMaping):
         return {"uom_code": self.uom_code,
                 "uom_domain": self.uom_domain,
                 "base_uom_code": self.base_uom_code,
-                "factor": float(self.factor)}
+                "factor": decimal_to_string(self.factor)}
 
     def from_dict(self, d):
-        self.uom_code = d['uom_code']
-        self.uom_domain = d['uom_domain']
-        self.base_uom_code = d['base_uom_code']
-        self.factor = Decimal(d['factor'])
+        self.uom_code = parse_string_from_dict(d, 'uom_code')
+        self.uom_domain = parse_string_from_dict(d, 'uom_domain')
+        self.base_uom_code = parse_string_from_dict(d, 'base_uom_code')
+        self.factor = parse_decimal_from_dict(d, 'factor')
+        print(self)
 
     def from_tuple(self, t):
-        self.uom_code = t[0]
-        self.uom_domain = t[1]
-        self.base_uom_code = t[2]
-        self.factor = Decimal(t[3])
+        self.uom_code = parse_string_from_tuple(t, 0)
+        self.uom_domain = parse_string_from_tuple(t, 1)
+        self.base_uom_code = parse_string_from_tuple(t, 2)
+        self.factor = parse_decimal_from_tuple(t, 3)
 
     def to_tuple(self):
         return (self.uom_code,

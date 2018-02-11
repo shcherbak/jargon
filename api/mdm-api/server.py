@@ -156,6 +156,7 @@ def post_inventory():
         return response
     else:
         data = request.get_json()
+        print(data)
         document = dao.Inventory(pool)
         document.from_dict(data)
         document_id = document.init()
