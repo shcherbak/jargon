@@ -320,17 +320,17 @@ class Inventory:
             pgcast.register(conn)
             curs = conn.cursor()
             curs.execute(self.CREATE_DOCUMENT_SQL, (self.head, self.meas, self.kind,))
-            print("CURSOR", (self.CREATE_DOCUMENT_SQL, (self.head, self.meas, self.kind,)))
+            #print("CURSOR", (self.CREATE_DOCUMENT_SQL, (self.head, self.meas, self.kind,)))
             document_id = curs.fetchone()[0]
             conn.commit()
             curs.close()
-        #except (Exception, psycopg2.DatabaseError) as error:
-        #    self.errors.append(error.pgerror)
-        except (Exception) as error:
-            print(error)
-            self.errors.append(error)
+        except (Exception, psycopg2.DatabaseError) as error:
+            self.errors.append(error.pgerror)
+        #except (Exception) as error:
+        #    print(error)
+        #    self.errors.append(error)
         finally:
-            print("WTF!!!!!!!!!!!!!!!!!!!!!!!!")
+            #print("WTF!!!!!!!!!!!!!!!!!!!!!!!!")
             if conn is not None:
                 self.pool.putconn(conn)
         return document_id
