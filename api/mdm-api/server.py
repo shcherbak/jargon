@@ -86,7 +86,6 @@ def get_facilities():
 @app.route('/facilities', methods=['POST'])
 def post_facility():
     success = False
-    document_id = None
     inputs = FacilityJsonInputs(request)
     if not inputs.validate():
         response = jsonify(success=success, errors=inputs.errors), 400
@@ -110,32 +109,22 @@ def get_facility(document_id):
     return jsonify(document.to_dict())
 
 
-@app.route('/facilities/<int:document_id>', methods=['PUT'])
-def put_facility(document_id):
+@app.route('/facilities/<int:document_id>', methods=['PATCH'])
+def patch_facility(document_id):
     success = False
     inputs = FacilityJsonInputs(request)
-
     if not inputs.validate():
-        response = jsonify(success=False, errors=inputs.errors), 400
+        response = jsonify(success=success, errors=inputs.errors), 400
+        return response
     else:
         data = request.get_json()
         document = dao.Facility(pool)
-
-        if data['curr_fsmt'] == 'COMMITTED':
-            success = document.commit(document_id)
-            response = jsonify(success=success, message="document commited"), 200
-        elif data['curr_fsmt'] == 'DECOMMITTED':
-            success = document.decommit(document_id)
-            response = jsonify(success=success, message="document decommited"), 200
-        else:
-            return jsonify(success=success, errors="incorrect fsmt"), 400
-
-        if not success:
-            response = jsonify(success=False, errors=document.errors), 400
-
-    if not response:
-        response = jsonify(success=success, message="unexpected error"), 400
-
+        document.from_dict(data)
+        success = document.reinit()
+    if success:
+        response = jsonify(success=success, message="document id=[{0}] updated".format(document_id)), 200
+    else:
+        response = jsonify(success=success, errors=document.errors), 400
     return response
 
 
@@ -149,7 +138,6 @@ def get_inventories():
 @app.route('/inventories', methods=['POST'])
 def post_inventory():
     success = False
-    document_id = None
     inputs = InventoryJsonInputs(request)
     if not inputs.validate():
         response = jsonify(success=success, errors=inputs.errors), 400
@@ -186,32 +174,22 @@ def del_inventory(document_id):
     return response
 
 
-@app.route('/inventories/<int:document_id>', methods=['PUT'])
-def put_inventory(document_id):
+@app.route('/inventories/<int:document_id>', methods=['PATCH'])
+def patch_inventory(document_id):
     success = False
     inputs = InventoryJsonInputs(request)
-
     if not inputs.validate():
-        response = jsonify(success=False, errors=inputs.errors), 400
+        response = jsonify(success=success, errors=inputs.errors), 400
+        return response
     else:
         data = request.get_json()
-        document = dao.Inventory(pool)
-
-        if data['curr_fsmt'] == 'COMMITTED':
-            success = document.commit(document_id)
-            response = jsonify(success=success, message="document commited"), 200
-        elif data['curr_fsmt'] == 'DECOMMITTED':
-            success = document.decommit(document_id)
-            response = jsonify(success=success, message="document decommited"), 200
-        else:
-            return jsonify(success=success, errors="incorrect fsmt"), 400
-
-        if not success:
-            response = jsonify(success=False, errors=document.errors), 400
-
-    if not response:
-        response = jsonify(success=success, message="unexpected error"), 400
-
+        document = dao.Inventory(pool, document_id=document_id)
+        document.from_dict(data)
+        success = document.reinit(document_id)
+    if success:
+        response = jsonify(success=success, message="document id=[{0}] updated".format(document_id)), 200
+    else:
+        response = jsonify(success=success, errors=document.errors), 400
     return response
 
 

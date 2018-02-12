@@ -294,7 +294,7 @@ class Inventory:
     GET_HEAD_SQL = "SELECT inventory.get_head(__document_id := %s)"
     GET_MEAS_SQL = "SELECT inventory.get_meas_spec(__document_id := %s)"
     GET_KIND_SQL = "SELECT inventory.get_kind_spec(__document_id := %s)"
-    UPDATE_BODY_SQL = "SELECT inventory.reinit(__head := %s)"
+    UPDATE_BODY_SQL = "SELECT inventory.reinit(__document_id := %s, __meas := %s, __kind := %s)"
     DELETE_DOCUMENT_SQL = "SELECT inventory.destroy(__document_id := %s)"
     CREATE_DOCUMENT_SQL = "SELECT inventory.init(__head := %s, __meas := %s, __kind := %s)"
     COMMIT_DOCUMENT_SQL = None
@@ -335,19 +335,19 @@ class Inventory:
                 self.pool.putconn(conn)
         return document_id
 
-    def reinit(self):
+    def reinit(self, document_id):
         success = True
         conn = None
         try:
             conn = self.pool.getconn()
             pgcast.register(conn)
             curs = conn.cursor()
-            curs.execute(self.UPDATE_BODY_SQL, (self.head,))
+            curs.execute(self.UPDATE_BODY_SQL, (document_id, self.meas, self.kind,))
             conn.commit()
             curs.close()
         except (Exception, psycopg2.DatabaseError) as error:
             success = False
-            self.errors.append(error.pgerror)
+            self.errors.append(str(error))
         finally:
             if conn is not None:
                 self.pool.putconn(conn)
@@ -539,12 +539,12 @@ class BaseDocumentList:
 
 
 class MeasureList(BaseDocumentList):
-    GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
+    GET_LSIT_SQL = "SELECT uom.get_head_batch(__uom_domain := NULL)"
 
 
 class InventoryList(BaseDocumentList):
-    GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
+    GET_LSIT_SQL = "SELECT inventory.get_head_batch()"
 
 
 class FacilityList(BaseDocumentList):
-    GET_LSIT_SQL = "SELECT demand.get_head_batch_proposed(__facility_code := %s, __date_start := %s, __date_end := %s)"
+    GET_LSIT_SQL = "SELECT facility.get_head_batch(__facility_type := NULL)"
