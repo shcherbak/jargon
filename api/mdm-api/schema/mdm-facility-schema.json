@@ -34,7 +34,7 @@
       "description": "Parent Facility code"
     },
     "facility_type": {
-      "description": "Facility hierarhy scope",
+      "description": "Facility hierarchy scope",
       "type": "string",
       "enum": [
         "ENTERPRISE",

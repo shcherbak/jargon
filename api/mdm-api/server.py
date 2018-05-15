@@ -74,7 +74,11 @@ def get_uoms():
 @app.route('/measures/<string:uom_code>', methods=['GET'])
 def get_uom(uom_code):
     document = dao.Measure(pool, uom_code)
-    return jsonify(document.to_dict())
+    if document.head.base_uom_code == None:
+        response = ('', 404)
+    else:
+        response = jsonify(document.to_dict())
+    return response
 
 
 @app.route('/facilities', methods=['GET'])
@@ -106,7 +110,11 @@ def post_facility():
 @app.route('/facilities/<int:document_id>', methods=['GET'])
 def get_facility(document_id):
     document = dao.Facility(pool, document_id)
-    return jsonify(document.to_dict())
+    if document.head.id == None:
+        response = ('', 404)
+    else:
+        response = jsonify(document.to_dict())
+    return response
 
 
 @app.route('/facilities/<int:document_id>', methods=['PATCH'])
@@ -159,7 +167,11 @@ def post_inventory():
 @app.route('/inventories/<int:document_id>', methods=['GET'])
 def get_inventory(document_id):
     document = dao.Inventory(pool, document_id)
-    return jsonify(document.to_dict())
+    if document.head.id == None:
+        response = ('', 404)
+    else:
+        response = jsonify(document.to_dict())
+    return response
 
 
 @app.route('/inventories/<int:document_id>', methods=['DELETE'])
