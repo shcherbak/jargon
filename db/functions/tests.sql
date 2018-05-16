@@ -6,15 +6,10 @@
 "__facility__get_head_batch"
 "__facility__init"
 "__facility__reinit"
-"__inventory__convert_quantity"
-"__inventory__get_base_uom"
-"__inventory__get_document"
+-- ?? "__inventory__convert_quantity" unused, prepared for API
+-- ??? "__inventory__get_document" is unused
 "__inventory__get_head_batch"
-"__inventory__get_kind_spec"
-"__inventory__get_meas_spec"
-"__inventory__get_uom_conversion_factors"
-"__inventory__set_kind_spec"
-"__inventory__set_meas_spec"
+-- ?? "__inventory__get_uom_conversion_factors", prepared for API
 "__uom__get_domain"
 "__uom__get_factor"
 "__uom__get_head"
