@@ -1,18 +1,18 @@
+--SELECT public.uuid_generate_v4();
+
+
 "__facility__destroy"
 "__facility__get_head"
 "__facility__get_head_batch"
 "__facility__init"
 "__facility__reinit"
 "__inventory__convert_quantity"
-"__inventory__destroy"
 "__inventory__get_base_uom"
 "__inventory__get_document"
 "__inventory__get_head_batch"
 "__inventory__get_kind_spec"
 "__inventory__get_meas_spec"
 "__inventory__get_uom_conversion_factors"
-"__inventory__init"
-"__inventory__reinit"
 "__inventory__set_kind_spec"
 "__inventory__set_meas_spec"
 "__uom__get_domain"
@@ -21,152 +21,37 @@
 "__uom__get_head_batch"
 
 
-
-
-a
-
-
---
--- TOC entry 2391 (class 0 OID 351111)
--- Dependencies: 223
--- Data for Name: measurement; Type: TABLE DATA; Schema: inventory; Owner: postgres
---
-
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (1, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (2, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (3, 'm', 25);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (4, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (5, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (6, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (7, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (8, 'pcs', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (18, 'kg', 1);
-INSERT INTO measurement (definition_id, uom_code, factor) VALUES (18, 'g', 1000);
-
-
---
--- TOC entry 2392 (class 0 OID 351117)
--- Dependencies: 224
--- Data for Name: variety; Type: TABLE DATA; Schema: inventory; Owner: postgres
---
-
-INSERT INTO variety (definition_id, inventory_type) VALUES (1, 'PART');
-INSERT INTO variety (definition_id, inventory_type) VALUES (1, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (1, 'SALABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (1, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (2, 'PART');
-INSERT INTO variety (definition_id, inventory_type) VALUES (2, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (2, 'SALABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (2, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (3, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (3, 'BUYABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (3, 'CONSUMABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (3, 'PRIMAL');
-INSERT INTO variety (definition_id, inventory_type) VALUES (4, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (4, 'ASSEMBLY');
-INSERT INTO variety (definition_id, inventory_type) VALUES (4, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (5, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (5, 'ASSEMBLY');
-INSERT INTO variety (definition_id, inventory_type) VALUES (5, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (6, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (6, 'ASSEMBLY');
-INSERT INTO variety (definition_id, inventory_type) VALUES (6, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (7, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (7, 'ASSEMBLY');
-INSERT INTO variety (definition_id, inventory_type) VALUES (7, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (8, 'PRODUCIBLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (8, 'ASSEMBLY');
-INSERT INTO variety (definition_id, inventory_type) VALUES (8, 'STORABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (8, 'CONSUMABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (8, 'SALABLE');
-INSERT INTO variety (definition_id, inventory_type) VALUES (18, 'ASSEMBLY');
-INSERT INTO variety (definition_id, inventory_type) VALUES (18, 'STORABLE');
-
-
-CREATE OR REPLACE FUNCTION inventory.init(
-    __head common.inventory_head,
-    __meas common.unit_conversion_type[],
-    __kind common.inventory_kind[])
-  RETURNS bigint AS
+CREATE OR REPLACE FUNCTION tests.__inventory__reinit()
+  RETURNS void AS
 $BODY$
 DECLARE
-  _information_id bigint;
-  _definition_id bigint;
-  _max_version_num integer;
+  _test_head CONSTANT common.inventory_head[] := ARRAY[(3, 'cf77e3ea-0b5c-4e62-be62-63704f4071b7', 'fl-25-50', '20.25.50-001', 2, '2018-01-16', 'pcs', 'PROPOSED', 'INVENTORY')]::common.inventory_head[];
+  _test_meas_init CONSTANT common.unit_conversion_type[] := ARRAY[('pcs', 'pcs', 1), ('pcs', 'g', 1000)]::common.unit_conversion_type[];
+  _test_meas_reinit CONSTANT common.unit_conversion_type[] := ARRAY[('pcs', 'pcs', 1), ('pcs', 'kg', 10)]::common.unit_conversion_type[];
+  _test_kind_init CONSTANT common.inventory_kind[] := ARRAY[('ASSEMBLY'), ('STORABLE')]::common.inventory_kind[];
+  _test_kind_reinit CONSTANT common.inventory_kind[] := ARRAY[('PART'), ('CONSUMABLE')]::common.inventory_kind[];
+  _head common.inventory_head;
+  _meas common.unit_conversion_type[];
+  _kind common.inventory_kind[];
+  _document_id bigint;
 BEGIN
 
-  IF (__head.document_date IS NULL) THEN
-    __head.document_date := now()::date;
-  END IF;
+  RAISE DEBUG '#trace Check __inventory__reinit()';
+  
+  _document_id := inventory.init(_test_head[1], _test_meas_init, _test_kind_init);
+  PERFORM inventory.reinit(_document_id, _test_meas_reinit, _test_kind_reinit);
+  _head := inventory.get_head(_document_id);
+  _meas := inventory.get_meas_spec(_document_id);
+  _kind := inventory.get_kind_spec(_document_id);
 
-  IF (__head.version_num IS NULL) THEN
-    __head.version_num := 1;
-  END IF;
-
-  IF (__head.display_name IS NULL) THEN
-    __head.display_name := 'NO-NAME';
-  END IF;
-
-  SELECT
-    max(definition.version_num)
-  FROM 
-    inventory.information, 
-    inventory.definition
-  WHERE 
-    information.id = definition.information_id AND
-    information.part_code = __head.part_code --AND 
-    --definition.version_num = __head.version_num
-  INTO
-    _max_version_num;
-
-
-  -- replece with coalesce
-  IF (_max_version_num IS NULL) THEN
-    _max_version_num := 0;
-  END IF;  
-
-  _information_id := id FROM inventory.information WHERE part_code = __head.part_code;
-
-  IF (_information_id IS NULL) THEN
-    INSERT INTO
-      inventory.information (
-        id,
-        display_name,
-        published_date,
-        part_code)
-    VALUES (
-      DEFAULT,
-      __head.display_name,
-      __head.document_date,
-      __head.part_code)
-    RETURNING id INTO _information_id;
-  END IF;
-
-  INSERT INTO
-    inventory.definition (
-      id,
-      display_name,
-      version_num,
-      published_date,
-      information_id)
-  VALUES (
-    DEFAULT,
-    __head.display_name,
-    _max_version_num + 1,
-    __head.document_date,
-    _information_id)
-  RETURNING id INTO _definition_id;
-
-  PERFORM inventory.set_meas_spec(_definition_id, __meas);
-  PERFORM inventory.set_kind_spec(_definition_id, __kind);
-
-  RETURN _definition_id;
+  PERFORM pgunit.assert_array_equals(_meas, _test_meas_reinit, 'Incorrect _meas_reinit value');
+  PERFORM pgunit.assert_array_equals(_kind, _test_kind_reinit, 'Incorrect _kind_reinit value');
 
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION inventory.init(common.inventory_head, common.unit_conversion_type[], common.inventory_kind[])
+ALTER FUNCTION tests.__inventory__reinit()
   OWNER TO postgres;
 
 
@@ -193,7 +78,6 @@ BEGIN
   PERFORM pgunit.assert_array_equals(_test_meas, _meas, 'Incorrect _meas value');
   PERFORM pgunit.assert_array_equals(_test_kind, _kind, 'Incorrect _kind value');
 
-
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -202,8 +86,6 @@ ALTER FUNCTION tests.__inventory__init()
   OWNER TO postgres;
 
 
-
---SELECT public.uuid_generate_v4();
 CREATE OR REPLACE FUNCTION tests.__inventory__get_head()
   RETURNS void AS
 $BODY$
@@ -303,86 +185,3 @@ $BODY$
   COST 100;
 ALTER FUNCTION tests.__inventory__destroy()
   OWNER TO postgres;
-
--- Function: tests.__demand__get_head_batch()
-
--- DROP FUNCTION tests.__demand__get_head_batch();
-
-CREATE OR REPLACE FUNCTION tests.__demand__get_head_batch()
-  RETURNS void AS
-$BODY$
-DECLARE
-  _heads common.outbound_head[];
-  _head common.outbound_head;
-  _array_lengh integer;
-  _test_array_lengh CONSTANT integer := 2;
-  _test_gid CONSTANT uuid := '9b2952fa-01d1-11e7-b440-d4bed939923a';
-  _test_display_name CONSTANT character varying := 'DEMAND-02';
-  _test_document_date CONSTANT date := '2017-02-01'::date;
-  _test_ship_to CONSTANT character varying := 'A1';
-  _test_ship_from CONSTANT character varying := 'B1';
-  _test_curr_fsmt CONSTANT common.document_fsmt := 'COMMITTED'::common.document_fsmt;
-  _test_doctype CONSTANT common.document_kind := 'DEMAND'::common.document_kind;
-  _test_due_date CONSTANT date := '2017-02-02'::date;
-BEGIN
-  
-  RAISE DEBUG '#trace Check __demand__get_head_batch()';
-
-  INSERT INTO demand.head VALUES (101, '8236af18-eb1a-11e6-8a73-d4bed939923a', 'DEMAND-01', '2017-01-01', NULL, '2017-01-02', 'B1', 'A1', 'COMMITTED', '2017-02-04 22:46:51.810833+02', 'DECOMMITTED', '2017-02-04 22:47:10.05991+02');
-  INSERT INTO demand.head VALUES (102, '9b2952fa-01d1-11e7-b440-d4bed939923a', 'DEMAND-02', '2017-02-01', NULL, '2017-02-02', 'A1', 'B1', 'PROPOSED', '2017-02-04 22:46:51.810833+02', 'COMMITTED', '2017-02-04 22:47:10.05991+02');
-  INSERT INTO demand.head VALUES (103, 'f20d7196-01d1-11e7-b441-d4bed939923a', 'DEMAND-03', '2017-03-01', NULL, '2017-03-02', 'A1', 'B1', NULL, NULL, 'PROPOSED', '2017-02-04 22:47:10.05991+02');
-
-  _heads := demand.get_head_batch(ARRAY[102,103]::bigint[]);
-  _array_lengh := array_length(_heads, 1);
-  _head := _heads[1];
-  PERFORM pgunit.assert_equals(_test_array_lengh, _array_lengh, 'Incorrect _array_lengh value');
-  PERFORM pgunit.assert_equals(_test_gid, _head.gid, 'Incorrect gid value');
-  PERFORM pgunit.assert_equals(_test_display_name, _head.display_name, 'Incorrect display_name value');
-  PERFORM pgunit.assert_equals(_test_document_date, _head.document_date, 'Incorrect document_date value');
-  PERFORM pgunit.assert_equals(_test_ship_to, _head.addressee, 'Incorrect ship_to value');
-  PERFORM pgunit.assert_equals(_test_ship_from, _head.facility_code, 'Incorrect ship_from value');
-  PERFORM pgunit.assert_equals(_test_curr_fsmt, _head.curr_fsmt, 'Incorrect curr_fsmt value');
-  PERFORM pgunit.assert_equals(_test_doctype, _head.doctype, 'Incorrect doctype value');
-  PERFORM pgunit.assert_equals(_test_due_date, _head.due_date, 'Incorrect due_date value');
-
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION tests.__demand__get_head_batch()
-  OWNER TO postgres;
-
-
--- Function: tests.__demand__reinit()
-
--- DROP FUNCTION tests.__demand__reinit();
-
-CREATE OR REPLACE FUNCTION tests.__demand__reinit()
-  RETURNS void AS
-$BODY$
-DECLARE
-  _test_head CONSTANT common.outbound_head[] := ARRAY[(1,'8c1581c0-04c0-11e7-a843-08626627b4d6','DEMAND-01','2017-01-01','A1','PROPOSED','DEMAND','B1','2017-02-01')]::common.outbound_head[];
-  _test_body_init CONSTANT common.document_body[] := ARRAY[('good1',10,'m'), ('good2',20,'m')]::common.document_body[];
-  _test_body_reinit CONSTANT common.document_body[] := ARRAY[('good3',10,'m'), ('good4',20,'m')]::common.document_body[];
-  _head common.outbound_head;
-  _body common.document_body[];
-  _document_id bigint;
-BEGIN
-  
-  RAISE DEBUG '#trace Check __demand__reinit()';
-  
-  _document_id := demand.init(_test_head[1], _test_body_init);
-  PERFORM demand.reinit(_document_id, _test_body_reinit);
-  _head := demand.get_head(_document_id);
-  _body := demand.get_body(_document_id);
-  --PERFORM pgunit.assert_equals(_test_head[1], _head, 'Incorrect _head value');
-  PERFORM pgunit.assert_array_equals(_test_body_reinit, _body, 'Incorrect _body value');
-
-
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION tests.__demand__reinit()
-  OWNER TO postgres;
-
