@@ -7,7 +7,6 @@
 "__inventory__destroy"
 "__inventory__get_base_uom"
 "__inventory__get_document"
-"__inventory__get_head"
 "__inventory__get_head_batch"
 "__inventory__get_kind_spec"
 "__inventory__get_meas_spec"
@@ -83,45 +82,6 @@ INSERT INTO variety (definition_id, inventory_type) VALUES (8, 'SALABLE');
 INSERT INTO variety (definition_id, inventory_type) VALUES (18, 'ASSEMBLY');
 INSERT INTO variety (definition_id, inventory_type) VALUES (18, 'STORABLE');
 
-
-
--- Function: inventory.get_head(bigint)
-
--- DROP FUNCTION inventory.get_head(bigint);
-
-CREATE OR REPLACE FUNCTION inventory.get_head(__document_id bigint)
-  RETURNS common.inventory_head AS
-$BODY$
-DECLARE
-BEGIN
-  RETURN 
-    (definition.id, 
-    definition.gid, 
-    information.display_name, 
-    information.part_code, 
-    definition.version_num, 
-    definition.published_date, 
-    definition.uom_code, 
-    definition.curr_fsmt,
-    'INVENTORY'::common.document_kind
-    )::common.inventory_head
-  FROM 
-    inventory.information, 
-    inventory.definition
-  WHERE 
-    information.id = definition.information_id AND
-    definition.id = __document_id;
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION inventory.get_head(bigint)
-  OWNER TO postgres;
-
-
--- Function: inventory.init(common.inventory_head, common.unit_conversion_type[], common.inventory_kind[])
-
--- DROP FUNCTION inventory.init(common.inventory_head, common.unit_conversion_type[], common.inventory_kind[]);
 
 CREATE OR REPLACE FUNCTION inventory.init(
     __head common.inventory_head,
@@ -210,81 +170,67 @@ ALTER FUNCTION inventory.init(common.inventory_head, common.unit_conversion_type
   OWNER TO postgres;
 
 
--- Function: tests.__demand__get_head()
+-- Function: tests.__inventory__get_head()
 
--- DROP FUNCTION tests.__demand__get_head();
+-- DROP FUNCTION tests.__inventory__get_head();
 
+--SELECT public.uuid_generate_v4();
 CREATE OR REPLACE FUNCTION tests.__inventory__get_head()
   RETURNS void AS
 $BODY$
 DECLARE
-  _head common.outbound_head;
-  _test_gid CONSTANT uuid := '9b2952fa-01d1-11e7-b440-d4bed939923a';
-  _test_display_name CONSTANT character varying := 'DEMAND-02';
-  _test_document_date CONSTANT date := '2017-02-01'::date;
-  _test_ship_to CONSTANT character varying := 'A1';
-  _test_ship_from CONSTANT character varying := 'B1';
-  _test_curr_fsmt CONSTANT common.document_fsmt := 'COMMITTED'::common.document_fsmt;
-  _test_doctype CONSTANT common.document_kind := 'DEMAND'::common.document_kind;
-  _test_due_date CONSTANT date := '2017-02-02'::date;
+  _head common.inventory_head;
+  _test_gid CONSTANT uuid := 'cf77e3ea-0b5c-4e62-be62-63704f4071b7';
+  _test_display_name CONSTANT character varying := 'fl-25-50';
+  _test_part_code CONSTANT character varying := '22.25.050-001';
+  _test_document_date CONSTANT date := '2018-01-16'::date;
+  _test_version_num CONSTANT integer := 2;
+  _test_uom_code CONSTANT character varying := 'pcs';
+  _test_curr_fsmt CONSTANT common.document_fsmt := 'PROPOSED'::common.document_fsmt;
+  _test_document_type CONSTANT common.document_kind := 'INVENTORY'::common.document_kind;
 BEGIN
   
-  RAISE DEBUG '#trace Check __demand__get_head()';
-
-      (definition.id, 
-      definition.gid, 
-      information.display_name, 
-      information.part_code, 
-      definition.version_num, 
-      definition.published_date, 
-      definition.uom_code, 
-      definition.curr_fsmt,
-      'INVENTORY'::common.document_kind
-      )::common.inventory_head
-
+  RAISE DEBUG '#trace Check __inventory__get_head()';
 
   INSERT INTO
-    information
+    inventory.information
       (id, gid, part_code, display_name, published_date)
     VALUES
       (1, 'a711da30-fa3a-11e7-8e63-d4bed939923a', '22.16.050-001', 'fl-16-50', '2018-01-15'),
       (2, 'b39a3ff4-fa3a-11e7-8e64-d4bed939923a', '22.25.050-001', 'fl-25-50', '2018-01-15'),
-      (3, 'f08b5682-fa3a-11e7-86da-d4bed939923a', '22.40.050-001', 'fl-40-50', '2018-01-15'),
-
+      (3, 'f08b5682-fa3a-11e7-86da-d4bed939923a', '22.40.050-001', 'fl-40-50', '2018-01-15');
 
   INSERT INTO
-    definition 
+    inventory.definition 
       (id, gid, display_name, version_num, published_date, prev_fsmt, prev_fsmt_date, curr_fsmt, curr_fsmt_date, information_id, uom_code)
     VALUES 
-      (1, 'c9000ec8-fa3a-11e7-9489-d4bed939923a', 'fl-16-50', 1, '2018-01-15', NULL, NULL, 'PROPOSED', '2018-01-15', 1, 'pcs'),
-      (2, 'd83fb96a-fa3a-11e7-948a-d4bed939923a', 'fl-25-50', 1, '2018-01-15', NULL, NULL, 'PROPOSED', '2018-01-15', 2, 'pcs'),
-      (2, 'd83fb96a-fa3a-11e7-948a-d4bed939923a', 'fl-25-50', 2, '2018-01-16', NULL, NULL, 'PROPOSED', '2018-01-15', 2, 'pcs'),
-      (2, 'd83fb96a-fa3a-11e7-948a-d4bed939923a', 'fl-40-50', 1, '2018-01-15', NULL, NULL, 'PROPOSED', '2018-01-15', 3, 'pcs'),
+      (1, 'c9000ec8-fa3a-11e7-9489-d4bed939923a', 'fl-16-50', 1, '2018-01-10', NULL, NULL, 'DECOMMITTED', '2018-01-10', 1, 'pcs'),
+      (2, 'd83fb96a-fa3a-11e7-948a-d4bed939923a', 'fl-25-50', 1, '2018-01-15', NULL, NULL, 'COMMITTED', '2018-01-15', 2, 'pcs'),
+      (3, 'cf77e3ea-0b5c-4e62-be62-63704f4071b7', 'fl-25-50', 2, '2018-01-16', NULL, NULL, 'PROPOSED', '2018-01-16', 2, 'pcs'),
+      (4, 'c792f74d-7e6e-4577-ad69-987f56af7af7', 'fl-40-50', 1, '2018-01-17', NULL, NULL, 'COMMITTED', '2018-01-17', 3, 'pcs');
 
-  
-
-
-  _head := demand.get_head(102);
+  _head := inventory.get_head(3);
   PERFORM pgunit.assert_equals(_test_gid, _head.gid, 'Incorrect gid value');
   PERFORM pgunit.assert_equals(_test_display_name, _head.display_name, 'Incorrect display_name value');
+  PERFORM pgunit.assert_equals(_test_part_code, _head.part_code, 'Incorrect part_code value');
   PERFORM pgunit.assert_equals(_test_document_date, _head.document_date, 'Incorrect document_date value');
-  PERFORM pgunit.assert_equals(_test_ship_to, _head.addressee, 'Incorrect ship_to value');
-  PERFORM pgunit.assert_equals(_test_ship_from, _head.facility_code, 'Incorrect ship_from value');
+  PERFORM pgunit.assert_equals(_test_version_num, _head.version_num, 'Incorrect version_num value');
+  PERFORM pgunit.assert_equals(_test_uom_code, _head.uom_code, 'Incorrect uom_code value');
   PERFORM pgunit.assert_equals(_test_curr_fsmt, _head.curr_fsmt, 'Incorrect curr_fsmt value');
-  PERFORM pgunit.assert_equals(_test_doctype, _head.doctype, 'Incorrect doctype value');
-  PERFORM pgunit.assert_equals(_test_due_date, _head.due_date, 'Incorrect due_date value');
+  PERFORM pgunit.assert_equals(_test_document_type, _head.document_type, 'Incorrect document_type value');
 
-  _head := demand.get_head(103);
+
+  _head := inventory.get_head(4);
   PERFORM pgunit.assert_not_equals(_test_gid, _head.gid, 'Incorrect gid value');
   
-  _head := demand.get_head(104);
+  _head := inventory.get_head(5);
   PERFORM pgunit.assert_null(_head, 'Incorrect _head value');
 
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION tests.__demand__get_head()
+ALTER FUNCTION tests.__inventory__get_head()
   OWNER TO postgres;
 
 
