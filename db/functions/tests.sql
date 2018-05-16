@@ -170,9 +170,38 @@ ALTER FUNCTION inventory.init(common.inventory_head, common.unit_conversion_type
   OWNER TO postgres;
 
 
--- Function: tests.__inventory__get_head()
+CREATE OR REPLACE FUNCTION tests.__inventory__init()
+  RETURNS void AS
+$BODY$
+DECLARE
+  _test_head CONSTANT common.inventory_head[] := ARRAY[(3, 'cf77e3ea-0b5c-4e62-be62-63704f4071b7', 'fl-25-50', '20.25.50-001', 2, '2018-01-16', 'pcs', 'PROPOSED', 'INVENTORY')]::common.inventory_head[];
+  _test_meas CONSTANT common.unit_conversion_type[] := ARRAY[('pcs', 'pcs', 1), ('pcs', 'g', 1000)]::common.unit_conversion_type[];
+  _test_kind CONSTANT common.inventory_kind[] := ARRAY[('ASSEMBLY'), ('STORABLE')]::common.inventory_kind[];
+  _head common.inventory_head;
+  _meas common.unit_conversion_type[];
+  _kind common.inventory_kind[];
+  _document_id bigint;
+BEGIN
 
--- DROP FUNCTION tests.__inventory__get_head();
+  RAISE DEBUG '#trace Check __inventory__init()';
+  
+  _document_id := inventory.init(_test_head[1], _test_meas, _test_kind);
+  _head := inventory.get_head(_document_id);
+  _meas := inventory.get_meas_spec(_document_id);
+  _kind := inventory.get_kind_spec(_document_id);
+
+  PERFORM pgunit.assert_array_equals(_test_meas, _meas, 'Incorrect _meas value');
+  PERFORM pgunit.assert_array_equals(_test_kind, _kind, 'Incorrect _kind value');
+
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION tests.__inventory__init()
+  OWNER TO postgres;
+
+
 
 --SELECT public.uuid_generate_v4();
 CREATE OR REPLACE FUNCTION tests.__inventory__get_head()
@@ -324,41 +353,6 @@ ALTER FUNCTION tests.__demand__get_head_batch()
   OWNER TO postgres;
 
 
-
-
--- Function: tests.__demand__init()
-
--- DROP FUNCTION tests.__demand__init();
-
-CREATE OR REPLACE FUNCTION tests.__demand__init()
-  RETURNS void AS
-$BODY$
-DECLARE
-  _test_head CONSTANT common.outbound_head[] := ARRAY[(1,'8c1581c0-04c0-11e7-a843-08626627b4d6','DEMAND-01','2017-01-01','A1','PROPOSED','DEMAND','B1','2017-02-01')]::common.outbound_head[];
-  _test_body CONSTANT common.document_body[] := ARRAY[('good1',10,'m'), ('good2',20,'m')]::common.document_body[];
-  _head common.outbound_head;
-  _body common.document_body[];
-  _document_id bigint;
-BEGIN
-  
-  RAISE DEBUG '#trace Check __demand__init()';
-  
-  _document_id := demand.init(_test_head[1], _test_body);
-  _head := demand.get_head(_document_id);
-  _body := demand.get_body(_document_id);
-  --PERFORM pgunit.assert_equals(_test_head[1], _head, 'Incorrect _head value');
-  PERFORM pgunit.assert_array_equals(_test_body, _body, 'Incorrect _body value');
-
-
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION tests.__demand__init()
-  OWNER TO postgres;
-
-
-
 -- Function: tests.__demand__reinit()
 
 -- DROP FUNCTION tests.__demand__reinit();
@@ -392,36 +386,3 @@ $BODY$
 ALTER FUNCTION tests.__demand__reinit()
   OWNER TO postgres;
 
-
-
--- Function: tests.__despatch__destroy()
-
--- DROP FUNCTION tests.__despatch__destroy();
-
-CREATE OR REPLACE FUNCTION tests.__despatch__destroy()
-  RETURNS void AS
-$BODY$
-DECLARE
-  _head common.outbound_head;
-BEGIN
-  
-  RAISE DEBUG '#trace Check __despatch__destroy()';
-
-  INSERT INTO despatch.head VALUES (101, '8236af18-eb1a-11e6-8a73-d4bed939923a', 'DESPATCH-01', '2017-01-01', NULL, '2017-01-02', 'B1', 'A1', 'COMMITTED', '2017-02-04 22:46:51.810833+02', 'DECOMMITTED', '2017-02-04 22:47:10.05991+02');
-  INSERT INTO despatch.head VALUES (102, '9b2952fa-01d1-11e7-b440-d4bed939923a', 'DESPATCH-02', '2017-02-01', NULL, '2017-02-02', 'A1', 'B1', 'PROPOSED', '2017-02-04 22:46:51.810833+02', 'COMMITTED', '2017-02-04 22:47:10.05991+02');
-  INSERT INTO despatch.head VALUES (103, 'f20d7196-01d1-11e7-b441-d4bed939923a', 'DESPATCH-03', '2017-03-01', NULL, '2017-03-02', 'A1', 'B1', NULL, NULL, 'PROPOSED', '2017-02-04 22:47:10.05991+02');
-
-  PERFORM despatch.destroy(101); -- + add not allowed delete test
-  
-  _head := despatch.get_head(101);
-  PERFORM pgunit.assert_null(_head, 'Incorrect _head value');
-
-  _head := despatch.get_head(103);
-  PERFORM pgunit.assert_not_null(_head, 'Incorrect _head value');
-
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION tests.__despatch__destroy()
-  OWNER TO postgres;
